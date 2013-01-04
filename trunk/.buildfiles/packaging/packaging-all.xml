@@ -9,8 +9,6 @@
 	
 	<target name="packaging_all" depends="properties">
 		
-		<build_changelog />
-		
 		<!-- Ask what we should copy -->
 		<input addproperty="package.select" validargs="All,WHMCS" defaultvalue="All">
 
@@ -45,8 +43,15 @@ Please select which packages we want to make
 	</target>
 	
 	<target name="package_all" depends="properties" if="package.all">
+		<!-- We only build changelogs and releases for ALL builds -->
+		<build_changelog />
+		
 		<property name="package.whmcs" value="true" />
 		<antcall target="package_whmcs" />
+		
+		<clean_changelog />
+		<create_release />
+		
 	</target>
 	
 	
