@@ -1,0 +1,20 @@
+<project>
+	
+	<macrodef name="build_changelog">
+		<attribute name="checkfile" default=".buildfiles/config.project" />
+		
+		<attribute name="usefile" default="${src.dev}/@{checkfile}" />
+		
+		<sequential>
+			
+			<exec executable="svn" output="svninfo.xml">
+				<arg line="info @{usefile} --xml" />
+			</exec>
+			<die></die>
+			<xmlproperty file="svninfo.xml" collapseattributes="true" />
+			<property name="svn.revision" value="${info.entry.commit.revision}" />
+			
+		</sequential>
+	</macrodef>
+	
+</project>
