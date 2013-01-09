@@ -1,10 +1,10 @@
 <project>
 
-	<macrodef name="zipr_file">
+	<macrodef name="dunamis.zipr_file">
 		<attribute name="srcid" default="" />
 		<attribute name="dest" default="" />
 		<attribute name="file" default="" />
-		<attribute name="destdir" default="${dst.package}/@{dest}" />
+		<attribute name="destdir" default="${dunamis.dst.package}/@{dest}" />
 		<attribute name="destination" default="@{destdir}/@{file}" />
 		
 		<sequential>

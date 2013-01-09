@@ -37,9 +37,15 @@ class DunLanguage extends DunObject
 	 * 
 	 * @since		1.0.0
 	 */
-	public function appendTranslations( $trans = array() )
+	public function appendTranslations( $trans = array(), $module = null )
 	{
-		$this->_trans	= array_merge( $this->_trans, $trans );
+		// We must have a module name
+		if ( $module == null ) return self :: $instance;
+		
+		if (! array_key_exists( $module, $this->_trans ) ) $this->_trans[$module] = array();
+		
+		$this->_trans[$module]	= array_merge( $this->_trans[$module], $trans );
+		
 		return self :: $instance;
 	}
 	
@@ -106,7 +112,7 @@ class DunLanguage extends DunObject
 		foreach ( $paths as $path ) {
 			if (! file_exists( $path ) ) continue;
 			include_once( $path );
-			$this->appendTranslations( $lang );
+			$this->appendTranslations( $lang, $module );
 		}
 		
 		return self :: $instance;
@@ -130,21 +136,32 @@ class DunLanguage extends DunObject
 	
 	
 	/**
-	 * Method to translate a string
+	 * Method to translate a string -- ASSUME MODULE IS `module.xxxxxxx`
 	 * @access		public
 	 * @version		@fileVers@
 	 * @param		string		- $string: the string to translate
 	 * @param		array		- $args: any replacement variables to include (sprintf)
+	 * @param		string		- $module: if we are specifying the module
 	 * 
 	 * @return		string
 	 * @since		1.0.0
 	 */
-	public function translate( $string = null, $args = array() )
+	public function translate( $string = null, $args = array(), $module = null )
 	{
 		if ( $string == null ) return $string;
-		if (! isset( $this->_trans[$string] ) ) return $string;
-		if ( empty( $args ) ) return $this->_trans[$string];
-		array_unshift( $args, $this->_trans[$string] );
+		
+		// Extract the module first
+		if ( $module == null ) {
+			$parts	= explode( '.', $string );
+			$module	= trim( array_shift( $parts ) );
+			if (! array_key_exists( $module, $this->_trans ) ) return $string;
+			$string	= implode( '.',$parts );
+		}
+		
+		// Now check for the string
+		if (! isset( $this->_trans[$module][$string] ) ) return $module . '.' . $string;
+		if ( empty( $args ) ) return $this->_trans[$module][$string];
+		array_unshift( $args, $this->_trans[$module][$string] );
 		return call_user_func_array( 'sprintf', $args );
 	}
 }

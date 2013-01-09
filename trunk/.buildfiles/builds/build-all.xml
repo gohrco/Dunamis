@@ -4,13 +4,13 @@
 	
 	<import file="../includes.xml" />
 	
-	<target name="build_all" depends="properties">
+	<target name="dunamis_build_all" depends="dunamis_properties">
 			
 			<echo message=" " />
 			<echo message="Begin Building WHMCS Addon Module" />
 			<echo message="-----------------------------------------------------" />
 			
-		<repl_dir />
+		<dunamis.repl_dir />
 			
 			<echo message=" " />
 			<echo message="Begin Building WHMCS Addon Module" />

@@ -59,7 +59,7 @@ class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 		$name		= ( strpos( $attr, 'multiple' ) !== false ? $name . '[]' : $name );
 		$optns		= $this->options;
 		
-		$form		= '<select id="' . $id . '" name="'.$name.'"'.$attr.">\n";
+		$form		= '<select id="' . $id . '" name="'.$name.'" '.$attr.">\n";
 		$oid		= $this->_optid;
 		$oname		= $this->_optname;
 		

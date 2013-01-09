@@ -1,12 +1,12 @@
 <project>
 	
-	<macrodef name="build_changelog">
+	<macrodef name="dunamis.build_changelog">
 		<attribute name="checkfile" default=".buildfiles/config.project" />
-		<attribute name="logfile" default="CHANGELOG-${project.VERSION}" />
+		<attribute name="logfile" default="CHANGELOG-${dunamis.project.VERSION}" />
 		<attribute name="logpath" default=".buildfiles/changelog" />
 		
-		<attribute name="usefile" default="${src.dev}/@{checkfile}" />
-		<attribute name="changelog" default="${src.dev}/@{logpath}/@{logfile}" />
+		<attribute name="usefile" default="${dunamis.src.dev}/@{checkfile}" />
+		<attribute name="changelog" default="${dunamis.src.dev}/@{logpath}/@{logfile}" />
 		
 		<sequential>
 			
@@ -34,15 +34,15 @@
 		
 	</macrodef>
 	
-	<macrodef name="clean_changelog">
+	<macrodef name="dunamis.clean_changelog">
 		
-		<attribute name="logfile" default="CHANGELOG-${project.VERSION}" />
+		<attribute name="logfile" default="CHANGELOG-${dunamis.project.VERSION}" />
 		<attribute name="logpath" default=".buildfiles/changelog" />
-		<attribute name="changelog" default="${src.dev}/@{logpath}/@{logfile}" />
+		<attribute name="changelog" default="${dunamis.src.dev}/@{logpath}/@{logfile}" />
 		
 		<attribute name="destfile" default="/CHANGELOG" />
 		<attribute name="destpath" default="" />
-		<attribute name="destination" default="${dst.package}/@{destpath}@{destfile}" />
+		<attribute name="destination" default="${dunamis.dst.package}/@{destpath}@{destfile}" />
 		
 		<sequential>
 			

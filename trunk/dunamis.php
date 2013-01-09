@@ -352,7 +352,45 @@ function dunimport( $request = null, $environment = false, $reverse = false )
  */
 function dunloader( $request = null, $environment = false )
 {
-	static $instances	= array();
+	static $instances	= array(
+			'environment'	=> array(),
+			'modules'		=> array()
+			);
+	
+	// If $environment is a boolean then we want core or environment NOT module
+	$find_module	= is_bool( $environment ) ? false : true;
+	
+	// Check for core / env first
+	if (! $find_module ) {
+		
+		if (! array_key_exists( $request, $instances['environment'] ) ) $instances['environment'][$request] = null;
+		
+		if (! is_object( $instances['environment'][$request] ) ) {
+			
+			dunimport( $request, $environment );
+			if ( $environment === true ) {
+				$class	= DUN_ENV;
+				$class	= ucfirst( strtolower( $class ) ) . 'Dun' . ucfirst( $request );
+			}
+			else {
+				$class	= 'Dun' . ucfirst( $request );
+			}
+			$instances['environment'][$request] = & $class :: getInstance();
+		}
+		return $instances['environment'][$request];
+	}
+	
+	// See if we have the requested module loaded at all
+	if (! array_key_exists( $environment, $instances['modules'] ) ) $instances['modules'][$environment] = array();
+	
+	// We are still here, lets check for the module now
+	if (! array_key_exists( $request, $instances['modules'][$environment] ) ) {
+		dunimport( $request, $environment );
+		$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
+		$instances['modules'][$environment][$request] = & $class :: getInstance();
+	}
+	
+	return $instances['modules'][$environment][$request];
 	
 	if (! array_key_exists( $request, $instances ) ) { //$instances[$request] ) {
 		dunimport( $request, $environment );

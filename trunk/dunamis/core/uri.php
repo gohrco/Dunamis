@@ -358,6 +358,20 @@ class DunUri
 	
 	
 	/**
+	 * Deletes all variables from URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @since		1.0.1
+	 */
+	function delVars()
+	{
+		$vars = $this->_vars;
+		foreach ( $vars as $k => $trash ) $this->delVar( $k );
+	}
+	
+	
+	/**
 	 * Sets the query to the query array
 	 * 
 	 * @param  string		Contains the query of the URI to parse into the variable array
