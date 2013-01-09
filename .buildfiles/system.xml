@@ -1,20 +1,20 @@
 <project>
 
-	<target name="properties_system">
+	<target name="dunamis_properties_system">
 		
 		<!-- System Level Properties -->
-		<property name="src.dev" value="${local.LOCATION_ROOTDIR}${project.PATH}" />
-		<property name="dst.build" value="${local.LOCATION_BUILDDIR}v${project.VERSION}" />
-		<property name="dst.package" value="${local.LOCATION_PACKAGES}v${project.VERSION}" />
-		<property name="src.build" value="${dst.build}" />
+		<property name="dunamis.src.dev" value="${dunamis.local.LOCATION_ROOTDIR}${dunamis.project.PATH}" />
+		<property name="dunamis.dst.build" value="${dunamis.local.LOCATION_BUILDDIR}v${dunamis.project.VERSION}" />
+		<property name="dunamis.dst.package" value="${dunamis.local.LOCATION_PACKAGES}v${dunamis.project.VERSION}" />
+		<property name="dunamis.src.build" value="${dunamis.dst.build}" />
 		
 		<tstamp>
-			<format property="TODAY" pattern="yyyy MMMM d" />
-			<format property="RELDATE" pattern="yyyy-MM-dd" />
+			<format property="dunamis.TODAY" pattern="yyyy MMMM d" />
+			<format property="dunamis.RELDATE" pattern="yyyy-MM-dd" />
 		</tstamp>
 		
 		<!-- Copy Level Properties -->
-		<property name="local.whmcs" value="${local.LOCATION_LOCALHOME}whmcs/" />
+		<property name="dunamis.local.whmcs" value="${dunamis.local.LOCATION_LOCALHOME}whmcs/" />
 		
 		<!-- Packaging Level Properties -->
 		

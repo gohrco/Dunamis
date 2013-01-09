@@ -12,12 +12,8 @@ class WhmcsDunConfig extends DunObject
 	 */
 	public function __construct()
 	{
-		$db = dunloader( 'database', true );
-		
-		$db->setQuery( 'SELECT * FROM tblconfiguration' );
-		$items	= $db->loadObjectList();
-		
-		foreach ( $items as $item ) $this->set( $item->setting, $item->value );
+		$this->load();
+		$this->sessionLoad();
 	}
 	
 	
@@ -65,6 +61,55 @@ class WhmcsDunConfig extends DunObject
 		}
 	
 		return $instance;
+	}
+	
+	
+	/**
+	 * Loader method
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @since		1.0.0
+	 */
+	public function load()
+	{
+		$db = dunloader( 'database', true );
+		
+		$db->setQuery( 'SELECT * FROM tblconfiguration' );
+		$items	= $db->loadObjectList();
+		
+		foreach ( $items as $item ) $this->set( $item->setting, $item->value );
+	}
+	
+	
+	/**
+	 * Method to refresh the data from the database
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @since		1.0.0
+	 */
+	public function refresh()
+	{
+		$this->load();
+	}
+	
+	
+	/**
+	 * Loads the session variables over top our object variables
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @since		1.0.1
+	 */
+	public function sessionLoad()
+	{
+		global $whmcs;
+		
+		if (! isset( $whmcs->config ) ) return;
+		
+		$items	= $whmcs->config;
+		foreach ( $items as $k => $v ) $this->set( $k, $v );
 	}
 	
 	

@@ -7,7 +7,7 @@
 	<!-- Include individual files now -->
 	<import file="whmcs.xml" />
 	
-	<target name="packaging_all" depends="properties">
+	<target name="dunamis_packaging_all" depends="dunamis_properties">
 		
 		<!-- Ask what we should copy -->
 		<input addproperty="package.select" validargs="All,WHMCS" defaultvalue="All">
@@ -33,8 +33,8 @@ Please select which packages we want to make
 	    	<echo message=" " />
 			<echo message="Begin Packaging Dunamis" />
 			<echo message="-----------------------------------------------------" />
-		<antcall target="package_all" />
-		<antcall target="package_whmcs" />	
+		<antcall target="dunamis_package_all" />
+		<antcall target="dunamis_package_whmcs" />	
 			<echo message=" " />
 			<echo message="Completed Packagin Dunamis" />
 			<echo message="-----------------------------------------------------" />
@@ -42,15 +42,15 @@ Please select which packages we want to make
 			<echo message=" " />
 	</target>
 	
-	<target name="package_all" depends="properties" if="package.all">
+	<target name="dunamis_package_all" depends="dunamis_properties" if="package.all">
 		<!-- We only build changelogs and releases for ALL builds -->
-		<build_changelog />
+		<dunamis.build_changelog />
 		
 		<property name="package.whmcs" value="true" />
-		<antcall target="package_whmcs" />
+		<antcall target="dunamis_package_whmcs" />
 		
-		<clean_changelog />
-		<create_release />
+		<dunamis.clean_changelog />
+		<dunamis.create_release />
 		
 	</target>
 	

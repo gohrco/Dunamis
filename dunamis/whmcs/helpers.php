@@ -94,3 +94,43 @@ if (! function_exists( 'is_api' ) )
 }
 
 
+/**
+ * Function for conveniently loading the bootstrap for module
+ * @version		@fileVers@
+ * @since		1.0.1
+ */
+if (! function_exists( 'load_bootstrap' ) )
+{
+	function load_bootstrap( $module = null )
+	{
+		if ( $module == null ) return;
+		
+		$base	= get_baseurl( 'client' );
+		
+		$doc = dunloader( 'document', true );
+		
+		$doc->addStyleSheet( $base . 'includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . 'includes/dunamis/whmcs/bootstrap/css/bootstrap.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addScript( $base . 'includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		
+	}
+}
+
+
+/**
+ * Common method to load the google libraries and create a client
+ * @version		@fileVers@
+ * 
+ * @return		Google Client object
+ * @since		1.0.1
+ */
+if (! function_exists( 'load_google' ) )
+{
+	function load_google()
+	{
+		require_once( DUN_ENV_PATH . 'includes/dunamis/whmcs/googleapi/Google_Client.php' );
+		require_once( DUN_ENV_PATH . 'includes/dunamis/whmcs/googleapi/contrib/Google_WebfontsService.php' );
+			
+		return new Google_Client();
+	}
+}

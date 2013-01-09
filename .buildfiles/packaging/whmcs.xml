@@ -4,14 +4,14 @@
 	
 	<import file="../includes.xml" />
 	
-	<target name="package_whmcs" depends="properties" if="package.whmcs">
+	<target name="dunamis_package_whmcs" depends="dunamis_properties" if="package.whmcs">
 		
-		<fileset dir="${src.build}/" id="corefiles">
+		<fileset dir="${dunamis.src.build}/" id="corefiles">
 			<include name="dunamis/**/*.*" />
 			<include name="*.*" />
 		</fileset>
 		
-		<fileset dir="${src.build}/whmcs/" id="whmcsfiles">
+		<fileset dir="${dunamis.src.build}/whmcs/" id="whmcsfiles">
 			<include name="**/*.*" />
 		</fileset>
 		
@@ -21,24 +21,24 @@
 		
 		<echo message=" " />
 		<echo message="[2]  Copying Build to Temporary Directory" />
-		<copy todir="${dst.package}/WHMCS/includes">
+		<copy todir="${dunamis.dst.package}/WHMCS/includes">
 			<fileset refid="corefiles" />
 		</copy>
-		<copy todir="${dst.package}/WHMCS">
+		<copy todir="${dunamis.dst.package}/WHMCS">
 			<fileset refid="whmcsfiles" />
 		</copy>
 		
-		<fileset dir="${dst.package}/WHMCS" id="packagefiles">
+		<fileset dir="${dunamis.dst.package}/WHMCS" id="packagefiles">
 			<include name="**/*.*" />
 		</fileset>
 		
 		<echo message=" " />
 		<echo message="[3]  Creating Package" />
-		<zipr_file srcid="packagefiles" dest="/" file="dunamis_whmcs_v${project.VERSION}.zip" />
+		<dunamis.zipr_file srcid="packagefiles" dest="/" file="dunamis_whmcs_v${dunamis.project.VERSION}.zip" />
 		
 		<echo message=" " />
 		<echo message="[4]  Delete Temporary Directory" />
-		<delete dir="${dst.package}/WHMCS" />
+		<delete dir="${dunamis.dst.package}/WHMCS" />
 		
 	</target>
 	

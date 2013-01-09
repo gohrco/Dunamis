@@ -4,25 +4,25 @@
 	
 	<import file="../includes.xml" />
 	
-	<target name="copy_to_whmcs" depends="properties" if="copy.whmcs">
+	<target name="dunamis_copy_to_whmcs" depends="dunamis_properties" if="copy.whmcs">
 		
-		<fileset dir="${src.build}/" id="corefiles">
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
 			<include name="dunamis/**/*.*" />
 			<include name="*.*" />
 		</fileset>
 		
-		<fileset dir="${src.build}/whmcs/" id="whmcsfiles">
+		<fileset dir="${dunamis.src.build}/whmcs/" id="dunamis.whmcsfiles">
 			<include name="**/*.*" />
 		</fileset>
 		
 		<echo message="[1]  Copying Core Files" />
-		<copy todir="${local.whmcs}includes/">
-			<fileset refid="corefiles" />
+		<copy todir="${dunamis.local.whmcs}includes/">
+			<fileset refid="dunamis.corefiles" />
 		</copy>
 		
 		<echo message="[2]  Copying WHMCS Specific Files" />
-		<copy todir="${local.whmcs}">
-			<fileset refid="whmcsfiles" />
+		<copy todir="${dunamis.local.whmcs}">
+			<fileset refid="dunamis.whmcsfiles" />
 		</copy>
 		
 	</target>

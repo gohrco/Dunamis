@@ -42,12 +42,8 @@ if (! function_exists( 't' ) )
 {
 	function t()
 	{
-		// Initialize language object
-// 		$lang	= & dunloader( 'language', true )->getLanguage();
-		
 		$args	= func_get_args();
 		$string	= array_shift( $args );
-		
 		return dunloader( 'language', true )->translate( $string, $args );
 	}
 }
