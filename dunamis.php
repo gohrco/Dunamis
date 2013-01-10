@@ -347,11 +347,14 @@ class Dunamis
  */
 function dunimport( $request = null, $environment = false, $reverse = false )
 {
-	static $includes = array();
+	static $includes = array(
+			'primary' => array()
+			);
 	
 	$ext	= '.php';
 	$paths	= array();
 	
+	// If we are sending a filename lets take it apart into the request and extension
 	foreach ( array( '.php', '.xml' ) as $check ) {
 		if ( strstr( $request, $check ) !== false ) {
 			$request	= strstr( $request, $check, true );
@@ -389,24 +392,33 @@ function dunimport( $request = null, $environment = false, $reverse = false )
 		$paths['core']	= DUN_CORE;
 	}
 	
+	// Build a type to store
+	if ( is_bool( $environment ) ) {
+		$type = 'primary';
+	}
+	else {
+		$type = $environment;
+	}
 	
 	// If we've been here before...
-	if ( isset( $includes[$request] ) ) return $includes[$request];
+	if (! array_key_exists( $type, $includes ) ) $includes[$type] = array();
+	if (  array_key_exists( $request, $includes[$type] ) ) return $includes[$type][$request];
 	
+	$includes[$type][$request] = false;
+	
+	// Build the paths
 	foreach ( $paths as $i => $path )
 		$paths[$i]	= $path . str_replace( '.', DIRECTORY_SEPARATOR, $request ) . $ext;
-	
-	$includes[$request] = false;
 	
 	// Found and bail
 	foreach ( $paths as $loc => $path ) {
 		if ( file_exists( $path ) ) {
 			include_once( $path );
-			$includes[$request] = $loc;
+			$includes[$type][$request] = $loc;
 		}
 	}
 	
-	return $includes[$request];
+	return $includes[$type][$request];
 }
 
 
