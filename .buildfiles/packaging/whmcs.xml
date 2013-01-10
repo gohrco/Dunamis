@@ -16,8 +16,8 @@
 		</fileset>
 		
 		<echo message="[1]  Creating Package Temporary Directory" />
-		<mkdir dir="${dst.package}/WHMCS" />
-		<mkdir dir="${dst.package}/WHMCS" />
+		<mkdir dir="${dunamis.dst.package}/WHMCS" />
+		<mkdir dir="${dunamis.dst.package}/WHMCS" />
 		
 		<echo message=" " />
 		<echo message="[2]  Copying Build to Temporary Directory" />
