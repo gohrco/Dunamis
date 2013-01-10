@@ -25,10 +25,10 @@
 		
 			<!-- Execute SVN via command line to retrieve the log from the determined svn revision -->
 			<exec executable="svn" output="${version.changelog}">
-				<arg line="log '${src.dev}' -r ${svn.revision}:HEAD" />
+				<arg line="log '${dunamis.src.dev}' -r ${svn.revision}:HEAD" />
 			</exec>
 			
-			<echo message="SVN:  log ${src.dev} -r ${svn.revision}:HEAD" />
+			<echo message="SVN:  log ${dunamis.src.dev} -r ${svn.revision}:HEAD" />
 			
 		</sequential>
 		
