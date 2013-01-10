@@ -66,6 +66,32 @@ function dunamis_deactivate()
 function dunamis_upgrade($vars)
 {
 	
+	if (! function_exists( 'dunloader' ) ) return;
+	$db	= dunloader( 'database', true );
+	
+	// This is the originally installed version
+	if ( isset( $vars['version'] ) ) {
+		$version = $vars['version'];
+	}
+	else
+		// But this is what is found in 441 (not that we support it)
+		if ( isset( $vars['themer']['version'] ) ) {
+		$version = $vars['themer']['version'];
+	}
+	
+	$thisvers	= "@fileVers@";
+	
+	while( $thisvers > $version ) {
+		$filename	= 'sql' . DIRECTORY_SEPARATOR . 'upgrade-' . $version . '.sql';
+		if (! file_exists( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . $filename ) ) {
+			$thisvers = $version;
+			break;
+		}
+	
+		$db->handleFile( $filename, 'themer' );
+		$db->setQuery( "SELECT `value` FROM `tbladdonmodules` WHERE `module` = 'dunamis' AND `setting` = 'version'" );
+		$version = $db->loadResult();
+	}
 }
 
 

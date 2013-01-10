@@ -99,13 +99,14 @@ class WhmcsDunModule extends DunModule
 	/**
 	 * Method to retrieve the path of a module given a type
 	 * @access		public
+	 * @static
 	 * @version		@fileVers@
 	 * @param		string		- $addon: the type of addon we are looking for
 	 *
 	 * @return		string
 	 * @since		1.0.0
 	 */
-	public function getModuleTypePath( $type = 'addon' )
+	public static function getModuleTypePath( $type = 'addon' )
 	{
 		$paths	= self :: getModuleTypePaths();
 		if (! isset( $paths[$type] ) ) return null;
@@ -153,12 +154,12 @@ class WhmcsDunModule extends DunModule
 	 * @param		string		- $module: the name of the module to locate
 	 * @param		string		- $folder: a string containing a folder name or null for no dir
 	 * 
-	 * @return		string
+	 * @return		string | false on failure
 	 * @since		1.0.0
 	 */
 	public static function locateModule( $module = null, $folder = null )
 	{
-		$type	= self :: locateModuleType( $module );
+		if ( ( $type = self :: locateModuleType( $module ) ) == null ) return false;
 		if ( $folder != null ) {
 			return self :: buildModulePath( $module, $type ) . $folder . DIRECTORY_SEPARATOR;
 		}
@@ -260,6 +261,8 @@ class WhmcsDunModule extends DunModule
 			if (! is_dir( $path . $module ) ) continue;
 			return $type; 
 		}
+		
+		return null;
 	}
 	
 	

@@ -5,7 +5,7 @@ if (! function_exists( 'get_baseurl' ) )
 {
 	function get_baseurl( $location = 'client' )
 	{
-		$uri	= & DunUri :: getInstance( 'SERVER', true );
+		$uri	= DunUri :: getInstance( 'SERVER', true );
 		
 		// -----------------------------------------------
 		// First we clean up the uri

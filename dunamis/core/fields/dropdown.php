@@ -17,7 +17,7 @@ class DropdownDunFields extends DunFields
 			}
 		}
 		
-		parent :: __construct( &$settings );
+		parent :: __construct( $settings );
 		
 		foreach ( $settings as $key => $value ) {
 			$this->attributes[$key] = $value;

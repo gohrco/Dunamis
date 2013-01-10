@@ -31,6 +31,56 @@ class WhmcsDunEnvironment extends DunEnvironment
 }
 
 
+function get_errorsetting_whmcs( $checkfor = 'ErrorLevel' )
+{
+	$db = dunloader( 'database', true );
+	
+	switch( $checkfor ) :
+	case 'ErrorLevel' :
+		$db->setQuery( "SELECT `value` FROM tbladdonmodules WHERE `module` = 'dunamis' AND `setting` = 'ErrorLevel'" );
+		$result = $db->loadObject();
+		
+		if (! $result ) return 'ERROR';
+		else return strtoupper( $result->value );
+		break;
+	case 'DebugErrors' :
+		$db->setQuery( "SELECT `value` FROM tbladdonmodules WHERE `module` = 'dunamis' AND `setting` = 'DebugErrors'" );
+		$result = $db->loadObject();
+		
+		if (! $result ) return false;
+		else if ( $result->value == 'Yes' ) return true;
+		else return false;
+		
+		break;
+	endswitch;
+	
+	
+	
+	
+}
+
+
+/**
+ * Function to see if the Dunamis framework is enabled on WHMCS
+ * @version		@fileVers@
+ * 
+ * @return		boolean
+ * @since		1.0.2
+ */
+function is_enabled_on_whmcs()
+{
+	$db = dunloader( 'database', true );
+	$db->setQuery( "SELECT * FROM tbladdonmodules WHERE `module` = 'dunamis'" );
+	$results = $db->loadObjectList();
+	
+	// Assume if we have the module in the database it must be enabled
+	foreach ( $results as $item ) {
+		return true;
+	}
+	return false;
+}
+
+
 /**
  * Function to see if the environment matches that of WHMCS
  * @version		@fileVers@

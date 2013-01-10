@@ -14,7 +14,7 @@ class WhmcsDunDocument extends DunDocument
 	 */
 	public function __construct( $options = array() )
 	{
-		parent :: __construct( &$options );
+		parent :: __construct( $options );
 	}
 	
 	
