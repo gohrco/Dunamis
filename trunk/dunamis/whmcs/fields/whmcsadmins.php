@@ -30,7 +30,7 @@ class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 			}
 		}
 		
-		parent :: __construct( &$settings );
+		parent :: __construct( $settings );
 		
 		foreach ( $settings as $key => $value ) {
 			$this->attributes[$key] = $value;
@@ -106,7 +106,7 @@ class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 	 */
 	private function _loadOptions()
 	{
-		$db		= & dunloader( 'database', true );
+		$db		=	dunloader( 'database', true );
 		$data	=	array();
 		
 		$db->setQuery( "SELECT firstname, lastname, username, id FROM tbladmins ORDER BY lastname, firstname" );

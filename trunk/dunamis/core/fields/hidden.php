@@ -6,7 +6,7 @@ class HiddenDunFields extends DunFields
 	
 	public function __construct( $settings = array() )
 	{
-		parent :: __construct( &$settings );
+		parent :: __construct( $settings );
 		
 		foreach ( $settings as $key => $value ) {
 			$this->attributes[$key] = $value;

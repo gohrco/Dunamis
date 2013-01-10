@@ -47,7 +47,7 @@ class DunDocument extends DunObject
 	 */
 	public function __construct( $options = array() )
 	{
-		parent :: __construct( &$options );
+		parent :: __construct( $options );
 	}
 	
 	

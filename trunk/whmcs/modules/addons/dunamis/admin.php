@@ -28,7 +28,20 @@ class DunamisAdminDunModule extends WhmcsDunModule
 				"author"		=> t( 'dunamis.config.author' ),
 				"description"	=> t( 'dunamis.config.description' ),
 				"language"		=> "english",
-				"fields"		=> array()
+				"fields"		=> array(
+						"DebugErrors"	=> array (
+						"FriendlyName"	=> t( 'dunamis.config.debugerrors' ),
+						"Type"			=> "dropdown",
+						"Options"		=> t( 'dunamis.config.debugerrors.selection' ),
+						"Description"	=> t( 'dunamis.config.debugerrors.desc' )
+					),
+						"ErrorLevel"	=> array (
+						"FriendlyName"	=> t( 'dunamis.config.errorlevel' ),
+						"Type"			=> "dropdown",
+						"Options"		=> t( 'dunamis.config.errorlevel.selection' ),
+						"Description"	=> t( 'dunamis.config.errorlevel.desc' )
+					),
+				)
 		);
 		
 		return $data;

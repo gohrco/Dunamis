@@ -28,9 +28,6 @@ if (! defined( 'DUNAMIS' ) ) define( 'DUNAMIS', '@fileVers@' );
  */
 function &get_dunamis( $module = null )
 {
-	// We must specify a module
-	if ( $module == null ) return false;
-	
 	static $instances = null;
 	
 	// If this the first go around
@@ -39,12 +36,13 @@ function &get_dunamis( $module = null )
 		$instances->initialise();
 	}
 	
+	// We must specify a module
+	if ( $module == null ) return $instances;
+	
 	// We have an instance so now lets load the module
 	if(! $instances->loadModule( $module ) ) {
 		// Throw an error somehow
-		echo '<pre>'.print_r(debug_backtrace(false),1);
-		die('problem');
-		return false;
+		$instances->setError( DUN_WARNING, 'Unable to find module ' . $module . ' to load' );
 	}
 	
 	return $instances;
@@ -78,6 +76,14 @@ class Dunamis
 	protected $modules	= array();
 	
 	/**
+	 * Stores the error handler class name
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.2
+	 */
+	private $_errorhandler	= 'DunError';
+	
+	/**
 	 * Stores the environment object we find ourselves in
 	 * @access		private
 	 * @var			object
@@ -102,6 +108,22 @@ class Dunamis
 	 * @since		1.0.0
 	 */
 	public function __constructor() {}
+	
+	
+	/**
+	 * Method to display errors on a page
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @return		string containing formatted response
+	 * @since		1.0.2
+	 */
+	public function displayErrors()
+	{
+		$level	= call_user_func( 'get_errorsetting_' . $this->_environmentname );
+		$eh		= $this->_errorhandler;
+		return $eh :: displayErrors( $level );
+	}
 	
 	
 	/**
@@ -138,6 +160,17 @@ class Dunamis
 		$this->_find_environment();
 		
 		dunimport( 'uri', true );
+		dunimport( 'error', true );
+		
+		$is_enabled = call_user_func( 'is_enabled_on_' . $this->_environmentname );
+		if (! $is_enabled ) return;
+		
+		// Set error handler
+		if ( class_exists( ucfirst( strtolower( DUN_ENV ) ) . 'DunError' ) ) {
+			$this->_errorhandler = ucfirst( strtolower( DUN_ENV ) ) . 'DunError';
+		}
+		
+		set_error_handler( array( $this->_errorhandler, 'setError' ) );
 	}
 	
 	
@@ -196,10 +229,20 @@ class Dunamis
 		dunimport( 'module', true );
 		$classname	= ucfirst( $this->_environmentname ) . 'DunModule';
 		$path		= $classname :: locateModule( $module );
+		
+		// Catch empty paths
+		if (! $path ) {
+			$this->setError( DUN_WARNING, 'Unable to locate the module ' . $module );
+			$this->modules[$module]	= false;
+			return false;
+		}
+		
 		$filename	= ( $subclass != null ? $subclass . '.php' : $classname :: locateModuleFilename( $module ) );
 		$subclass	= ( $subclass != null ? $subclass : $classname :: locateModuleClassname( $module ) );
 		
-		include_once( $path . $filename );
+		if (! @include_once( $path . $filename ) ) {
+			
+		}
 		
 		$classname				= ucfirst( $module ) . ucfirst( $subclass ) . 'DunModule';
 		$this->modules[$module]	= false;
@@ -212,6 +255,32 @@ class Dunamis
 		$this->modules[$module] = new $classname();
 		$this->modules[$module]->initialise();
 		return $this->modules[$module];
+	}
+	
+	
+	/**
+	 * Sets an error into place
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		int			- $level: contains 1: notice, 2: warning, 4: error
+	 * @param		string		- $msg: error message being sent
+	 * 
+	 * @since		1.0.2
+	 */
+	public function setError( $level, $msg )
+	{
+		// Build an error array
+		$back = debug_backtrace(false);
+		
+		foreach ( $back as $b ) {
+			if (! array_key_exists( 'class', $b ) || ! array_key_exists( 'function', $b ) ) continue;
+			if ( $b['class'] == 'Dunamis' && $b['function'] == 'setError' ) continue;
+			$error	= array( 'code' => $level, 'msg' => $msg, 'path' => $b['file'], 'line' => $b['line'] );
+			break;
+		}
+		
+		$eh = $this->_errorhandler;
+		$eh :: attachError( $error );
 	}
 	
 	
@@ -375,7 +444,7 @@ function dunloader( $request = null, $environment = false )
 			else {
 				$class	= 'Dun' . ucfirst( $request );
 			}
-			$instances['environment'][$request] = & $class :: getInstance();
+			$instances['environment'][$request] = $class :: getInstance();
 		}
 		return $instances['environment'][$request];
 	}
@@ -387,7 +456,7 @@ function dunloader( $request = null, $environment = false )
 	if (! array_key_exists( $request, $instances['modules'][$environment] ) ) {
 		dunimport( $request, $environment );
 		$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
-		$instances['modules'][$environment][$request] = & $class :: getInstance();
+		$instances['modules'][$environment][$request] = $class :: getInstance();
 	}
 	
 	return $instances['modules'][$environment][$request];
@@ -406,7 +475,7 @@ function dunloader( $request = null, $environment = false )
 			$class	= 'Dun' . ucfirst( $request );
 		}
 		
-		$instances[$request] = & $class :: getInstance();
+		$instances[$request] = $class :: getInstance();
 	}
 	
 	return $instances[$request];

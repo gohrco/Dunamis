@@ -4,3 +4,5 @@
  */
 
 echo dunloader( 'document', true )->renderFootData();
+
+echo get_dunamis()->displayErrors();

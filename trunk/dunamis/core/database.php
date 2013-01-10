@@ -506,4 +506,19 @@ class DunDatabase extends DunObject
 		$this->_limit	= (int) $limit;
 		$this->_offset	= (int) $offset;
 	}
+	
+	
+	/**
+	 * Handles errors for the database object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $msg: contains the error string
+	 * 
+	 * @since		1.0.2
+	 */
+	public function setError( $msg )
+	{
+		$dun = & get_dunamis();
+		$dun->setError( DUN_ERROR, $msg );
+	}
 }

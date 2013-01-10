@@ -92,12 +92,13 @@ class DunUri
 	 * Gets an object for the given URI, creating it if it doesn't exist
 	 * 
 	 * @param  string		Contains the URI to retrieve
+	 * @static
 	 * @param  boolean		If set will force a new object to be created
 	 * 
 	 * @return An URI object
 	 * @since  3.0.0
 	 */
-	function &getInstance($uri = 'SERVER', $force = false)
+	public static function getInstance($uri = 'SERVER', $force = false)
 	{
 		static $instances = array();
 		

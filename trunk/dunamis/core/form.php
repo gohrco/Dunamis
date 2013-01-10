@@ -144,7 +144,7 @@ class DunForm extends DunObject
 		if ( isset( self :: $forms[$module . '.' . $file] ) ) return self :: $forms[$module . '.' . $file];
 		
 		$paths		=   array();
-		$paths[]	= & get_dunamis( $module )->getModulePath( $module, 'forms');
+		$paths[]	=	get_dunamis( $module )->getModulePath( $module, 'forms');
 		
 		foreach ( $paths as $path ) {
 			include_once( $path . $file . '.php' );
