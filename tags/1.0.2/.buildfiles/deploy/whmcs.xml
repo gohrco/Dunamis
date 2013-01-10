@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Deploy - WHMCS" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_deploy_to_whmcs" depends="dunamis_properties" if="deploy.whmcs">
+		
+			<echo message=" " />
+			<echo message="Begin Deploying Dunamis" />
+			<echo message="-----------------------------------------------------" />
+			
+		<ftp	server="geti3.com"
+				remotedir="/"
+				userid="beanstalk@geti3.com"
+				password="824E_pMr{J#y"
+				verbose="yes"
+				>
+					<fileset dir="${dunamis.src.build}/whmcs/" />
+		</ftp>
+		
+		<ftp	server="geti3.com"
+				remotedir="/includes/"
+				userid="beanstalk@geti3.com"
+				password="824E_pMr{J#y"
+				verbose="yes"
+				>
+					<fileset dir="${dunamis.src.build}/">
+						<exclude name="whmcs/**/*.*" />
+						<exclude name="whmcs/*.*" />
+					</fileset>
+		</ftp>
+			
+			<echo message=" " />
+			<echo message="Begin Deploying Dunamis" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+			
+	</target>
+	
+</project>
