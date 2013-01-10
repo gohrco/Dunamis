@@ -28,6 +28,8 @@
 					<fileset dir="${dunamis.src.build}/">
 						<exclude name="whmcs/**/*.*" />
 						<exclude name="whmcs/*.*" />
+						<exclude name="dunamis/whmcs/googleapi/**/*.*" />
+						<exclude name="dunamis/whmcs/googleapi/*.*" />
 					</fileset>
 		</ftp>
 			
