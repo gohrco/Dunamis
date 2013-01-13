@@ -27,6 +27,13 @@ class WhmcsDunEnvironment extends DunEnvironment
 		}
 		
 		dunimport( 'helpers', true, true );
+		
+		// DUN_ENV_VERSION:  we need to be able to test version
+		if (! defined( 'DUN_ENV_VERSION' ) ) {
+			$config = dunloader( 'config', true );
+			$version	= $config->get( 'Version' );
+			define( 'DUN_ENV_VERSION', $version );
+		}
 	}
 }
 

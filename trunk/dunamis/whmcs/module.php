@@ -4,6 +4,8 @@
 
 class WhmcsDunModule extends DunModule
 {
+	protected $area	= 'client';
+	
 	/**
 	 * Stores the type of module we are using
 	 * @access		protected
@@ -95,6 +97,7 @@ class WhmcsDunModule extends DunModule
 				break;
 		}
 	}
+	
 	
 	/**
 	 * Method to retrieve the path of a module given a type

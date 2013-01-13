@@ -106,13 +106,18 @@ if (! function_exists( 'load_bootstrap' ) )
 		if ( $module == null ) return;
 		
 		$base	= get_baseurl( 'client' );
+		$uri	= DunUri :: getInstance( $base, true );
+		$uri->delVars();
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( $base . 'includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( $base . 'includes/dunamis/whmcs/bootstrap/css/bootstrap.php?m=' . urlencode( $module ) );	// Our bootstrap
-		$doc->addScript( $base . 'includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.php?m=' . urlencode( $module ) );	// Our bootstrap
 		
+		// Older versions of WHMCS require newer jQuery
+		$doc->makeCompatible( '5.1' );
+		
+		$doc->addScript( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
 	}
 }
 

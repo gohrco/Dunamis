@@ -4,6 +4,8 @@
 class WhmcsDunDocument extends DunDocument
 {
 	
+	static public $iscompat	= false;
+	
 	/**
 	 * Constructor method
 	 * @access		public
@@ -15,6 +17,45 @@ class WhmcsDunDocument extends DunDocument
 	public function __construct( $options = array() )
 	{
 		parent :: __construct( $options );
+	}
+	
+	
+	/**
+	 * Method to bring the output to compatibility with version desired
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $version: to bring to
+	 * 
+	 * @since		1.0.3
+	 */
+	public function makeCompatible( $version = '5.1' )
+	{
+		if ( self :: $iscompat ) return;
+		else self :: $iscompat = $version;
+		
+		// We want to force the output to match the version we indicate
+		switch ( $version ) :
+		//
+		// Bring in line w/ 5.1
+		case '5.1' :
+		default:
+			
+			if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
+				return;
+			}
+			// 5.0 compatibility:  We have to load the jQuery 1.7.2 lib locally to bring compat w/ current version of W
+			else if ( version_compare( DUN_ENV_VERSION, '5.0', 'ge' ) ) {
+				$uri	= DunUri :: getInstance( get_baseurl(), true );
+				$uri->delVars();
+				$this->addScript( 'http' . ( $uri->isSSL() ? 's' : '' ) .'://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' );
+			}
+			// lol 4.....
+			else {
+				// Throw an error
+			}
+			
+			break;	// End 5.1 compatibility
+		endswitch;
 	}
 	
 	
@@ -50,7 +91,11 @@ class WhmcsDunDocument extends DunDocument
 	
 			$buffer .= '></script>' . $lnEnd;
 		}
-	
+		
+		if ( self :: $iscompat ) {
+			$this->_unCompat( self :: $iscompat );
+		}
+		
 		// Generate script declarations
 		foreach ($this->_script as $type => $content) {
 			$buffer .= $tab . '<script type="' . $type . '">' . $lnEnd;
@@ -103,4 +148,37 @@ class WhmcsDunDocument extends DunDocument
 	
 	
 	
+	/**
+	 * Method to undo the compatibility
+	 * @access		private
+	 * @version		@fileVers@
+	 * @param		string		- $version: contains the intended env we went to
+	 * 
+	 * @since		1.0.3
+	 */
+	private function _unCompat( $version = '5.1' )
+	{
+		
+		// We want to force the output to match the version we indicate
+		switch ( $version ) :
+		//
+		// Bring in line w/ 5.1
+		case '5.1' :
+		default:
+			// Already at 5.1
+			if ( version_compare( DUN_ENV_VERSION, '5.1.', 'ge' ) ) {
+				return;
+			}
+			// Bring back from 5.0 to 5.1 compatibility
+			else if ( version_compare( DUN_ENV_VERSION, '5.0', 'ge' ) ) {
+				$this->addScriptDeclaration( 'jq172 = jQuery.noConflict();' );
+			}
+			else {
+				// Throw error ?
+			}
+			break;
+		endswitch;
+		
+		return;
+	}
 }
