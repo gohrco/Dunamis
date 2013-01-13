@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis" basedir="." default="build_dunamis">
+	
+	<import file="includes.xml" />
+	
+	<target name="build_dunamis" depends="dunamis_properties">
+			<echo message="=====================================================" />
+			<echo message="Begin Build of Entire Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_build_all" />
+			<echo message="=====================================================" />
+			<echo message="Completed Build of Entire Project" />
+			<echo message="=====================================================" />
+	</target>
+	
+	<target name="copy_dunamis" depends="build_dunamis">
+			<echo message="=====================================================" />
+			<echo message="Begin Copying Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_copy_all" />
+			<echo message="=====================================================" />
+			<echo message="Completed Copying Project" />
+			<echo message="=====================================================" />
+	</target>
+	
+	<target name="package_dunamis" depends="build_dunamis">
+			<echo message="=====================================================" />
+			<echo message="Begin Packaging Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_packaging_all" />
+			<echo message="=====================================================" />
+			<echo message="Completed Packaging Project" />
+			<echo message="=====================================================" />
+	</target>
+	
+	<target name="deploy_dunamis" depends="build_dunamis">
+			<echo message="=====================================================" />
+			<echo message="Begin Deployment of Dunamis" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_deploy_all" />
+			<echo message="=====================================================" />
+			<echo message="Completed Deployment of Dunamis" />
+			<echo message="=====================================================" />
+	</target>
+	
+</project> 
