@@ -57,6 +57,8 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 */
 	public function initialise()
 	{
+		$this->area = 'admin';
+		
 		dunloader( 'language', true )->loadLanguage( 'dunamis' );
 		dunloader( 'hooks', true )->attachHooks( 'dunamis' );
 	
@@ -85,6 +87,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 		$baseurl 	=   get_baseurl( 'dunamis' );
 		
 		$doc->addStyleDeclaration( '#contentarea > div > h1, #content > h1 { display: none; }' );	// Wipes out WHMCS' h1
+		$doc->addStyleDeclaration( '.contentarea > h1 { display: none; }' );	// Wipes out WHMCS' h1 in 5.0.3
 		
 		load_bootstrap( 'dunamis' );
 		
@@ -92,7 +95,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 		$navbar = $this->_getNavigation();
 		$body	= $this->_getBody();
 		
-		return <<< HTML
+		$data	= <<< HTML
 <div style="float:left;width:100%;">
 	<div id="dunamis">
 		{$title}
@@ -100,7 +103,9 @@ class DunamisAdminDunModule extends WhmcsDunModule
 		{$body}
 	</div>
 </div>
+<div style="clear: both; " />
 HTML;
+		return $data;
 	}
 	
 	
