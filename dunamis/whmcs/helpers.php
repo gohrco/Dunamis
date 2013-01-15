@@ -112,7 +112,7 @@ if (! function_exists( 'load_bootstrap' ) )
 		$doc = dunloader( 'document', true );
 		
 		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.2.2.2.php?m=' . urlencode( $module ) );	// Our bootstrap
 		
 		// Older versions of WHMCS require newer jQuery
 		$doc->makeCompatible( '5.1' );

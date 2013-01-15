@@ -39,6 +39,7 @@ class WhmcsDunInput extends DunInput
 		
 		if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 			global $whmcs;
+			$post	= $whmcs->input;
 			$request= $whmcs->input;
 		}
 		else {

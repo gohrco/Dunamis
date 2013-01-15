@@ -168,7 +168,9 @@ HTML;
 	 */
 	private function _getNavigation()
 	{
-		global $action, $whmcs;
+		$input	= dunloader( 'input', true );
+		$action	= $input->getVar( 'action', 'default' );
+		$task	= $input->getVar( 'task', null );
 		
 		$uri	= DunUri :: getInstance('SERVER', true );
 		$uri->delVar( 'task' );
@@ -179,16 +181,8 @@ HTML;
 		foreach( array( 'home', 'updates', 'installer' ) as $item ) {
 			
 			if ( $item == $action ) {
-				if ( array_key_exists( 'task', $whmcs->input ) ) {
-					if ( $whmcs->input['task'] != 'edittheme' ) {
-						$html .= '<li class="active"><a href="#">' . t( 'dunamis.admin.navbar.' . $item ) . '</a></li>';
-						continue;
-					}
-				}
-				else {
-					$html .= '<li class="active"><a href="#">' . t( 'dunamis.admin.navbar.' . $item ) . '</a></li>';
-					continue;
-				}
+				$html .= '<li class="active"><a href="#">' . t( 'dunamis.admin.navbar.' . $item ) . '</a></li>';
+				continue;
 			}
 			
 			$uri->setVar( 'action', $item );
@@ -211,10 +205,8 @@ HTML;
 	 */
 	private function _getTitle()
 	{
-		global $action, $whmcs;
-		
-		$task = ( array_key_exists( 'task', $whmcs->input ) ? '.' . $whmcs->input['task'] : null );
-		
+		$task	= dunloader( 'input', true )->getVar( 'task', false );
+		$task	= $task ? '.' . $task : null;
 		return '<h1>' . t( 'dunamis.admin.title', t( 'dunamis.admin.title.' . $action . $task ) ) . '</h1>';
 	}
 	

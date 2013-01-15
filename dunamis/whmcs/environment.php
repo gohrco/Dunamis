@@ -98,10 +98,9 @@ function is_enabled_on_whmcs()
 function is_this_whmcs()
 {
 	$path	= dirname( dirname( dirname( __FILE__ ) ) );
-	$parts	= explode( DIRECTORY_SEPARATOR, $path );
 	
-	if ( end( $parts ) == 'includes' ) {
-		// For now we will assume we are in WHMCS (we must find more specific means of testing)
+	// If we are in the includes directory AND the WHMCS constant is defined then lets assume we are in there
+	if ( strpos($path, 'includes' ) !== false && defined( 'WHMCS' ) ) {
 		return true;
 	}
 	

@@ -25,9 +25,13 @@ class DunFields extends DunObject
 	 */
 	public function __construct( $settings = array() )
 	{
+		// Set a default ID just in case we didn't
 		$this->id	= $settings['name'];
 		
-		foreach ( array( 'name', 'id', 'order', 'type', 'label', 'description', 'value', 'validation', 'group', 'nodesc' ) as $key ) {
+		// Get the common names to filter out
+		$names		= $this->getPropertyNames();
+		
+		foreach ( $names as $key ) {
 			if (! array_key_exists( $key, $settings ) ) continue;
 			$this->$key = $settings[$key];
 			unset( $settings[$key] );
@@ -82,6 +86,23 @@ class DunFields extends DunObject
 	
 	
 	/**
+	 * Method to get and clean a value for placing into a form field
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @return		string
+	 * @since		1.0.4
+	 */
+	public function getValue()
+	{
+		$value	= $this->value;
+		$value	= htmlspecialchars( $value );
+		$value	= str_replace( array( "'", '"' ), array( "&#39;", "&quot;" ), $value );
+		return $value;
+	}
+	
+	
+	/**
 	 * Returns the label
 	 * @access		public
 	 * @version		@fileVers@
@@ -128,5 +149,30 @@ class DunFields extends DunObject
 		$oldvalue = $this->value;
 		$this->value = $value;
 		return $oldvalue;
+	}
+	
+	
+	/**
+	 * Gets the common field property names that should not be set as attributes
+	 * @access		protected
+	 * @version		@fileVers@
+	 * 
+	 * @return		array
+	 * @since		1.0.4
+	 */
+	protected function getPropertyNames()
+	{
+		return array(
+				'name',
+				'id',
+				'order',
+				'type',
+				'label',
+				'description',
+				'value',
+				'validation',
+				'group',
+				'nodesc'
+				);
 	}
 }

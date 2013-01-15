@@ -17,7 +17,7 @@ class TextDunFields extends DunFields
 	public function field( $options = array() )
 	{
 		$name		= $this->name;
-		$value		= $this->value;
+		$value		= $this->getValue();
 		$id			= $this->id;
 		
 		if (! isset( $this->attributes['size'] ) ) $this->attributes['size'] = '40';
