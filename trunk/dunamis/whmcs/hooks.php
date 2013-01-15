@@ -100,7 +100,7 @@ class WhmcsDunHooks extends DunHooks
 				if ( file_exists( $path . $hook . '.php' ) ) {
 					$functionname = "dunamis_{$extension}_{$type}_{$hook}";
 					$newfunc = <<< CODE
-					function {$functionname}() {
+					function {$functionname}( \$vars ) {
 						return dunloader('hooks', true )->execute('{$hook}', '{$extension}', '{$type}', \$vars );
 					}
 CODE;
