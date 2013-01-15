@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL);
 /**
  * Dunamis Inclusion File
  * This is the core of the Dunamis Framework
@@ -123,7 +122,7 @@ class Dunamis
 	{
 		$level	= call_user_func( 'get_errorsetting_' . $this->_environmentname );
 		$eh		= $this->_errorhandler;
-		return $eh :: displayErrors( $level );
+		return call_user_func_array( "{$eh}::displayErrors", array( $level ) );
 	}
 	
 	
@@ -141,7 +140,7 @@ class Dunamis
 	{
 		dunimport( 'module', true );
 		$classname	= ucfirst( $this->_environmentname ) . 'DunModule';
-		return $classname :: locateModule( $module, $folder );
+		return call_user_func_array( "{$classname}::locateModule", array( $module, $folder ) );
 	}
 	
 	
@@ -229,7 +228,7 @@ class Dunamis
 		
 		dunimport( 'module', true );
 		$classname	= ucfirst( $this->_environmentname ) . 'DunModule';
-		$path		= $classname :: locateModule( $module );
+		$path		= call_user_func_array( "{$classname}::locateModule", array( $module ) );
 		
 		// Catch empty paths
 		if (! $path ) {
@@ -238,8 +237,8 @@ class Dunamis
 			return false;
 		}
 		
-		$filename	= ( $subclass != null ? $subclass . '.php' : $classname :: locateModuleFilename( $module ) );
-		$subclass	= ( $subclass != null ? $subclass : $classname :: locateModuleClassname( $module ) );
+		$filename	= ( $subclass != null ? $subclass . '.php' : call_user_func_array( "{$classname}::locateModuleFilename", array( $module ) ) );
+		$subclass	= ( $subclass != null ? $subclass : call_user_func_array( "{$classname}::locateModuleClassname", array( $module ) ) );
 		
 		if (! @include_once( $path . $filename ) ) {
 			
@@ -281,7 +280,7 @@ class Dunamis
 		}
 		
 		$eh = $this->_errorhandler;
-		$eh :: attachError( $error );
+		call_user_func_array( "{$eh}::attachError", array( $error ) );
 	}
 	
 	
@@ -457,7 +456,7 @@ function dunloader( $request = null, $environment = false )
 			else {
 				$class	= 'Dun' . ucfirst( $request );
 			}
-			$instances['environment'][$request] = $class :: getInstance();
+			$instances['environment'][$request] = call_user_func_array( "{$class}::getInstance", array() );
 		}
 		return $instances['environment'][$request];
 	}
@@ -469,7 +468,7 @@ function dunloader( $request = null, $environment = false )
 	if (! array_key_exists( $request, $instances['modules'][$environment] ) ) {
 		dunimport( $request, $environment );
 		$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
-		$instances['modules'][$environment][$request] = $class :: getInstance();
+		$instances['modules'][$environment][$request] = call_user_func_array( "{$class}::getInstance", array() );
 	}
 	
 	return $instances['modules'][$environment][$request];
@@ -488,7 +487,7 @@ function dunloader( $request = null, $environment = false )
 			$class	= 'Dun' . ucfirst( $request );
 		}
 		
-		$instances[$request] = $class :: getInstance();
+		$instances[$request] = call_user_func( "{$class}::getInstance" );
 	}
 	
 	return $instances[$request];

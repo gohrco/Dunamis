@@ -81,7 +81,7 @@ class DunError extends DunObject
 	static public function setStyle()
 	{
 		$class	= ucfirst(strtolower( DUN_ENV ) ) . 'DunError';
-		if ( class_exists( $class ) ) $class :: setStyle();
+		if ( class_exists( $class ) ) call_user_func ("{$class}::setStyle" );
 	}
 	
 	
