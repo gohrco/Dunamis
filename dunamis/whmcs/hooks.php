@@ -21,7 +21,9 @@ class WhmcsDunHooks extends DunHooks
 				'extension' => get_dunamis( $extension )->getModulePath( $extension, 'hooks' )
 		);
 		
-		$contents = null;
+		$contents	=	null;
+		$contarray	=	array();
+		
 		foreach ( $paths as $is => $path ) {
 			// Weed out the type we are executing (to avoid running twice)
 			if ( $is != $type ) continue;
@@ -43,8 +45,18 @@ class WhmcsDunHooks extends DunHooks
 			$content = ob_get_contents();
 			ob_end_clean();
 			
-			// Grab content and attach to return data
-			$contents .= $content;
+			// Nothing sent back via display, lets check response variable
+			if ( empty( $content ) && isset( $response ) ) {
+				$contarray += $response;
+			}
+			else {
+				$contents .= $content;
+			}
+		}
+		
+		// Make a decision - contents or array... array!
+		if (! empty( $contarray ) ) {
+			return $contarray;
 		}
 		
 		// Bye bye
