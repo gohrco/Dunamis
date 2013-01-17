@@ -1386,8 +1386,12 @@ $m = '#' . $_GET['m'];
 <?php echo $m ?> .pager .disabled > a,
 <?php echo $m ?> .pager .disabled > a:hover,
 <?php echo $m ?> .pager .disabled > span { color: #999999; cursor: default; background-color: #fff;}
+.modal-backdrop,
 <?php echo $m ?> .modal-backdrop { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 1040; background-color: #000000;}
+.modal-backdrop.fade,
 <?php echo $m ?> .modal-backdrop.fade { opacity: 0;}
+.modal-backdrop,
+.modal-backdrop.fade.in,
 <?php echo $m ?> .modal-backdrop,
 <?php echo $m ?> .modal-backdrop.fade.in { opacity: 0.8; filter: alpha(opacity=80);}
 <?php echo $m ?> .modal { position: fixed; top: 10%; left: 50%; z-index: 1050; width: 560px; margin-left: -280px; background-color: #ffffff; border: 1px solid #999; border: 1px solid rgba(0, 0, 0, 0.3); *border: 1px solid #999; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; outline: none; -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3); -webkit-background-clip: padding-box; -moz-background-clip: padding-box; background-clip: padding-box;}
@@ -1549,7 +1553,11 @@ $m = '#' . $_GET['m'];
 <?php echo $m ?> .hero-unit li { line-height: 30px;}
 <?php echo $m ?> .pull-right { float: right;}
 <?php echo $m ?> .pull-left { float: left;}
+.hide,
 <?php echo $m ?> .hide { display: none;}
+.show,
 <?php echo $m ?> .show { display: block;}
+.invisible,
 <?php echo $m ?> .invisible { visibility: hidden;}
+.affix,
 <?php echo $m ?> .affix { position: fixed;}
