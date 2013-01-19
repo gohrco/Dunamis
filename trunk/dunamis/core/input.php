@@ -159,7 +159,7 @@ class DunInput extends DunObject
 		
 		$value	= $this->clean( $this->src[$src][$item], $filter );
 		
-		if (! $value ) return $default;
+		//if (! $value ) return $default;
 		
 		return $value;
 	}
