@@ -216,14 +216,15 @@ class Dunamis
 	 * @return		boolean
 	 * @since		1.0.0
 	 */
-	public function loadModule( $module = null )
+	public function loadModule( $modulename = null )
 	{
-		if ( array_key_exists( $module, $this->modules ) ) return $this->modules[$module];
+		if ( array_key_exists( $modulename, $this->modules ) ) return $this->modules[$modulename];
 		
-		$subclass = null;
+		$subclass	=	null;
+		$module		=	$modulename;
 		
-		if ( strpos( $module, '.' ) !== false ) {
-			list( $module, $subclass ) = explode( '.', $module );
+		if ( strpos( $modulename, '.' ) !== false ) {
+			list( $module, $subclass ) = explode( '.', $modulename );
 		}
 		
 		dunimport( 'module', true );
@@ -233,7 +234,7 @@ class Dunamis
 		// Catch empty paths
 		if (! $path ) {
 			$this->setError( DUN_WARNING, 'Unable to locate the module ' . $module );
-			$this->modules[$module]	= false;
+			$this->modules[$modulename]	= false;
 			return false;
 		}
 		
@@ -245,16 +246,16 @@ class Dunamis
 		}
 		
 		$classname				= ucfirst( $module ) . ucfirst( $subclass ) . 'DunModule';
-		$this->modules[$module]	= false;
+		$this->modules[$modulename]	= false;
 		
 		if (! class_exists( $classname ) ) {
 			return false;
 		}
 		
 		// Setup the new module
-		$this->modules[$module] = new $classname();
-		$this->modules[$module]->initialise();
-		return $this->modules[$module];
+		$this->modules[$modulename] = new $classname();
+		$this->modules[$modulename]->initialise();
+		return $this->modules[$modulename];
 	}
 	
 	
