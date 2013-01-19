@@ -91,6 +91,10 @@ class WhmcsDunHooks extends DunHooks
 	public function attachHooks( $extension = null, $usepriority = 0 )
 	{
 		static 	$priority	= 500;
+		static	$attached	= array();
+		
+		if ( isset( $attached[$extension] ) ) return;
+		else $attached[$extension] = true;
 		
 		// Catch in case we are loading without initializing Dunamis
 		if (! function_exists( 'add_hook' ) ) return;
