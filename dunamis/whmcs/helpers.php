@@ -67,6 +67,25 @@ if (! function_exists( 'get_baseurl' ) )
 
 
 /**
+ * Function for determining what executed file we are actually on
+ * @version		@fileVers@
+ * @since		1.0.5
+ */
+if (! function_exists( 'get_filename' ) )
+{
+	function get_filename()
+	{
+		$uri	=	DunUri :: getInstance( 'SERVER', true );
+		$parts	=	explode( '/', $uri->getPath() );
+		$file	=	str_replace( '.php', '', end( $parts ) );
+		
+		// If we dont have a file assume index
+		if ( strlen( $file ) == 0 ) return 'index';
+		else return $file;
+	}
+}
+
+/**
  * Function for determining if we are in the admin area or not
  * @version		@fileVers@
  * @since		1.0.0
