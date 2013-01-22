@@ -60,6 +60,110 @@ if (! function_exists( '_e' ) ) {
 
 
 /**
+ * Used for converting a SimpleXMLElement to an associate array
+ * @version		@fileVers@
+ * @param		SimpleXMLElement	- $xml: the element to convert
+ * @param		string				- $attributesKey: if known (for recursion) or @children
+ * @param		string				- $childrenKey: if known (for recursion) or @attributes
+ * @param		string				- $valueKey: if known (for recursion) or @values
+ * 
+ * @return		array
+ * @since		1.0.5
+ */
+if (! function_exists( 'simpleXMLToArray' ) ) {
+	function simpleXMLToArray( SimpleXMLElement $xml, $attributesKey = null, $childrenKey = null, $valueKey = null ) {
+		if ( $childrenKey && ! is_string( $childrenKey ) ) {
+			$childrenKey = '@children';
+		}
+
+		if ( $attributesKey && ! is_string( $attributesKey ) ) {
+			$attributesKey = '@attributes';
+		}
+
+		if ( $valueKey && ! is_string( $valueKey ) ) {
+			$valueKey = '@values';
+		}
+
+		$return	= array();
+		$name	= $xml->getName();
+		$_value	= trim((string)$xml);
+
+		if ( $_value == '>' ) $_value = ''; // CHANGE 3.0.1 (0.1)
+
+		if (! strlen( $_value ) ) {
+			$_value = null;
+		}
+
+		if ( $_value !== null ) {
+			if ( $valueKey ) {
+				$return[$valueKey] = $_value;
+			}
+			else {
+				$return = $_value;
+			}
+		}
+
+		$children	= array();
+		$first		= true;
+
+		foreach ( $xml->children() as $elementName => $child )
+		{
+			$value	= simpleXMLToArray( $child, $attributesKey, $childrenKey, $valueKey );
+
+			if ( isset( $children[$elementName] ) ) {
+				if ( is_array( $children[$elementName] ) ) {
+					if ( $first ) {
+						$temp	= $children[$elementName];
+						unset( $children[$elementName] );
+						$children[$elementName][]	= $temp;
+						$first	= false;
+					}
+					$children[$elementName][]	= $value;
+				}
+				else {
+					$children[$elementName]	= array( $children[$elementName], $value );
+				}
+			}
+			else {
+				$children[$elementName]	= $value;
+			}
+		}
+
+		if ( $children ) {
+			if ( $childrenKey ) {
+				$return[$childrenKey] = $children;
+			}
+			else {
+				if (! empty( $return ) )  // CHANGE 3.0.1 (0.1)
+					$return	= @array_merge( (array) $return, $children );
+				else
+					$return	= $children;
+			}
+		}
+
+		$attributes	= array();
+		foreach ( $xml->attributes() as $name => $value )
+		{
+			$attributes[$name]	= trim($value);
+		}
+
+		if ( $attributes ) {
+			if ( $attributesKey ) {
+				$return[$attributesKey] = $attributes;
+			}
+			else {
+				if (! is_array( $return ) ) $return = array( 'value' => $return ); // CHANGE 3.0.1 (0.1)
+				$return	= @array_merge( $return, $attributes );
+			}
+		}
+
+		return $return;
+	}
+
+}
+
+
+/**
  * Function for translating a string given some unknown number of arguments
  * @version		@fileVers@
  * 
