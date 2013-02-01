@@ -2,13 +2,70 @@
 
 dunimport( 'fields.textarea' );
 
+/**
+ * WYSIWYG Field
+ * @author		Steven
+ * @version		@fileVers@
+ * 
+ * @since		1.0.5
+ */
 class WhmcsWysiwygDunFields extends TextareaDunFields
 {
 	
+	/**
+	 * Indicates if the WYSIWYG javascript should be loaded
+	 * @access		public
+	 * @var			boolean
+	 * @since		1.0.6
+	 */
+	public $enabled = true;
+	
+	
+	/**
+	 * Constructor method
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array		- $settings: any settings to assign at initialization
+	 * 
+	 * @since		1.0.5
+	 */
 	public function __construct(  $settings = array() )
 	{
 		parent :: __construct( $settings );
-		$this->_loadJavascript();
+	}
+	
+	
+	/**
+	 * Method to render the field to the browser
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array		- $options: any options to pass along
+	 * 
+	 * @return		html formatted string
+	 * @since		1.0.6
+	 * @see			TextareaDunFields :: field()
+	 */
+	public function field( $options = array() )
+	{
+		if ( $this->enabled ) { 
+			$this->_loadJavascript();
+		}
+		
+		return parent :: field( $options );
+	}
+	
+	
+	/**
+	 * Method to enable or disable WYSIWYG editor
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		boolean		- $value: value to set
+	 * 
+	 * @since		1.0.6
+	 */
+	public function setEnable( $value = true )
+	{
+		$this->enabled = (bool) $value;
 	}
 	
 	
@@ -33,6 +90,10 @@ class WhmcsWysiwygDunFields extends TextareaDunFields
 			
 			if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 				$baseuri->setPath( rtrim( $baseuri->getPath(), '/' ) . '/includes/jscript/editor.js' );
+				
+				$js	= "jQuery('document').ready(function() { var nicEd = new nicEditor({fullPanel: true}); });";
+				$js	= "var nicEd = new nicEditor({fullPanel: true});";
+				$doc->addScriptDeclaration($js);
 			}
 			else {
 				// Correct jacked up styles
@@ -52,7 +113,7 @@ class WhmcsWysiwygDunFields extends TextareaDunFields
 		if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 			$js	= <<< JS
 jQuery('document').ready( function() {
-	var ne = new nicEditor({fullPanel: true}).panelInstance( '{$id}' );
+	nicEd.panelInstance('{$id}');
 });
 JS;
 		}
