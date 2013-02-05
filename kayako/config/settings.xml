@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<swiftsettings>
+	<group name="settings_dunamis" app="dunamis" module="dunamis" ishidden="1">
+		<setting name="dunamis_apititle" type="title" />
+	</group>
+</swiftsettings>
