@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <title>Dunamis</title>
+    <description>This is the base framework module for the Dunamis Framework within your Kayako Application</description>
+    <author>Go Higher Information Services, LLC</author>
+    <version>@fileVers@</version>
+    <compatibleWith>4.0</compatibleWith>
+</config>
