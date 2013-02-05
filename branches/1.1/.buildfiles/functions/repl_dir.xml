@@ -1,0 +1,66 @@
+<project>
+
+	<macrodef name="dunamis.repl_dir">
+		<!-- File Structure -->
+		<attribute name="src" default="" />
+		<attribute name="dest" default="" />
+		<attribute name="pkg" default="" />
+		<attribute name="source" default="${dunamis.src.dev}/@{src}" />
+		<attribute name="destination" default="${dunamis.dst.build}/@{dest}" />
+		
+		<attribute name="package" default="${dunamis.project.NAME}" />
+		<attribute name="license" default="${dunamis.project.LICENSE}" />
+		<attribute name="version" default="${dunamis.project.VERSION}" />
+		
+		<sequential>
+			
+			<delete dir="@{destination}" />
+			<mkdir dir="@{destination}" />
+			
+			<copy todir="@{destination}">
+				<fileset dir="@{source}">
+					<exclude name=".*" />
+					<exclude name="README.rst" />
+					<exclude name=".buildfiles/**" />
+					<exclude name=".buildfiles/**/*.*" />
+					<exclude name=".settings/**" />
+					<exclude name=".settings/**/*.*" />
+					<exclude name="**/*.png" />
+					<exclude name="**/*.jpg" />
+					<exclude name="**/*.gif" />
+					<exclude name="**/*.pdf" />
+				</fileset>
+				<filterchain>
+					<replacetokens>
+						<token key="projectName" value="${dunamis.project.NAME}" />
+						<token key="packageName" value="@{package}" />
+						<token key="fileVers" value="@{version}" />
+						<token key="mainVers" value="@{version}" />
+						<token key="buildDate" value="${dunamis.TODAY}" />
+						<token key="copyRight" value="${dunamis.project.COPYRIGHT}" />
+						<token key="buildAuthor" value="${dunamis.project.AUTHOR}" />
+						<token key="buildEmail" value="${dunamis.project.EMAIL}" />
+						<token key="buildUrl" value="${dunamis.project.URL}" />
+						<token key="buildLicense" value="@{license}" />
+					</replacetokens>
+				</filterchain>
+			</copy>
+			
+			<fileset dir="@{source}" id="images">
+				<exclude name="README.rst" />
+				<exclude name=".buildfiles/**/*.*" />
+				<exclude name=".settings/**/*.*" />
+				<include name="**/*.png" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.pdf" />
+			</fileset>
+			
+			<copy todir="@{destination}">
+				<fileset refid="images" />
+			</copy>
+			
+		</sequential>
+	</macrodef>
+	
+</project>
