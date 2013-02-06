@@ -3,15 +3,21 @@
 
 class DropdownDunFields extends DunFields
 {
-	protected $_optid	= 'id';
-	protected $_optname	= 'name';
-	protected $options	= array();
-	protected $value	= array();
+	protected $_optid				= 'id';
+	protected $_optname				= 'name';
+	protected $options				= array();
+	protected $value				= array();
+	protected $_translateoptions	= true;
 	
 	public function __construct( $settings = array() )
 	{
-		foreach( array( 'options', 'value' ) as $item ) {
+		foreach( array( 'options', 'value', 'translateoptions' ) as $item ) {
 			if ( array_key_exists( $item, $settings ) ) {
+				if ( $item == 'translateoptions' ) {
+					$key = '_' . $item;
+					$this->$key = (bool) $settings[$item];
+					continue;
+				}
 				$this->$item = (array) $settings[$item];
 				unset( $settings[$item] );
 			}
@@ -50,7 +56,7 @@ class DropdownDunFields extends DunFields
 		foreach ( $optns as $optn ) {
 			$optn		=	(object) $optn;
 			$selected	=	( in_array( $optn->$oid, $value ) ? ' selected="selected"' : '' ); 
-			$form		.=	'<option value="' . $optn->$oid . '"' . $selected . '>' . t( $optn->$oname ) . "</option>\n";
+			$form		.=	'<option value="' . $optn->$oid . '"' . $selected . '>' . ( $this->_translateoptions ? t( $optn->$oname ) : $optn->$oname ) . "</option>\n";
 		}
 		
 		return $form . '</select>';
