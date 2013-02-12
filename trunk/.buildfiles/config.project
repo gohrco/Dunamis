@@ -10,7 +10,7 @@ SERIES=1.0
 SHORT=108
 VERSION=1.0.8
 #
-MATURITY=rc
+MATURITY=stable
 ACCESS=Public
 DESCRIPTION=<p>This contains the Dunamis Framework - the powerful engine behind the next generation of Go Higher products!</p>
 ITEMACCESS=Registered
