@@ -134,6 +134,7 @@ CODE;
 	 * @access		private
 	 * @static
 	 * @version		@fileVers@
+	 * @version		1.0.8		- Feb 2013: added 5.2 hook points based on beta changelog
 	 * 
 	 * @return		array
 	 * @since		1.0.0
@@ -153,6 +154,12 @@ CODE;
 					'AdminLogin', 'AdminLogout', 'AnnouncementAdd', 'AnnouncementEdit', 'NetworkIssueAdd', 'NetworkIssueEdit', 'NetworkIssueClose', 'NetworkIssueReopen', 'NetworkIssueDelete', 'ProductEdit', 'ProductDelete', 'ServerAdd', 'ServerEdit', 'ServerDelete',
 					'AffiliateActivation'
 				);
+		
+		if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+			$data[]	=	'LicenseAddonReissue';
+			$data[]	=	'AfterFraudCheck';
+		}
+		
 		return $data;
 	}
 }

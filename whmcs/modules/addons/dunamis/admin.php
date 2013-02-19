@@ -27,6 +27,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 				"version"		=> "@fileVers@",
 				"author"		=> t( 'dunamis.config.author' ),
 				"description"	=> t( 'dunamis.config.description' ),
+				"logo"			=> get_baseurl() . 'includes/dunamis/whmcs/assets/dunamis-48.png',
 				"language"		=> "english",
 				"fields"		=> array(
 						"DebugErrors"	=> array (
@@ -169,7 +170,7 @@ HTML;
 	private function _getNavigation()
 	{
 		$input	= dunloader( 'input', true );
-		$action	= $input->getVar( 'action', 'default' );
+		$action	= $input->getVar( 'action', 'home' );
 		$task	= $input->getVar( 'task', null );
 		
 		$uri	= DunUri :: getInstance('SERVER', true );
@@ -205,9 +206,8 @@ HTML;
 	 */
 	private function _getTitle()
 	{
-		$task	= dunloader( 'input', true )->getVar( 'task', false );
-		$task	= $task ? '.' . $task : null;
-		return '<h1>' . t( 'dunamis.admin.title', t( 'dunamis.admin.title.' . $action . $task ) ) . '</h1>';
+		$action	= dunloader( 'input', true )->getVar( 'action', 'home' );
+		return '<h1>' . t( 'dunamis.admin.title', t( 'dunamis.admin.title.' . $action ) ) . '</h1>';
 	}
 	
 	
