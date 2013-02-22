@@ -591,7 +591,7 @@ class DunCurl extends DunObject
 		}
 	
 		if ( ! empty($this->headers)) {
-			$this->options(CURLOPT_HTTPHEADER, $this->headers);
+			$this->option(CURLOPT_HTTPHEADER, $this->headers);
 		}
 	
 		$this->options();
