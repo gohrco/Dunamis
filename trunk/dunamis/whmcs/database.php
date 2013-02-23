@@ -14,18 +14,24 @@ class WhmcsDunDatabase extends DunDatabase
 	 * Constructor Method
 	 * @access		public
 	 * @version		@fileVers@
-	 * @param		array		- $properties: contains an array of arguments
+	 * @version		1.0.8		- March 2013: Database construction moved to parent
+	 * @param		array		- $options: contains an array of arguments
 	 * 
 	 * @since		1.0.0
 	 */
-	public function __construct( $properties = array() )
+	public function __construct( $options = array() )
 	{
-		parent :: __construct( $properties );
-		
-		// Connect to the database set in the configuration file
+		// Include the WHMCS configuration file
 		include( DUN_ENV_PATH . 'configuration.php' );
-		$this->_resource = @mysql_connect( $db_host, $db_username, $db_password, true );
-		mysql_select_db( $db_name, $this->_resource );
+		
+		// Setup the options array
+		$options['hostname']	=	$db_host;
+		$options['username']	=	$db_username;
+		$options['password']	=	$db_password;
+		$options['database']	=	$db_name;
+		
+		// Construct the object
+		parent :: __construct( $options );
 	}
 	
 	
