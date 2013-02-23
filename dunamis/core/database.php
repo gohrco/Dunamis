@@ -1,4 +1,4 @@
-<?php
+[$dtaa<?php
 
 
 /**
@@ -63,13 +63,22 @@ class DunDatabase extends DunObject
 	 * Constructor method
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		1.0.8		- March 2013: Object construction moved here for environment
 	 * @param		array		- $options: contains an array of arguments
 	 * 
 	 * @since		1.0.0
 	 */
 	public function __construct( $options = array() )
 	{
-		parent :: __construct( $options );
+		// Lets use friendlier names (why not?)
+		$hostname	=	$options['hostname'];
+		$username	=	$options['username'];
+		$password	=	$options['password'];
+		$database	=	$options['database'];
+		
+		// Create the resource and connect
+		$this->_resource = @mysql_connect( $hostname, $username, $password, true );
+		mysql_select_db( $database, $this->_resource );
 	}
 	
 	
@@ -126,6 +135,7 @@ class DunDatabase extends DunObject
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@
+	 * @version		1.0.8		- March 2013: Possibility of multiple databases being instantiated included
 	 * @param		array		- $options: contains an array of arguments
 	 * 
 	 * @return		object
@@ -133,20 +143,36 @@ class DunDatabase extends DunObject
 	 */
 	public static function getInstance( $options = array() )
 	{
-		static $instance = null;
+		static $instance = array();
 		
-		if (! is_object( $instance ) ) {
-			
-			if ( defined( 'DUN_ENV' ) ) {
-				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunDatabase';
-				$instance	= new $classname();
-			}
-			else {
-				$instance = new self( $options );
-			}
+		// See if we are passing along arguments otherwise assume environment
+		if ( empty( $options ) ) {
+			$database	=	'environment';
 		}
-	
-		return $instance;
+		else {
+			$database	=	md5( serialize( $options ) );
+		}
+		
+		// See if we have been here before
+		if (! is_object( $instance[$database] ) ) {
+			
+			// Base class
+			$classname	= 'DunDatabase';
+			
+			// If we want the environment, then see if it exists
+			if ( $database == 'environment' ) {
+				
+				if ( defined( 'DUN_ENV' ) ) {
+					$classname	= ucfirst( strtolower( DUN_ENV ) ) . 'DunDatabase';
+				}
+				
+			}
+			
+			// Regardless, instantiate new object
+			$instance[$database]	= new $classname( $options );
+		}
+		
+		return $instance[$database];
 	}
 	
 	
