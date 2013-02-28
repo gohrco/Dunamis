@@ -158,3 +158,21 @@ if (! function_exists( 'load_google' ) )
 		return new Google_Client();
 	}
 }
+
+
+/**
+ * Function for outputing the WHMCS GLOBALS without the smarty tpl_vars, _LANG and _DEFAULTLANG to clutter up the results
+ * @version		@fileVers@
+ * 
+ * @since		1.0.8
+ */
+if (! function_exists( '_w' ) ) {
+function _w()
+{
+	$use	= $GLOBALS;
+	unset( $use['_LANG'] );
+	unset( $use['smarty']->_tpl_vars['LANG'] );
+	unset( $use['_DEFAULTLANG'] );
+	_e( $use, 1 );
+}
+}
