@@ -37,7 +37,18 @@ class WhmcsDunInput extends DunInput
 	{
 		$get = $post = $request = array();
 		
-		if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
+		if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+			$ca	= $GLOBALS['whmcs'];
+			
+			$reflect	=	new ReflectionObject( $ca );
+			$property	=	$reflect->getProperty( 'input' );
+			$property->setAccessible( true );
+			
+			$post		=	$property->getValue( $ca );
+			$request	=	$property->getValue( $ca );
+			
+		}
+		else if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 			global $whmcs;
 			$post	= $whmcs->input;
 			$request= $whmcs->input;

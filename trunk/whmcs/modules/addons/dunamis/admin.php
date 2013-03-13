@@ -79,8 +79,10 @@ class DunamisAdminDunModule extends WhmcsDunModule
 		global $action, $whmcs;
 		if (! $action ) $action = 'home';
 		
-		$input = $whmcs->input;
-		if ( isset( $input['submit'] ) ) {
+		$input	=	dunloader( 'input', true );
+		$submit	=	$input->getVar( 'submit', false );
+		
+		if ( $submit ) {
 			$this->_saveForm();
 		}
 		
@@ -104,7 +106,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 		{$body}
 	</div>
 </div>
-<div style="clear: both; " />
+<div style="clear: both; "> </div>
 HTML;
 		return $data;
 	}
