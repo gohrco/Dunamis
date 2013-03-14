@@ -28,7 +28,7 @@ class WhmcsDunDocument extends DunDocument
 	 * 
 	 * @since		1.0.3
 	 */
-	public function makeCompatible( $version = '5.1' )
+	public function makeCompatible( $version = '5.2' )
 	{
 		if ( self :: $iscompat ) return;
 		else self :: $iscompat = $version;
@@ -36,9 +36,26 @@ class WhmcsDunDocument extends DunDocument
 		// We want to force the output to match the version we indicate
 		switch ( $version ) :
 		//
+		// Bring in line w/ 5.2
+		case '5.2' :
+		default:
+			
+			// Compare our environment version
+			if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+				// we are already at 5.2
+				return;
+			}
+			
+			$uri	=	DunUri :: getInstance( get_baseurl(), true );
+			$uri->delVars();
+			$this->addScript( 'http' . ( $uri->isSSL() ? 's' : '' ) . '://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' );
+			
+			return;
+			
+			break;
+		//
 		// Bring in line w/ 5.1
 		case '5.1' :
-		default:
 			
 			if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 				return;
@@ -161,6 +178,18 @@ class WhmcsDunDocument extends DunDocument
 		
 		// We want to force the output to match the version we indicate
 		switch ( $version ) :
+		case '5.2' :
+		default :
+		//
+		// Bring in line w/ 5.1
+			
+			if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+				return;
+			}
+			
+			$this->addScriptDeclaration( 'jq191 = jQuery.noConflict();' );
+			
+			break;
 		//
 		// Bring in line w/ 5.1
 		case '5.1' :
