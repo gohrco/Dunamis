@@ -154,7 +154,7 @@ class DunDatabase extends DunObject
 		}
 		
 		// See if we have been here before
-		if (! is_object( $instance[$database] ) ) {
+		if (! isset( $instance[$database] ) || ! is_object( $instance[$database] ) ) {
 			
 			// Base class
 			$classname	= 'DunDatabase';
