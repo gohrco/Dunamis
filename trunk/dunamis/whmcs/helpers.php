@@ -116,6 +116,7 @@ if (! function_exists( 'is_api' ) )
 /**
  * Function for conveniently loading the bootstrap for module
  * @version		@fileVers@
+ * @version		1.0.9		- March 2013: WHMCS 5.2 compatibility included; bootstrapSwitch added for toggleyn field
  * @since		1.0.1
  */
 if (! function_exists( 'load_bootstrap' ) )
@@ -124,19 +125,21 @@ if (! function_exists( 'load_bootstrap' ) )
 	{
 		if ( $module == null ) return;
 		
-		$base	= get_baseurl( 'client' );
+		$base	= rtrim( get_baseurl( 'client' ), '/' );
 		$uri	= DunUri :: getInstance( $base, true );
 		$uri->delVars();
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.2.2.2.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
 		// Older versions of WHMCS require newer jQuery
-		$doc->makeCompatible( '5.1' );
+		$doc->makeCompatible( '5.2' );
 		
-		$doc->addScript( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.js' );
 	}
 }
 

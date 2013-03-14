@@ -138,11 +138,11 @@ $m = '#' . $_GET['m'];
 }
 
 <?php echo $m; ?> {
-	background-color:#369;
+	/*background-color:#369;
 	background-image:url(images/bg_background.gif);
 	background-repeat:repeat-x;
 	margin:0;
-	padding:0;
+	padding:0;*/
 }
 
 <?php echo $m; ?>,
