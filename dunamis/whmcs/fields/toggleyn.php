@@ -9,7 +9,24 @@
  */
 class WhmcsToggleynDunFields extends DunFields
 {
-
+	
+	/**
+	 * Stores the On Label
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.10
+	 */
+	protected $labelon	=	'field.toggleyn.enabled';
+	
+	
+	/**
+	 * Stores the On Label
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.10
+	 */
+	protected $labeloff	=	'field.toggleyn.disabled';
+	
 	/**
 	 * Constructor method
 	 * @access		public
@@ -21,7 +38,15 @@ class WhmcsToggleynDunFields extends DunFields
 	public function __construct( $settings = array() )
 	{
 		parent :: __construct( $settings );
-
+		
+		// Pull local settings
+		foreach ( array( 'labelon', 'labeloff' ) as $item ) {
+			if (! isset( $settings[$item] ) ) continue;
+			$this->$item	= $settings[$item];
+			unset( $settings[$item] );
+		}
+		
+		// Set the attributes
 		foreach ( $settings as $key => $value ) {
 			$this->attributes[$key] = $value;
 		}
@@ -45,7 +70,7 @@ class WhmcsToggleynDunFields extends DunFields
 		$class	=	str_replace('[', '', str_replace(']', '', $name ) );
 		
 		$field	=	'<input type="hidden" name="' . $name . '" value="0" />'
-				.	'<div class="switch" data-on="primary" data-off="danger" data-on-label="' . t( 'themer.admin.toggleyn.enabled' ) . '" data-off-label="' . t( 'themer.admin.toggleyn.disabled' ). '">'
+				.	'<div class="switch" data-on="primary" data-off="danger" data-on-label="' . t( $this->labelon ) . '" data-off-label="' . t( $this->labeloff ). '">'
 				.	'	<input value="1" name="' . $name . '" type="checkbox" ' . ( $value == 1 ? ' checked="checked"' : '' ) . ' />'
 				.	'</div>';
 		
