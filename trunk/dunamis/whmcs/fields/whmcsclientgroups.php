@@ -1,16 +1,76 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
+// Ensure the dropdown fields are loaded
 dunimport( 'fields.dropdown' );
 
+/**
+ * WHMCS Whmcsclientgroups Field
+ * @desc		This field renders a dropdown field containing WHMCS client groups for selecting in a form
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class WhmcsWhmcsclientgroupsDunFields extends DropdownDunFields
 {
+	/**
+	 * Stores the array for excluding user groups
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $_excludes	=	array();
-	protected $_optid		=	'id';
-	protected $_optname		=	'name';
+	
+	/**
+	 * Stores the value used to identify the id in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
+	protected $_optid	= 'id';
+	
+	/**
+	 * Stores the value used to identify the name in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
+	protected $_optname	= 'name';
+	
+	/**
+	 * Stores the value used to separate values sending a string stored in the database 
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $split		=	'|';
+	
+	/**
+	 * Stores the options to select from
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $options		=	array();
+	
+	/**
+	 * Stores the values
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $value		=	array();
 	
+	
+	/**
+	 * Constructor method
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function __construct( $settings = array() )
 	{
 		foreach( array( 'split', 'value' ) as $item ) {
@@ -78,6 +138,15 @@ class WhmcsWhmcsclientgroupsDunFields extends DropdownDunFields
 	}
 	
 	
+	/**
+	 * Method to set the exclusion array to filter out items we don't want to render
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function setExcludes( $excludes = array() )
 	{
 		$this->_excludes = $excludes;
@@ -99,6 +168,15 @@ class WhmcsWhmcsclientgroupsDunFields extends DropdownDunFields
 	}
 	
 	
+	/**
+	 * Method to set the value to the object
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function setValue( $value = array() )
 	{
 		if ( strpos( $value, $this->split ) !== false ) {

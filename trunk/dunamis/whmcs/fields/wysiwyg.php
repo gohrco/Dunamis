@@ -1,6 +1,7 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
-dunimport( 'fields.textarea' );
+// Ensure the dropdown fields are loaded
+dunimport( 'fields.dropdown' );
 
 /**
  * WYSIWYG Field

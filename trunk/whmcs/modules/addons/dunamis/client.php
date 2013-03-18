@@ -2,6 +2,13 @@
 
 if (! defined( 'DUN_MOD_DUNAMIS' ) ) define( 'DUN_MOD_DUNAMIS', "@fileVers@" );
 
+/**
+ * Dunamis Client Class
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class DunamisClientDunModule extends WhmcsDunModule
 {
 	/**

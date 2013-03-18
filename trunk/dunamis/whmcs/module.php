@@ -194,12 +194,15 @@ class WhmcsDunModule extends DunModule
 			case 'server' :
 			case 'gateways' :
 			case 'registrars' :
+				
+				if ( is_api() ) return 'api';
+				
 				return ( is_admin()
 				? 'admin'
 				: ( is_api()
-				? 'api'
-				: 'client'
-				)
+					? 'api'
+					: 'client'
+					)
 				);
 				break;
 			case 'reports' :
@@ -231,6 +234,9 @@ class WhmcsDunModule extends DunModule
 			case 'server' :
 			case 'gateways' :
 			case 'registrars' :
+				
+				if ( is_api() ) return 'api.php';
+				
 				return ( is_admin()
 				? 'admin.php'
 				: ( is_api()
