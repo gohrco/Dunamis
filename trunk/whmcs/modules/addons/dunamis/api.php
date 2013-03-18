@@ -12,6 +12,14 @@ if (! defined( 'DUN_MOD_DUNAMIS' ) ) define( 'DUN_MOD_DUNAMIS', "@fileVers@" );
 class DunamisApiDunModule extends WhmcsDunModule
 {
 	/**
+	 * Stores the data to send back through the API
+	 * @access		pritected
+	 * @var			mixed
+	 * @since		1.0.10
+	 */
+	protected $data	=	null;
+	
+	/**
 	 * Stores the task to perform
 	 * @access		protected
 	 * @var			string
@@ -78,7 +86,6 @@ class DunamisApiDunModule extends WhmcsDunModule
 	{
 		return 'pong';
 	}
-	
 	
 	
 	/**
