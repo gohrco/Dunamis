@@ -44,4 +44,11 @@ if ( strpos( $module, '.' ) === false ) {
 	$module .= '.' . $input->getVar( 'method', 'api' );
 }
 
-echo dunmodule( $module )->execute();
+$data	=	dunmodule( $module )->execute();
+
+/*-- Load up the API handler and respond --*/
+$api	=	dunloader( 'api', true );
+$api->setData( $data );
+
+echo $api->response();
+/*-- Load up the API handler --*/
