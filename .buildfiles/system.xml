@@ -15,6 +15,7 @@
 		
 		<!-- Copy Level Properties -->
 		<property name="dunamis.local.whmcs" value="${dunamis.local.LOCATION_LOCALHOME}whmcs/" />
+		<property name="dunamis.local.whmcs25" value="${dunamis.local.LOCATION_LOCALHOME25}whmcs/" />
 		
 		<!-- Packaging Level Properties -->
 		

@@ -1,15 +1,68 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
+// Ensure the dropdown fields are loaded
 dunimport( 'fields.dropdown' );
 
+/**
+ * WHMCS Whmcsadmins Field
+ * @desc		This field renders a dropdown field containing WHMCS admins for selecting in a form
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 {
+	/**
+	 * Stores the value used to identify the id in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $_optid	= 'id';
+	
+	/**
+	 * Stores the value used to identify the name in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $_optname	= 'name';
+	
+	/**
+	 * Stores the value used to separate values sending a string stored in the database 
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $split	= '|';
+	
+	/**
+	 * Stores the options available for selection
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $options	= array();
+	
+	/**
+	 * Stores the values
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $value	= array();
 	
+	
+	/**
+	 * Constructor method
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function __construct( $settings = array() )
 	{
 		foreach( array( 'split', 'value' ) as $item ) {
@@ -87,6 +140,15 @@ class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 	}
 	
 	
+	/**
+	 * Method to set the value to the object
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function setValue( $value = array() )
 	{
 		if ( strpos( $value, $this->split ) !== false ) {

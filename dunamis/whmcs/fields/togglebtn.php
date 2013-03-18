@@ -1,14 +1,57 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
-
-
+/**
+ * WHMCS Togglebtn field
+ * @version		@fileVers@
+ * 
+ * @author		Steven
+ * @since		1.0.0
+ */
 class WhmcsTogglebtnDunFields extends DunFields
 {
+	
+	/**
+	 * Stores the value used to identify the id in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $_optid	= 'id';
+	
+	/**
+	 * Stores the value used to identify the name in the options passed along
+	 * @access		protected
+	 * @var			string
+	 * @since		1.0.0
+	 */
 	protected $_optname	= 'name';
+	
+	/**
+	 * Stores the options passed along to the field
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $options	= array();
+	
+	/**
+	 * Stores the value assigned to the field
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $value	= array();
 	
+	
+	/**
+	 * Constructor method
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $settings: settings to pass along
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
 	public function __construct( $settings = array() )
 	{
 		foreach( array( 'options', 'value' ) as $item ) {
@@ -25,7 +68,16 @@ class WhmcsTogglebtnDunFields extends DunFields
 		}
 	}
 
-
+	
+	/**
+	 * Renders the field back
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		array		- $options: any options to pass along
+	 *
+	 * @return		string
+	 * @since		1.0.0
+	 */
 	public function field()
 	{
 		$name		=	$this->name;
