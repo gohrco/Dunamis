@@ -176,6 +176,6 @@ function _w()
 	unset( $use['_LANG'] );
 	unset( $use['smarty']->_tpl_vars['LANG'] );
 	unset( $use['_DEFAULTLANG'] );
-	_e( $use, 1 );
+	_e( $use, 1, 0 );
 }
 }
