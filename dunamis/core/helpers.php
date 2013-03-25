@@ -40,10 +40,10 @@ if (! function_exists( 'array_to_string' ) )
  * @since		1.0.4
  */
 if (! function_exists( '_e' ) ) {
-	function _e( $array, $die = false )
+	function _e( $array, $die = false, $setbt = 0 )
 	{
 		$bt = debug_backtrace();
-		$bt = $bt[0];
+		$bt = $bt[$setbt];
 
 		echo '<h5>' . $bt['file'] . ' @ line ' . $bt['line'] . '</h5>';
 
