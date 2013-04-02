@@ -1,123 +1,164 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Uri File
+ * This is the core Uri handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+
+/**
+ * Dunamis URI class handler
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.10
+ */
 class DunUri
 {
 	/**
 	 * The original URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_uri = null;
+	private $_uri = null;
 	
 	/**
 	 * The scheme portion of URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_scheme = null;
+	private $_scheme = null;
 	
 	/**
 	 * The host portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_host = null;
+	private $_host = null;
 	
 	/**
 	 * The port portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_port = null;
+	private $_port = null;
 	
 	/**
 	 * The username portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_user = null;
+	private $_user = null;
 	
 	/**
 	 * The password portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_pass = null;
+	private $_pass = null;
 	
 	/**
 	 * The path portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_path = null;
+	private $_path = null;
 	
 	/**
 	 * The query string portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_query = null;
+	private $_query = null;
 	
 	/**
 	 * The fragment portion of the URI
-	 * 
-	 * @var  string
+	 * @access		private
+	 * @var			string
+	 * @since		1.0.0
 	 */
-	var $_fragment = null;
+	private $_fragment = null;
 	
 	/**
 	 * The variables of the query string
-	 * 
-	 * @var  array
+	 * @access		private
+	 * @var			array
+	 * @since		1.0.0
 	 */
-	var $_vars = array ();
+	private $_vars = array ();
 	
 	
 	/**
-	 * Constructor
+	 * Constructor method
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $uri: Contains the URI to generate object from
 	 * 
-	 * @param  string		Contains the URI to generate object from
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function __construct( $uri = null )
+	public function __construct( $uri = null )
 	{
-		if ($uri !== null) {
+		if ( $uri !== null ) {
 			$this->parse($uri);
 		}
 	}
 	
 	
 	/**
-	 * Gets an object for the given URI, creating it if it doesn't exist
-	 * 
-	 * @param  string		Contains the URI to retrieve
+	 * Gets an object for the given URI, creating it if it doesn't already exist
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
 	 * @static
-	 * @param  boolean		If set will force a new object to be created
+	 * @param		string		- $uri: Contains the URI to retrieve
+	 * @param		boolean		- $force: indicates we want a new object [t|F]
 	 * 
-	 * @return An URI object
-	 * @since  3.0.0
+	 * @return		a DunUri object
+	 * @since		1.0.0
 	 */
 	public static function getInstance($uri = 'SERVER', $force = false)
 	{
 		static $instances = array();
 		
-		if ($force && isset($instances[$uri]))
+		if ( $force && isset( $instances[$uri] ) ) {
 			unset ($instances[$uri]);
+		}
 		
-		if (!isset ($instances[$uri])) {
-			if ($uri == 'SERVER') {
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off')) {
+		// If we dont have one yet, build it
+		if (! isset ( $instances[$uri] ) ) {
+			
+			// If we didn't ask for a specific uri, lets use the server
+			if ( $uri == 'SERVER' ) {
+				// Find SSL
+				if ( isset($_SERVER['HTTPS'] ) && ! empty( $_SERVER['HTTPS'] ) && ( strtolower( $_SERVER['HTTPS'] ) != 'off' ) ) {
 					$https = 's://';
-				} else {
+				}
+				else {
 					$https = '://';
 				}
-				if (!empty ($_SERVER['PHP_SELF']) && !empty ($_SERVER['REQUEST_URI'])) {
+				
+				if (! empty ( $_SERVER['PHP_SELF'] ) && ! empty ( $_SERVER['REQUEST_URI'] ) ) {
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 				}
 				else {
 					$theURI = 'http' . $https . $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'];
-					if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+					
+					// Add the query string if we don't have the server request uri
+					if ( isset( $_SERVER['QUERY_STRING'] ) && ! empty( $_SERVER['QUERY_STRING'] ) ) {
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
@@ -132,29 +173,41 @@ class DunUri
 			else {
 				$theURI = $uri;
 			}
-
-			// Create the new Uri instance
-			$instances[$uri] = new DunUri($theURI);
+			
+			$classname	=	'DunUri';
+			
+			// Create the new instance
+			if ( defined( 'DUN_ENV' ) ) {
+				$envclassname = ucfirst( strtolower( DUN_ENV ) ) . 'DunUri';
+				
+				if ( class_exists( $envclassname ) ) {
+					$classname	=	$envclassname;
+				}
+			}
+			
+			$instances[$uri]	= new $classname( $theURI );
+			
 		}
+		
 		return $instances[$uri];
 	}
 	
 	
 	/**
 	 * Gets the base portion of the URI object
+	 * @access		public
+	 * @version		@fileVers@ ( $id )
+	 * @param		boolean		- $pathonly: If set will only return the base of the URI [t|F]
 	 * 
-	 * @param  boolean		If set will only return the base of the URI
-	 * 
-	 * @return A string containing the base portion of the URI
-	 * @since  3.0.0
+	 * @return		string containing containing the base portion of the URI
+	 * @since		1.0.0
 	 */
-	function base($pathonly = false)
+	public function base($pathonly = false)
 	{
 		static $base;
 		
-		if (!isset($base))
-		{
-			$uri			= & DunUri::getInstance();
+		if (! isset( $base ) ) {
+			$uri			= self::getInstance();
 			$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
 			
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
@@ -196,26 +249,26 @@ class DunUri
 	
 	/**
 	 * Gets the root of the URI object only
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		boolean		- $pathonly: If set will send back only the path [t|F]
+	 * @param		string		- $path: If set will return the root with the provided path instead
 	 * 
-	 * @param  boolean		If set will send back only the path
-	 * @param  string		If set will return the root with the provided path instead
-	 * 
-	 * @return A string containing the root of the URI
-	 * @since  3.0.0
+	 * @return		string containing the root of the URI
+	 * @since		1.0.0
 	 */
-	function root($pathonly = false, $path = null)
+	public function root($pathonly = false, $path = null)
 	{
 		static $root;
 		
-		if(!isset($root))
-		{
-			$uri	        =& DunUri::getInstance(DunUri::base());
-			$root['prefix'] = $uri->toString( array('scheme', 'host', 'port') );
-			$root['path']   = rtrim($uri->toString( array('path') ), '/\\');
+		if (! isset( $root ) ) {
+			$uri	        =	self :: getInstance( self::base() );
+			$root['prefix'] =	$uri->toString( array( 'scheme', 'host', 'port' ) );
+			$root['path']   =	rtrim( $uri->toString( array( 'path' ) ), '/\\' );
 		}
 
 		// Get the scheme
-		if(isset($path)) {
+		if ( isset( $path ) ) {
 			$root['path']    = $path;
 		}
 
@@ -225,19 +278,21 @@ class DunUri
 	
 	/**
 	 * Gets the current URI of the server regardless of the current object
-	 * 
-	 * @return A string of the current URI
-	 * @since  3.0.0
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 *
+	 * @return		string of the current URI
+	 * @since		1.0.0
 	 */
-	function current()
+	public function current()
 	{
 		static $current;
 		
-		if (!isset($current))
-		{
-			$uri	 = & DunUri::getInstance();
-			$current = $uri->toString( array('scheme', 'host', 'port', 'path'));
+		if (! isset( $current ) ) {
+			$uri	 =	self :: getInstance();
+			$current =	$uri->toString( array( 'scheme', 'host', 'port', 'path' ) );
 		}
+		
 		return $current;
 	}
 	
