@@ -233,6 +233,6 @@
   };
 }(jQuery);
 
-$(function () {
-  $('.switch')['bootstrapSwitch']();
+jQuery(function () {
+	getimagesize('.switch')['bootstrapSwitch']();
 });
