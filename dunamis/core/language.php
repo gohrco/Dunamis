@@ -1,4 +1,4 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
 
 class DunLanguage extends DunObject

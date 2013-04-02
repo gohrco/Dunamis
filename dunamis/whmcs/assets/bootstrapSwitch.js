@@ -234,5 +234,5 @@
 }(jQuery);
 
 jQuery(function () {
-	getimagesize('.switch')['bootstrapSwitch']();
+	jQuery('.switch')['bootstrapSwitch']();
 });
