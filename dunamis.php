@@ -432,12 +432,14 @@ function dunimport( $request = null, $environment = false, $reverse = false )
  * @return		object
  * @since		1.0.0
  */
-function dunloader( $request = null, $environment = false )
+function dunloader( $request = null, $environment = false, $options = array() )
 {
 	static $instances	= array(
 			'environment'	=> array(),
 			'modules'		=> array()
 			);
+	
+	$serialize		=	serialize( $options );
 	
 	// If $environment is a boolean then we want core or environment NOT module
 	$find_module	= is_bool( $environment ) ? false : true;
@@ -445,9 +447,9 @@ function dunloader( $request = null, $environment = false )
 	// Check for core / env first
 	if (! $find_module ) {
 		
-		if (! array_key_exists( $request, $instances['environment'] ) ) $instances['environment'][$request] = null;
+		if (! array_key_exists( $request, $instances['environment'] ) ) $instances['environment'][$request] = array( $serialize => null );
 		
-		if (! is_object( $instances['environment'][$request] ) ) {
+		if (! isset( $instances['environment'][$request][$serialize] ) || ! is_object( $instances['environment'][$request][$serialize] ) ) {
 			
 			dunimport( $request, $environment );
 			if ( $environment === true ) {
@@ -457,23 +459,29 @@ function dunloader( $request = null, $environment = false )
 			else {
 				$class	= 'Dun' . ucfirst( $request );
 			}
-			$instances['environment'][$request] = call_user_func_array( "{$class}::getInstance", array() );
+			$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
 		}
-		return $instances['environment'][$request];
+		return $instances['environment'][$request][$serialize];
 	}
 	
 	// See if we have the requested module loaded at all
 	if (! array_key_exists( $environment, $instances['modules'] ) ) $instances['modules'][$environment] = array();
 	
+	// See if we have made this request previously
+	if (! array_key_exists( $request, $instances['modules'][$environment] ) ) $instances['modules'][$environment][$request] = array( $serialize => null );
+	
 	// We are still here, lets check for the module now
-	if (! array_key_exists( $request, $instances['modules'][$environment] ) ) {
+	if (! isset( $instances['modules'][$environment][$request][$serialize] ) || ! is_object( $instances['modules'][$environment][$request][$serialize] ) ) {
 		dunimport( $request, $environment );
 		$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
-		$instances['modules'][$environment][$request] = call_user_func_array( "{$class}::getInstance", array() );
+		$instances['modules'][$environment][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
 	}
 	
-	return $instances['modules'][$environment][$request];
+	return $instances['modules'][$environment][$request][$serialize];
 	
+	/*
+	 * Deprecated
+	 * 
 	if (! array_key_exists( $request, $instances ) ) { //$instances[$request] ) {
 		dunimport( $request, $environment );
 		
@@ -491,7 +499,7 @@ function dunloader( $request = null, $environment = false )
 		$instances[$request] = call_user_func( "{$class}::getInstance" );
 	}
 	
-	return $instances[$request];
+	return $instances[$request];*/
 }
 
 
