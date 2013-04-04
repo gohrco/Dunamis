@@ -188,6 +188,7 @@ class DunCurl extends DunObject
 	 * Simple call method
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		1.0.10		- Options weren't being passed along for get calls
 	 * @param		string		- $method: the call method to perform
 	 * @param		string		- $url: the url to call with curl
 	 * @param		array		- $params: any variables / parameters to post/get with
@@ -202,6 +203,11 @@ class DunCurl extends DunObject
 		if ($method === 'get') {
 			// If a URL is provided, create new session
 			$this->create($url.($params ? '?'.http_build_query($params) : ''));
+			
+			// Be sure to pass options alongs
+			if (! empty( $options ) ) {
+				$this->options( $options );
+			}
 		}
 		else {
 			// If a URL is provided, create new session

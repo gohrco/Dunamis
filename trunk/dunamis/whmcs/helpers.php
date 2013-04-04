@@ -85,6 +85,63 @@ if (! function_exists( 'get_filename' ) )
 	}
 }
 
+
+/**
+ * Function for building a path given a foldername (can be name.next.dir)
+ * @version		@fileVers@
+ * @param		string		- $path: contains the subfolders in name.next.dir format ( '.' will return base )
+ * @param		mixed		- $env: [f|T|string] specifies relative to...
+ * 								false is relative to Dunamis root
+ * 								true relative to environment
+ * 								string is module name
+ * @param		string		- $filename: if we want to append a filename we may
+ * @return		string or false if built path / filepath doesn't exist 
+ * @since		1.0.10
+ */
+if (! function_exists( 'get_path' ) )
+{
+	function get_path( $path = null, $env = true, $filename = null )
+	{
+		// If we pass no path then return environment path or Dunamis path if we request
+		if ( $path == null ) {
+			return ( $env ? DUN_ENV_PATH : DUN_PATH );
+		}
+		
+		$path	=	str_replace( '.', DIRECTORY_SEPARATOR, $path );
+		
+		// Reset path
+		if ( $path == DIRECTORY_SEPARATOR ) {
+			$path = null;
+		}
+		
+		// DUN variables
+		if ( is_bool( $env ) ) {
+			$path	=	( $env ? DUN_ENV_PATH : DUN_PATH ) . $path;
+		}
+		// Module name provided
+		else {
+			
+			// Be sure our module is loaded
+			if (! defined( 'DUN_MOD_' . strtoupper( $env ) ) ) {
+				dunmodule( $env );
+			}
+			
+			// Get the path
+			$path = get_dunamis( $env )->getModulePath( $env, $path );
+		}
+		
+		// If we don't need to append filename then return
+		if (! $filename ){
+			return ( is_dir( $path ) ? $path : false );
+		}
+		
+		// Append filename
+		$path	.=	DIRECTORY_SEPARATOR . $filename;
+		
+		return ( file_exists( $path ) ? $path : false );
+	}
+}
+
 /**
  * Function for determining if we are in the admin area or not
  * @version		@fileVers@
