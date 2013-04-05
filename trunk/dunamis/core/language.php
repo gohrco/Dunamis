@@ -103,15 +103,27 @@ class DunLanguage extends DunObject
 	 */
 	public function loadLanguage( $module = null )
 	{
+		static $included = array();
+		
 		$dun	= & get_dunamis( $module );
 		$path	=   $dun->getModulePath( $module, 'lang');
 		$idiom	=   $this->getIdiom();
 		
-		$paths	= array( $path . 'English.php', $path . ucfirst( $idiom ) . '.php' );
+		$paths		=	array( $path . 'English.php', $path . ucfirst( $idiom ) . '.php' );
 		
 		foreach ( $paths as $path ) {
 			if (! file_exists( $path ) ) continue;
-			include_once( $path );
+			$s	=	base64_encode( $path );
+			
+			if (! isset( $included[$s] ) ) $included[$s] = null;
+			
+			if ( empty( $included[$s] ) ) {
+				include_once( $path );
+				$included[$s]	=	$lang;
+			}
+			
+			$lang = $included[$s];
+			
 			$this->appendTranslations( $lang, $module );
 		}
 		

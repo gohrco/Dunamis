@@ -27,6 +27,7 @@ class DunFields extends DunObject
 	{
 		// Set a default ID just in case we didn't
 		$this->id	= $settings['name'];
+		$this->setId( $settings['name'] );
 		
 		// Get the common names to filter out
 		$names		= $this->getPropertyNames();
@@ -34,7 +35,57 @@ class DunFields extends DunObject
 		foreach ( $names as $key ) {
 			if (! array_key_exists( $key, $settings ) ) continue;
 			$this->$key = $settings[$key];
+			$mykey	=	'_' . $key;
+			$this->$mykey	=	$settings[$key];
 			unset( $settings[$key] );
+		}
+		
+		// The rest of these are attributes
+		foreach ( $settings as $key => $value ) {
+			$this->attributes[$key] = $value;
+			unset( $settings[$key] );
+		}
+		
+		return $settings;
+	}
+	
+	
+	/**
+	 * Getter / Setter / Haser function
+	 * @desc		Use by calling getUrl() or setUrl('value') to get/set $this->_url
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $name: the method invoked
+	 * @param		mixed		- $arguments: any arguments passed along
+	 *
+	 * @return		mixed
+	 * @since		1.0.10
+	 */
+	public function __call( $name, $arguments )
+	{
+		if ( strpos( $name, 'get' ) !== false && strpos( $name, 'get' ) == 0 ) {
+			$var		=	'_' . strtolower( preg_replace( "#^get#", '', $name ) );
+			$default	=	(! empty( $arguments ) ? array_shift( $arguments ) : false );
+			
+			if (! isset( $this->$var ) ) {
+				return $default;
+			}
+			else {
+				return $this->$var;
+			}
+		}
+	
+		if ( strpos( $name, 'set' ) !== false && strpos( $name, 'set' ) == 0 ) {
+			$var	=	'_' . strtolower( preg_replace( "#^set#", '', $name ) );
+			$value		=	array_shift( $arguments );
+			$this->$var	=	$value;
+			return $this;
+		}
+	
+		if ( strpos( $name, 'has' ) !== false && strpos( $name, 'has' ) == 0 ) {
+			$var	=	'_' . strtolower( preg_replace( "#^has#", '', $name ) );
+			$value	=	(bool) ( isset( $this->$var ) && ! empty( $this->$var ) );
+			return $value;
 		}
 	}
 	
@@ -42,6 +93,36 @@ class DunFields extends DunObject
 	/**
 	 * Returns a description
 	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array		- $options: any options to pass along
+	 *
+	 * @return		string
+	 * @since		1.0.10
+	 */
+	public function getDescription( $options = array() )
+	{
+		if ( $this->getNodesc( false ) === true || isset( $options['nodesc'] ) ) return null;
+		
+		$usetype = 'div';
+		if ( isset( $options['type'] ) ) {
+			$usetype = $options['type'];
+			unset( $options['type'] );
+		}
+	
+		$args	= array_to_string( $options );
+	
+		$desc	=	( $usetype != 'none' ? '<' . $usetype . ' ' . $args . '>' : '' )
+				.	t( $this->description )
+				.	( $usetype != 'none' ? '</' . $usetype . '>' : '' );
+	
+		return $desc;
+	}
+	
+	
+	/**
+	 * Returns a description
+	 * @access		public
+	 * @deprecated
 	 * @version		@fileVers@
 	 * @param		array		- $options: any options to pass along
 	 * 
@@ -172,7 +253,9 @@ class DunFields extends DunObject
 				'value',
 				'validation',
 				'group',
-				'nodesc'
+				'nodesc',
+				'cgdata-intro',		// onscreen help for control group
+				'cgdata-position'	// onscreen help for control group
 				);
 	}
 }
