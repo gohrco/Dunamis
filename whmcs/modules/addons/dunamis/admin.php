@@ -65,11 +65,15 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 */
 	public function initialise()
 	{
-		$this->area = 'admin';
+		static $instance = false;
 		
-		dunloader( 'language', true )->loadLanguage( 'dunamis' );
-		dunloader( 'hooks', true )->attachHooks( 'dunamis' );
-	
+		if (! $instance ) {
+			dunloader( 'language', true )->loadLanguage( 'dunamis' );
+			dunloader( 'hooks', true )->attachHooks( 'dunamis' );
+			dunloader( 'helper', true );
+		}
+		
+		$this->area = 'admin';
 	}
 	
 	
@@ -149,8 +153,31 @@ HTML;
 		
 		switch ( $action ) {
 			
-			case 'home' :
 			case 'updates' :
+				
+				$doc	=	dunloader( 'document', true );
+				$doc->addStyleSheet( get_baseurl( 'dunamis' ) . 'assets/admin.css' );
+				$doc->addScript( get_baseurl( 'dunamis' ) . 'assets/updates.js' );
+				$doc->addScriptDeclaration( "jQuery.ready( checkForUpdates() );" );
+				
+				$data	=	array();
+				$data[]	=	'<div class="span8" style="text-align: center; ">';
+				$data[]	=	'<a class="btn" id="btn-updates">';
+				$data[]	=	'<div class="ajaxupdate ajaxupdate-init">';
+				$data[]	=	'<span id="upd-title"></span>';
+				$data[]	=	'<img id="img-updates" class="" />';
+				$data[]	=	'<span id="upd-subtitle"></span>';
+				$data[]	=	'</div>';
+				$data[]	=	'</a>';
+				$data[]	=	'</div>';
+				$data[]	=	'<input type="hidden" id="btntitle" value="' . t( 'dunamis.updates.checking.title' ) . '" />';
+				$data[]	=	'<input type="hidden" id="btnsubtitle" value="' . t( 'dunamis.updates.checking.subtitle' ) . '" />';
+				$data[]	=	'<input type="hidden" id="dunamisurl" value="' . get_baseurl( 'dunamis' ) . '" />';
+				
+				return implode( "\r\n", $data );
+				
+				break;
+			case 'home' :
 			case 'installer' :
 				
 				$data	.=	'<div class="row-fluid">'

@@ -44,6 +44,65 @@ class WhmcsDunUpdates extends DunUpdates
 	
 	
 	/**
+	 * Method for downloading an update
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 *
+	 * @return		boolean
+	 * @since		1.0.10
+	 */
+	public function download()
+	{
+		$url	=	$this->_updateUrl();
+		$target	=	$this->_updateTarget();
+		
+		return ( ( $result = $this->downloadAndStore( $url, $target ) ) !== false ? true : false );
+	}
+	
+	
+	/**
+	 * Simple method for determining updates exist
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 *
+	 * @return		boolean or 'error' on problem
+	 * @since		1.0.10
+	 */
+	public function exist()
+	{
+		$this->_updateFind();
+		
+		if ( $this->hasError() ) {
+			return 'error';
+		}
+		else if ( $this->_updateCompare() ) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * Method for downloading an update
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 *
+	 * @return		boolean
+	 * @since		1.0.10
+	 */
+	public function extract()
+	{
+		$archive	=	dunloader( 'archive', false );
+		$archive->setExceptions( $this->getExceptions() );
+		$archive->extract( $this->_updateTarget(), $this->getInstallpath() );
+	
+		return ( $archive->hasError() !== false ? true : false );
+	}
+	
+	
+	/**
 	 * Method for getting the update target for locating the downloaded archive
 	 * @access		public
 	 * @version		@fileVers@ ( $id$ )
@@ -173,6 +232,9 @@ class WhmcsDunUpdates extends DunUpdates
 			
 			$data		= simpleXMLToArray( $xml );
 			$latest		= null;
+			
+			// If we only have one update we must nest the update into another array
+			if ( isset( $data['update'] ) && ! is_array( $data['update'][0] ) ) $data['update'] = array( $data['update'] );
 			
 			if ( isset( $data['update'] ) ) foreach ( $data['update'] as $res ) {
 				if ( version_compare( $res['version'], $latest, 'g' ) ) {

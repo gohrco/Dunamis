@@ -108,9 +108,10 @@ class DunArchive extends DunObject
 	}
 	
 	
+	
 	/**
 	 * Method to put contents into the file / path
-	 * @access		private
+	 * @access		protected
 	 * @version		@fileVers@ ( $id$ )
 	 * @param		string		- $file: the filename or mixed path / filename to store into
 	 * @param		mixed		- $data: the content to store
@@ -119,7 +120,7 @@ class DunArchive extends DunObject
 	 * @return		boolean
 	 * @since		1.0.10
 	 */
-	private function _filePutcontents( $file, $data, $path = null )
+	protected function filePutcontents( $file, $data, $path = null )
 	{
 		if ( $path == null ) {
 			$path = ( is_defined( 'DUN_ENV_PATH' ) ? DUN_ENV_PATH : DUN_PATH );;
@@ -191,6 +192,22 @@ class DunArchive extends DunObject
 		}
 	
 		return $instance;
+	}
+	
+	
+	/**
+	 * Determines if a file is permitted or disallowed
+	 * @access		protected
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $file: the filename w/ path to check [t|f]
+	 *
+	 * @return		boolean
+	 * @since		1.0.10
+	 */
+	protected function isAllowed( $file )
+	{
+		$exceptions	=	$this->getExceptions();
+		return (! in_array( $file, $exceptions ) ? true : false );
 	}
 	
 	
@@ -273,17 +290,16 @@ class DunArchive extends DunObject
 		}
 		
 		// Cycle through the meta
-		$exceptions	=	(array) $this->getExceptions();
 		$metadata	=	(array) $this->getMetadata();
 		
 		for ( $i = 0, $n = count( $metadata ); $i < $n; $i++ ) {
 			$lastPathCharacter	=	substr( $metadata[$i]['name'], -1, 1 );
 			
 			if ( $lastPathCharacter !== '/' && $lastPathCharacter !== '\\' ) {
-				if ( in_array( $metadata[$i]['name'], $exceptions ) ) continue;
+				if (! $this->isAllowed( $metadata[$i]['name'] ) ) continue;
 				$buffer =	$this->_zipGetFileData( $i, $data );
 				
-				if ( ( $this->_filePutcontents( $metadata[$i]['name'], $buffer, $path ) ) === false ) {
+				if ( ( $this->filePutcontents( $metadata[$i]['name'], $buffer, $path ) ) === false ) {
 					$this->setError( 'Unable to write entry' );
 					return false;
 				}
@@ -317,16 +333,14 @@ class DunArchive extends DunObject
 				}
 			}
 			
-			$exceptions	=	$this->getExceptions();
-			
 			while ( $file = @zip_read( $zip ) ) {
 				
-				if ( in_array( zip_entry_name( $file ), $exceptions ) ) continue;
+				if (! $this->isAllowed( zip_entry_name( $file ) ) ) continue;
 				if ( zip_entry_open( $zip, $file, "r" ) ) {
 					if ( substr( zip_entry_name( $file ), strlen( zip_entry_name( $file ) ) - 1 ) != "/" ) {
 						$buffer	=	zip_entry_read( $file, zip_entry_filesize( $file ) );
 						
-						if ( $this->_filePutcontents( zip_entry_name( $file ), $buffer, $destination ) === false ) {
+						if ( $this->filePutcontents( zip_entry_name( $file ), $buffer, $destination ) === false ) {
 							$this->setError( 'Unable to write entry to destination ' . zip_entry_name( $file ) );
 							return false;
 						}

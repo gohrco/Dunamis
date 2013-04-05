@@ -53,3 +53,29 @@ $lang['installer.subtitle']			=	'<h2>Coming Soon!</h2>';
 $lang['installer.body']	= '
 <p>This feature has not yet been implemented but is in the development stage.</p>
 ';
+
+
+//	------------------------------------------------------------------------
+//	Updates
+//		as of 2.0.0
+//	------------------------------------------------------------------------
+$lang['updates.checking.title']		=	"Checking for Updates";
+$lang['updates.checking.subtitle']	=	"Please wait...";
+
+$lang['updates.none.title']		=	"Check Complete";
+$lang['updates.none.subtitle']	=	"Your version %s is the latest release";
+
+$lang['updates.exist.title']	=	"Updates Found!";
+$lang['updates.exist.subtitle']	=	"Click to update";
+
+$lang['updates.init.title']		=	"Downloading Update";
+$lang['updates.init.subtitle']	=	"Downloading version %s...";
+
+$lang['updates.download.title']		=	"Installing Update";
+$lang['updates.download.subtitle']	=	"Installing version %s...";
+
+$lang['updates.complete.title']		=	"Upgrade Complete!";
+$lang['updates.complete.subtitle']	=	"Version %s installed";
+
+
+?>

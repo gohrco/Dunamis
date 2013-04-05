@@ -221,6 +221,26 @@ if (! function_exists( 'load_google' ) )
 
 
 /**
+ * Function to load the onscreen help overlay
+ * @version		@fileVers@
+ * 
+ * @since		1.0.10
+ */
+if (! function_exists( 'load_onscreenhelp' ) )
+{
+	function load_onscreenhelp()
+	{
+		$base	= rtrim( get_baseurl( 'client' ), '/' );
+		$uri	= DunUri :: getInstance( $base, true );
+		$uri->delVars();
+		
+		$doc = dunloader( 'document', true );
+		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/chardinjs.css' );
+		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/chardinjs.js' );
+	}
+}
+
+/**
  * Function for outputing the WHMCS GLOBALS without the smarty tpl_vars, _LANG and _DEFAULTLANG to clutter up the results
  * @version		@fileVers@
  * 
