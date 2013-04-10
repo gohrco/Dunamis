@@ -58,6 +58,7 @@ $m = '#' . $_GET['m'];
 
 <?php echo $m ?> .has-switch > div {
   display: inline-block;
+  max-height: 32px;
   width: 150%;
   position: relative;
   top: 0;
