@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Copy" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<!-- Include individual files now -->
+	<import file="whmcs.xml" />
+	
+	<target name="dunamis_copy_all" depends="dunamis_properties">
+		
+		<!-- Ask what we should copy -->
+		<input addproperty="copy.select" validargs="All,WHMCS" defaultvalue="All">
+
+Please select which application we want to copy this build to
+
+		</input>
+		
+		<condition property="copy.all">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="All" trim="true" />
+	        </and>
+	     </condition>
+	     
+	     <condition property="copy.whmcs">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="WHMCS" trim="true" />
+	        </and>
+	     </condition>
+	     
+	    	<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_all" />
+		<antcall target="dunamis_copy_to_whmcs" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+	<target name="dunamis_copy_to_all" depends="dunamis_properties" if="copy.all">
+		<property name="copy.whmcs" value="true" />
+		<antcall target="dunamis_copy_to_whmcs" />
+	</target>
+	
+	
+	<target name="dunamis_copy_whmcs25" depends="dunamis_properties">
+			<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_whmcs25" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+</project>
