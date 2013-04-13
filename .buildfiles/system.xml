@@ -17,6 +17,7 @@
 		<property name="dunamis.local.whmcs" value="${dunamis.local.LOCATION_LOCALHOME}whmcs/" />
 		<property name="dunamis.local.whmcs25" value="${dunamis.local.LOCATION_LOCALHOME25}whmcs/" />
 		
+		<property name="dunamis.local.joomla" value="${dunamis.local.LOCATION_LOCALHOME25}joomla2/" />
 		<!-- Packaging Level Properties -->
 		
 	</target>

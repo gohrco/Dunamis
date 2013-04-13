@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Copy - WHMCS" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_copy_to_joomla" depends="dunamis_properties" if="copy.joomla">
+		
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/" id="dunamis.joomlalibfiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message="[1]  Copying Core Files" />
+		<copy todir="${dunamis.local.joomla}libraries/dunamis/">
+			<fileset refid="dunamis.corefiles" />
+		</copy>
+		
+		<echo message="[2]  Copying Joomla Specific Files" />
+		<copy todir="${dunamis.local.joomla}libraries/dunamis/">
+			<fileset refid="dunamis.joomlalibfiles" />
+		</copy>
+		
+	</target>
+
+</project>
