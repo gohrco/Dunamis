@@ -7,10 +7,16 @@
 		<attribute name="pkg" default="" />
 		<attribute name="source" default="${dunamis.src.dev}/@{src}" />
 		<attribute name="destination" default="${dunamis.dst.build}/@{dest}" />
-		
+		<!-- Attributes -->
+		<attribute name="project" default="${p.PROJECT_NAME}" />
 		<attribute name="package" default="${dunamis.project.NAME}" />
-		<attribute name="license" default="${dunamis.project.LICENSE}" />
 		<attribute name="version" default="${dunamis.project.VERSION}" />
+		<attribute name="author" default="${dunamis.project.AUTHOR}" />
+		<attribute name="email" default="${dunamis.project.EMAIL}" />
+		<attribute name="link" default="${dunamis.project.URL}" />
+		<attribute name="copyright" default="${dunamis.project.COPYRIGHT}" />
+		<attribute name="license" default="${dunamis.project.LICENSE}" />
+		<attribute name="date" default="${dunamis.TODAY}" />
 		
 		<sequential>
 			
@@ -32,15 +38,27 @@
 				</fileset>
 				<filterchain>
 					<replacetokens>
-						<token key="projectName" value="${dunamis.project.NAME}" />
+						<token key="projectName" value="@{project}" />
+						<token key="packageName" value="@{package}" />
+						<token key="packageVers" value="@{version}" />
+						<token key="packageAuth" value="@{author}" />
+						<token key="packageEmail" value="@{email}" />
+						<token key="packageLink" value="@{link}" />
+						<token key="packageCopy" value="@{copyright}" />
+						<token key="packageLice" value="@{license}" />
+						<token key="packageDate" value="@{date}" />
+						<token key="fileVers" value="@{version}" />
+						<token key="fileDate" value="@{date}" />
+						<!-- Legacy tokens -->
+						<token key="projectName" value="@{project}" />
 						<token key="packageName" value="@{package}" />
 						<token key="fileVers" value="@{version}" />
 						<token key="mainVers" value="@{version}" />
-						<token key="buildDate" value="${dunamis.TODAY}" />
-						<token key="copyRight" value="${dunamis.project.COPYRIGHT}" />
-						<token key="buildAuthor" value="${dunamis.project.AUTHOR}" />
-						<token key="buildEmail" value="${dunamis.project.EMAIL}" />
-						<token key="buildUrl" value="${dunamis.project.URL}" />
+						<token key="buildDate" value="@{date}" />
+						<token key="copyRight" value="@{copyright}" />
+						<token key="buildAuthor" value="@{author}" />
+						<token key="buildEmail" value="@{email}" />
+						<token key="buildUrl" value="@{link}" />
 						<token key="buildLicense" value="@{license}" />
 					</replacetokens>
 				</filterchain>

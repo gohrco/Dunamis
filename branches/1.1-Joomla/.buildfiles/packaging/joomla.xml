@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Packaging - Joomla" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_package_joomla" depends="dunamis_properties" if="package.joomla">
+		
+		<!-- Library Build First -->
+		<fileset dir="${dunamis.src.build}/" id="corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/" id="joomlafiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message="[1]  Creating Package Temporary Directory" />
+		<mkdir dir="${dunamis.dst.package}/Joomla/dunamis" />
+		
+		<echo message=" " />
+		<echo message="[2]  Copying Build to Temporary Directory" />
+		<copy todir="${dunamis.dst.package}/Joomla/dunamis">
+			<fileset refid="corefiles" />
+		</copy>
+		<copy todir="${dunamis.dst.package}/Joomla">
+			<fileset refid="joomlafiles" />
+		</copy>
+		
+		<fileset dir="${dunamis.dst.package}/Joomla" id="packagefiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message=" " />
+		<echo message="[3]  Creating Package" />
+		<dunamis.zipr_file srcid="packagefiles" dest="/" file="dunamis_joomla_v${dunamis.project.VERSION}.zip" />
+		
+		<echo message=" " />
+		<echo message="[4]  Delete Temporary Directory" />
+		<delete dir="${dunamis.dst.package}/Joomla" />
+		
+	</target>
+	
+</project>

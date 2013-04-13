@@ -5,12 +5,13 @@
 	<import file="../includes.xml" />
 	
 	<!-- Include individual files now -->
+	<import file="joomla.xml" />
 	<import file="whmcs.xml" />
 	
 	<target name="dunamis_packaging_all" depends="dunamis_properties">
 		
 		<!-- Ask what we should copy -->
-		<input addproperty="package.select" validargs="All,WHMCS" defaultvalue="All">
+		<input addproperty="package.select" validargs="All,WHMCS,Joomla" defaultvalue="All">
 
 Please select which packages we want to make
 
@@ -30,11 +31,19 @@ Please select which packages we want to make
 	        </and>
 	     </condition>
 	     
+		<condition property="package.joomla">
+		   <and>
+		      <isset property="package.select" />
+		      <equals arg1="${package.select}" arg2="Joomla" trim="true" />
+		   </and>
+		</condition>
+	     
 	    	<echo message=" " />
 			<echo message="Begin Packaging Dunamis" />
 			<echo message="-----------------------------------------------------" />
 		<antcall target="dunamis_package_all" />
-		<antcall target="dunamis_package_whmcs" />	
+		<antcall target="dunamis_package_whmcs" />
+		<antcall target="dunamis_package_joomla" />	
 			<echo message=" " />
 			<echo message="Completed Packagin Dunamis" />
 			<echo message="-----------------------------------------------------" />
@@ -48,6 +57,7 @@ Please select which packages we want to make
 		
 		<property name="package.whmcs" value="true" />
 		<antcall target="dunamis_package_whmcs" />
+		<antcall target="dunamis_package_joomla" />
 		
 		<dunamis.clean_changelog />
 		<dunamis.create_release />
