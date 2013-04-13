@@ -188,15 +188,15 @@ if (! function_exists( 'load_bootstrap' ) )
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.php?m=' . urlencode( $module ) );
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
 		// Older versions of WHMCS require newer jQuery
 		$doc->makeCompatible( '5.2' );
 		
-		$doc->addScript( $base . '/includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
-		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.js' );
+		$doc->addScript( $base . '/includes/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/includes/dunamis/core/assets/js/bootstrapSwitch.js' );
 	}
 }
 
@@ -235,8 +235,8 @@ if (! function_exists( 'load_onscreenhelp' ) )
 		$uri->delVars();
 		
 		$doc = dunloader( 'document', true );
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/chardinjs.css' );
-		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/chardinjs.js' );
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/assets/css/chardinjs.css' );
+		$doc->addScript( $base . '/includes/dunamis/core/assets/js/chardinjs.js' );
 	}
 }
 
