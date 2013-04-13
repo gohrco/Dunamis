@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="library" version="2.5" method="upgrade">
+    <name>Dunamis</name>
+	<libraryname>dunamis</libraryname>
+	<description>Dunamis Framework - the powerful engine behind the next generation of Go Higher products!</description>
+	<creationDate>@packageDate@</creationDate>
+	<author>@packageAuth@</author>
+	<authorEmail>@packageEmail@</authorEmail>
+	<authorUrl>@packageLink@</authorUrl>
+	<copyright>@packageCopy@</copyright>
+	<license>@packageLice@</license>
+	<version>@fileVers@</version>
+	<packager>@packageAuth@</packager>
+	<packagerurl>@packageLink@</packagerurl>
+	
+	<files folder="dunamis">
+		<folder>dunamis</folder>
+		<file>dunamis.php</file>
+	</files>
+	
+	<updateservers />
+	
+</extension>
