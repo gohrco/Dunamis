@@ -89,7 +89,7 @@ class DunInput extends DunObject
 	);
 	
 	
-	protected	$src	= array( 'get' => array(), 'post' => array(), 'request' => array() );
+	protected	$src	= array( 'get' => array(), 'post' => array(), 'request' => array(), 'server' => array() );
 	
 	/**
 	 * Constructor method
