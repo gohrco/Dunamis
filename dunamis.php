@@ -161,6 +161,7 @@ class Dunamis
 		
 		dunimport( 'uri', true );
 		dunimport( 'error', true );
+		dunimport( 'debug', true );
 		
 		$is_enabled = call_user_func( 'is_enabled_on_' . $this->_environmentname );
 		if (! $is_enabled ) return;
@@ -171,6 +172,12 @@ class Dunamis
 		}
 		
 		set_error_handler( array( $this->_errorhandler, 'setError' ) );
+		
+		// Handle debug feature
+		$classname	=	ucfirst( strtolower( DUN_ENV ) ) . 'DunDebug';
+		if ( class_exists( $classname ) ) {
+			$classname :: init();
+		}
 	}
 	
 	
