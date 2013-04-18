@@ -36,8 +36,28 @@
 		<echo message="[3]  Creating Package" />
 		<dunamis.zipr_file srcid="packagefiles" dest="/" file="dunamis_joomla_v${dunamis.project.VERSION}.zip" />
 		
+		<delete dir="${dunamis.dst.package}/Joomla" />
+		<mkdir dir="${dunamis.dst.package}/Joomla" />
 		<echo message=" " />
-		<echo message="[4]  Delete Temporary Directory" />
+		<echo message="[4]  Copying Component portions over" />
+		<copy todir="${dunamis.dst.package}/Joomla">
+			<fileset dir="${dunamis.src.build}/joomla/">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+		
+		<!-- This is the Component for Dunamis -->
+			<fileset dir="${dunamis.dst.package}/Joomla/component/" id="componentfiles">
+				<include name="**/*.*" />
+			</fileset>
+			
+			<echo message=" " />
+			<echo message="[5]  Creating Package" />
+			<dunamis.zipr_file srcid="componentfiles" dest="/" file="com_dunamis_v${dunamis.project.VERSION}.zip" />
+		<!-- This is the Component for Belong -->
+		
+		<echo message=" " />
+		<echo message="[6]  Delete Temporary Directory" />
 		<delete dir="${dunamis.dst.package}/Joomla" />
 		
 	</target>
