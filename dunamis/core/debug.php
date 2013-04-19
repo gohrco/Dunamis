@@ -34,10 +34,10 @@ abstract class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function error( $msg )
+	public static function error( $msg, $label = null, $options = array() )
 	{
 		if (! self :: $isEnabled ) return;
-		self :: $instance->error( t( $msg ) );
+		self :: $instance->error( t( $msg ), $label, $options  );
 	}
 	
 	
@@ -47,13 +47,14 @@ abstract class DunDebug extends DunObject
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
 	 * @param		string		- $msg: what we want to call the group
-	 *
+	 * @param		array		- $options: if we want to spec options on the group
+	 * 
 	 * @since		1.0.11
 	 */
-	public static function group( $msg )
+	public static function group( $msg, $options = array() )
 	{
 		if (! self :: $isEnabled ) return;
-		self :: $instance->group( t( $msg ) );
+		self :: $instance->group( t( $msg ), $options );
 	}
 	
 	
@@ -81,10 +82,10 @@ abstract class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function info( $msg )
+	public static function info( $msg, $label = null, $options = array() )
 	{
 		if (! self :: $isEnabled ) return;
-		self :: $instance->info( t( $msg ) );
+		self :: $instance->info( t( $msg ), $label, $options  );
 	}
 	
 	
@@ -137,10 +138,10 @@ abstract class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function log( $msg )
+	public static function log( $msg, $label = null, $options = array() )
 	{
 		if (! self :: $isEnabled ) return;
-		self :: $instance->log( t( $msg ) );
+		self :: $instance->log( t( $msg ), $label, $options );
 	}
 	
 	
@@ -153,9 +154,9 @@ abstract class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function warn( $msg )
+	public static function warn( $msg, $label = null, $options = array() )
 	{
 		if (! self :: $isEnabled ) return;
-		self :: $instance->warn( t( $msg ) );
+		self :: $instance->warn( t( $msg ), $label, $options  );
 	}
 }

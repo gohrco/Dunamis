@@ -62,3 +62,6 @@ class WhmcsDunDebug extends DunDebug
 		return (bool) self :: $isEnabled;
 	}
 }
+
+
+class WDD extends WhmcsDunDebug {}
