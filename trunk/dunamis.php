@@ -458,7 +458,8 @@ function dunloader( $request = null, $environment = false, $options = array() )
 		
 		if (! isset( $instances['environment'][$request][$serialize] ) || ! is_object( $instances['environment'][$request][$serialize] ) ) {
 			
-			dunimport( $request, $environment );
+			$myf = dunimport( $request, $environment );
+			
 			if ( $environment === true ) {
 				$class	= DUN_ENV;
 				$class	= ucfirst( strtolower( $class ) ) . 'Dun' . ucfirst( $request );
@@ -466,8 +467,17 @@ function dunloader( $request = null, $environment = false, $options = array() )
 			else {
 				$class	= 'Dun' . ucfirst( $request );
 			}
-			$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
+			
+			if ( $myf ) {
+				if ( class_exists( $class ) ) {
+					$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
+				}
+				else {
+					$instances['environment'][$request][$serialize] = true;
+				}
+			}
 		}
+		
 		return $instances['environment'][$request][$serialize];
 	}
 	
@@ -479,9 +489,15 @@ function dunloader( $request = null, $environment = false, $options = array() )
 	
 	// We are still here, lets check for the module now
 	if (! isset( $instances['modules'][$environment][$request][$serialize] ) || ! is_object( $instances['modules'][$environment][$request][$serialize] ) ) {
-		dunimport( $request, $environment );
-		$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
-		$instances['modules'][$environment][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
+		if ( dunimport( $request, $environment ) ) {
+			$class	= ucfirst( $environment ) . 'Dun' . ucfirst( $request );
+			if ( class_exists( $class ) ) {
+				$instances['modules'][$environment][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
+			}
+			else {
+				$instances['modules'][$environment][$request][$serialize] = true;
+			}
+		}
 	}
 	
 	return $instances['modules'][$environment][$request][$serialize];
