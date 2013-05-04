@@ -108,6 +108,7 @@ if (! function_exists( 'load_bootstrap' ) )
 		$doc->addStyleSheet( $base . '/libraries/dunamis/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
 		$doc->addScript( 'http' . ( $uri->isSSL() ? 's' : '' ) . '://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' );
+		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/noconflict.js' );								// Our noconflict
 		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
 		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/assets/js/bootstrapSwitch.js' );
 	}

@@ -71,7 +71,7 @@ class JoomlaDunInput extends DunInput
 		
 		$app	= & JFactory :: getApplication();
 		$cycle	=	array( 'get' => $_GET, 'post' => $_POST, 'request' => $_REQUEST, 'server' => $_SERVER );
-		$data	=	array( 'get' => array(), 'post' => array(), 'request' => array() );
+		$data	=	array( 'get' => array(), 'post' => array(), 'request' => array(), 'server' => array() );
 		
 		foreach ( $cycle as $k => $v ) {
 			foreach ( $v as $f => $trash ) {
@@ -88,5 +88,41 @@ class JoomlaDunInput extends DunInput
 		}
 		
 		parent :: load( $data );
+	}
+	
+	
+	/**
+	 * Method for setting a variable to the input handler
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $name: the name of the variable to set
+	 * @param		mixed		- $value: the value to set
+	 * @param		string		- $hash: the request method to use
+	 * @param		boolean		- $overwrite: indicates we should overwrite existing
+	 *
+	 * @return		mixed previous variable
+	 * @since		1.1.0
+	 */
+	public function setVar( $name, $value, $hash = 'request', $overwrite = true )
+	{
+		// Set it to our object first
+		$data	=	array( $hash => array( $name => $value ) );
+		parent :: load( $data );
+		
+		if ( version_compare( DUN_ENV_VERSION, '3.0', 'ge' ) ) {
+			$app	= & JFactory :: getApplication();
+			$prev	=   $app->input->get( $name, $value );
+			$app->input->set( $name, $value );
+			return $prev;
+		}
+		else if ( version_compare( DUN_ENV_VERSION, '1.7.1', 'ge' ) ) {
+			$app	= & JFactory :: getApplication();
+			$prev	=   $app->get( $name );
+			$app->input->set( $name, $value );
+			return $prev;
+		}
+		else {
+			return JRequest :: setVar( $name, $value, $hash, $overwrite );
+		}
 	}
 }
