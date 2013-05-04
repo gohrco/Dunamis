@@ -25,6 +25,13 @@
 			<fileset refid="dunamis.joomlalibfiles" />
 		</copy>
 		
+		
+		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles" includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles" includes="**/*.*" />
+		
+		<copy todir="${dunamis.local.joomla}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${dunamis.local.joomla}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		
 	</target>
 
 </project>

@@ -165,7 +165,24 @@ if (! function_exists( 'is_api' ) )
 {
 	function is_api()
 	{
-		return ( defined( "APIAREA" ) == true ? true : false );
+		// See if we are calling up the Dunamis API first
+		if ( defined( "APIAREA" ) == true ) {
+			return true;
+		}
+		
+		if ( get_filename() != 'api' ) {
+			return false;
+		}
+		
+		// Can't know for sure without checking path
+		$uri	=	DunUri :: getInstance( 'SERVER', true );
+		$parts	=	explode( '/', $uri->getPath() );
+		
+		if ( in_array( 'includes', $parts ) && in_array( 'api.php', $parts ) ) {
+			return true;
+		}
+		
+		return false;
 	}
 }
 
