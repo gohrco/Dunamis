@@ -188,6 +188,22 @@ if (! function_exists( 'is_api' ) )
 
 
 /**
+ * Function for determining if we are using SSL on this page or not
+ * @version		@fileVers@
+ * @since		1.1.0
+ */
+if (! function_exists( 'is_ssl' ) ) {
+	function is_ssl()
+	{
+		$uri	=	DunUri  :: getInstance( 'SERVER', true );
+		$scheme	=	$uri->getScheme();
+
+		return $scheme == 'https';
+	}
+}
+
+
+/**
  * Function for conveniently loading the bootstrap for module
  * @version		@fileVers@
  * @version		1.0.9		- March 2013: WHMCS 5.2 compatibility included; bootstrapSwitch added for toggleyn field
