@@ -152,7 +152,7 @@ class WhmcsDunUpdates extends DunUpdates
 		$this->_updateFind();
 		
 		if ( $this->_updateCompare() ) {
-			return $this->getVersion();
+			return $this->_updateCompare( null, true );
 		}
 		else {
 			return false;
@@ -165,18 +165,25 @@ class WhmcsDunUpdates extends DunUpdates
 	 * @access		protected
 	 * @version		@fileVers@ ( $id$ )
 	 * @param		stdClass		- $update: if we are comparing on the fly we can pass this along
+	 * @param		boolean			- $getvers: if we want the most up to date version or bool response
 	 *
-	 * @return		boolean true on new update, false on not, null on no update found
+	 * @return		boolean true on new update, false on not, null on no update found | string containing most recent version
 	 * @since		1.0.10
 	 */
-	protected function _updateCompare( stdClass $update = null )
+	protected function _updateCompare( stdClass $update = null, $getvers = false )
 	{
 		if ( $update == null ) $update = $this->getUpdate();
 		if ( $update == null ) return null; // Nothing to compare against
-	
+		
 		// Compare last version to ours
 		$v	=	str_replace( 'v', '', $update->version );
-		return version_compare( $v, $this->getVersion(), 'g' );
+		
+		if ( $getvers ) {
+			return version_compare( $v, $this->getVersion(), 'g' ) ? $v : $this->getVersion();
+		}
+		else {
+			return version_compare( $v, $this->getVersion(), 'g' );
+		}
 	}
 	
 	
