@@ -58,6 +58,39 @@ class JoomlaDunInput extends DunInput
 	
 	
 	/**
+	 * Method to retrieve a variable from the object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $item: the variable to get
+	 * @param		mixed		- $default: if not there we want this value back
+	 * @param		string		- $src: the location (get|post|request)
+	 * @param		string		- $filter: how we want to filter (many)
+	 * 
+	 * @return		mixed value
+	 * @since		1.1.0
+	 * @see			DunInput::getVar()
+	 */
+	public function getVar( $var, $default = null, $filter = 'none', $hash = 'default', $mask = 0 )
+	{
+		if ( version_compare( JVERSION, '1.7.1', 'ge' ) ) {
+			$app	= & JFactory :: getApplication();
+			if ( $hash == 'default' ) {
+				return $app->input->get( $var, $default, $filter );
+			}
+			else {
+				return $app->input->$hash->get( $var, $default, $filter );
+			}
+		}
+		else {
+			$value	= JRequest :: getVar( $var, $default, $hash, $filter, $mask );
+			// If we are resetting pw on front end, post is empty for some reason
+			if ( empty( $value ) && $var == 'post' ) $value = JRequest::get( 'post' );
+			return $value;
+		}
+	}
+	
+	
+	/**
 	 * Method to load the input into the object
 	 * @access		protected
 	 * @version		@fileVers@
