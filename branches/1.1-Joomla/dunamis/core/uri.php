@@ -503,7 +503,7 @@ class DunUri
 		foreach ( $params as $key => $val )
 		{
 			if ( is_array($val) ) {
-				$out[] = JURI::buildQuery($val,$key);
+				$out[] = DunUri :: buildQuery($val,$key);
 				continue;
 			}
 
