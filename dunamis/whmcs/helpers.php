@@ -287,6 +287,43 @@ if (! function_exists( 'load_onscreenhelp' ) )
 	}
 }
 
+
+/**
+ * Function to remove the filename from a URI object
+ * @desc		Won't work if URL is being SEOd in WHMCS
+ * @version		@fileVers@
+ * @param		DunUri		- $uri: the uri object to alter
+ * 
+ * @return		DunUri object
+ * @since		1.1.0
+ */
+if (! function_exists( 'remove_filename' ) )
+{
+	function remove_filename( $uri = null )
+	{
+		// Ensure we have a URI object
+		if ( $uri == null || ! is_a( $uri, 'DunUri' ) ) {
+			$uri	=	DunUri :: getInstance( 'SERVER', true );
+		}
+		
+		$path	=	$uri->getPath();
+		
+		// Use the global variable /requesturl
+		global $requesturl;
+		$req	=	trim( $requesturl, '/' );
+		
+		$parts	=	explode( '/', $path );
+		foreach ( $parts as $i => $part ) {
+			if ( $part != $req ) continue;
+			unset ( $parts[$i] );
+		}
+		
+		$uri->setPath( implode( '/', $parts ) );
+		
+		return $uri;
+	}
+}
+
 /**
  * Function for outputing the WHMCS GLOBALS without the smarty tpl_vars, _LANG and _DEFAULTLANG to clutter up the results
  * @version		@fileVers@
