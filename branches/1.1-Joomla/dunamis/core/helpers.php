@@ -60,6 +60,52 @@ if (! function_exists( '_e' ) ) {
 
 
 /**
+ * Used for generating a random string
+ * @version		@fileVers@
+ * @param		string		- $type: what type of random string we want
+ * @param		int			- $len: the length we want
+ * 
+ * @return		string
+ * @since		1.1.0
+ */
+if ( ! function_exists('random_string')) {
+	function random_string($type = 'alnum', $len = 8)
+	{
+		switch($type) {
+			case 'basic'	: return mt_rand();
+			break;
+			case 'alnum'	:
+			case 'numeric'	:
+			case 'nozero'	:
+			case 'alpha'	:
+				
+				switch ($type) {
+					case 'alpha'	:	$pool = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					break;
+					case 'alnum'	:	$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+					break;
+					case 'numeric'	:	$pool = '0123456789';
+					break;
+					case 'nozero'	:	$pool = '123456789';
+					break;
+				}
+				
+				$str = '';
+				for ($i=0; $i < $len; $i++) {
+					$str .= substr($pool, mt_rand(0, strlen($pool) -1), 1);
+				}
+				
+				return $str;
+				break;
+			case 'unique'	:
+			case 'md5'		:
+				return md5(uniqid(mt_rand()));
+				break;
+		}
+	}
+}
+		
+/**
  * Used for converting a SimpleXMLElement to an associate array
  * @version		@fileVers@
  * @param		SimpleXMLElement	- $xml: the element to convert

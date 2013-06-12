@@ -311,6 +311,8 @@ if (! function_exists( 'remove_filename' ) )
 		// Use the global variable /requesturl
 		global $requesturl;
 		$req	=	trim( $requesturl, '/' );
+		$parts	=	explode( '?', $req );
+		$req	=	array_shift( $parts );
 		
 		$parts	=	explode( '/', $path );
 		foreach ( $parts as $i => $part ) {
