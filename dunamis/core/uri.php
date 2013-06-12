@@ -731,7 +731,7 @@ class DunUri
 	 */
 	function isInternal($url)
 	{
-		$uri	= & DunUri::getInstance($url);
+		$uri	=	DunUri :: getInstance( $url );
 		$base	=   $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host	=   $uri->toString(array('scheme', 'host', 'port'));
 		if(stripos($base, DunUri::base()) !== 0 && !empty($host)) {
