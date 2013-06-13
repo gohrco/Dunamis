@@ -60,6 +60,22 @@ if (! function_exists( '_e' ) ) {
 
 
 /**
+ * Function to check a value for being an email address
+ * @version		@fileVers@
+ *
+ * @return		boolean
+ * @since		1.1.0
+ */
+if (! function_exists( 'is_email' ) )
+{
+	function is_email( $data )
+	{
+		return (bool) preg_match( "/\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,5}\b/i", $data );
+	}
+}
+
+
+/**
  * Used for generating a random string
  * @version		@fileVers@
  * @param		string		- $type: what type of random string we want
