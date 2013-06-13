@@ -188,20 +188,6 @@ if (! function_exists( 'is_api' ) )
 
 
 /**
- * Function to check a value for being an email address
- * @version		@fileVers@
- * 
- * @return		boolean
- * @since		1.1.0
- */
-if (! function_exists( 'is_email' ) )
-{
-	function is_email( $data )
-	{
-		return (bool) preg_match( "/\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,5}\b/i", $data );
-	}
-}
-/**
  * Function for determining if we are using SSL on this page or not
  * @version		@fileVers@
  * @since		1.1.0
