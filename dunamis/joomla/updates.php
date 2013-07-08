@@ -40,7 +40,7 @@ class JoomlaDunUpdates extends DunUpdates
 		// Ensure we are specifying a target location
 		if (! isset( $options['target'] ) ) {
 			$cfg	=	dunloader( 'config', true );
-			$options['target'] = $cfg->get( 'tmp_path' );
+			$options['target'] = $cfg->get( 'tmp_path' ) . DIRECTORY_SEPARATOR;
 		}
 		
 		$options = parent :: __construct( $options );
