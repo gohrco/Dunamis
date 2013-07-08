@@ -107,9 +107,72 @@ if (! function_exists( 'load_bootstrap' ) )
 		$doc->addStyleSheet( $base . '/libraries/dunamis/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
 		$doc->addStyleSheet( $base . '/libraries/dunamis/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
-		$doc->addScript( 'http' . ( $uri->isSSL() ? 's' : '' ) . '://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' );
-		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/noconflict.js' );								// Our noconflict
-		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		if ( version_compare( DUN_ENV_VERSION, '3.0.', 'ge' ) ) {
+			JHtml :: _( 'bootstrap.framework' );
+		}
+		else {
+			$doc->addScript( 'http' . ( $uri->isSSL() ? 's' : '' ) . '://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js' );
+			$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/noconflict.js' );								// Our noconflict
+			$doc->addScript( $base . '/libraries/dunamis/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		}
+		
 		$doc->addScript( $base . '/libraries/dunamis/dunamis/core/assets/js/bootstrapSwitch.js' );
+	}
+}
+
+
+/**
+ * Function for building a path given a foldername (can be name.next.dir)
+ * @version		@fileVers@
+ * @param		string		- $path: contains the subfolders in name.next.dir format ( '.' will return base )
+ * @param		mixed		- $env: [f|T|string] specifies relative to...
+ * 								false is relative to Dunamis root
+ * 								true relative to environment
+ * 								string is module name
+ * @param		string		- $filename: if we want to append a filename we may
+ * @return		string or false if built path / filepath doesn't exist
+ * @since		1.0.10
+ */
+if (! function_exists( 'get_path' ) )
+{
+	function get_path( $path = null, $env = true, $filename = null )
+	{
+		// If we pass no path then return environment path or Dunamis path if we request
+		if ( $path == null ) {
+			return ( $env ? DUN_ENV_PATH : DUN_PATH );
+		}
+
+		$path	=	str_replace( '.', DIRECTORY_SEPARATOR, $path );
+
+		// Reset path
+		if ( $path == DIRECTORY_SEPARATOR ) {
+			$path = null;
+		}
+
+		// DUN variables
+		if ( is_bool( $env ) ) {
+			$path	=	( $env ? DUN_ENV_PATH : DUN_PATH ) . $path;
+		}
+		// Module name provided
+		else {
+				
+			// Be sure our module is loaded
+			if (! defined( 'DUN_MOD_' . strtoupper( $env ) ) ) {
+				dunmodule( $env );
+			}
+				
+			// Get the path
+			$path = get_dunamis( $env )->getModulePath( $env, $path );
+		}
+
+		// If we don't need to append filename then return
+		if (! $filename ){
+			return ( is_dir( $path ) ? $path : false );
+		}
+
+		// Append filename
+		$path	.=	DIRECTORY_SEPARATOR . $filename;
+
+		return ( file_exists( $path ) ? $path : false );
 	}
 }
