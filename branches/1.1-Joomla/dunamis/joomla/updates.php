@@ -12,6 +12,8 @@
  * @license         @buildLicense@
  */
 
+dunimport( 'cms.installer.installer' );
+
 
 /**
  * WHMCS Dunamis Updates class handler
@@ -23,8 +25,10 @@
 class JoomlaDunUpdates extends DunUpdates
 {
 	protected $_check	=	true;
+	protected $_extractdir	=	null;		// When extracting in Joomla - this is the directory files are initially unpacked in by J! installer helper
 	protected $_force	=	false;
 	protected $_lastrun	=	null;
+	protected $_packagefile	=	null;		// When extracting in Joomla - this is the file name containing the package
 	protected $_update	=	null;
 	
 	/**
@@ -100,11 +104,15 @@ class JoomlaDunUpdates extends DunUpdates
 	 */
 	public function extract()
 	{
-		$archive	=	dunloader( 'archive', false );
-		$archive->setExceptions( $this->getExceptions() );
-		$archive->extract( $this->_updateTarget(), $this->getInstallpath() );
-	
-		return ( $archive->hasError() !== false ? true : false );
+		$package	= JInstallerHelper::unpack( $this->_updateTarget() );
+		
+		if ( $package ) {
+			$this->setExtractdir( $package['dir'] );
+			$this->setPackagefile( $package['packagefile'] );
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -142,6 +150,23 @@ class JoomlaDunUpdates extends DunUpdates
 		$archive	=	dunloader( 'archive', false );
 		$archive->setExceptions( $this->getExceptions() );
 		$archive->extract( $this->_updateTarget(), $this->getInstallpath() );
+	}
+	
+	
+	public function update()
+	{
+		$installer	= JInstaller :: getInstance();
+		
+		if (! $installer->update( $this->getExtractdir() ) ) {
+			$result	=	false;
+		}
+		else {
+			// Package updated successfully
+			$result = true;
+		}
+		
+		JInstallerHelper :: cleanupInstall( $this->getPackagefile(), $this->getExtractdir() );
+		return (bool) $result;
 	}
 	
 	
