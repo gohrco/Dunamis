@@ -165,7 +165,40 @@ if (! function_exists( 'is_api' ) )
 {
 	function is_api()
 	{
-		return ( defined( "APIAREA" ) == true ? true : false );
+		// See if we are calling up the Dunamis API first
+		if ( defined( "APIAREA" ) == true ) {
+			return true;
+		}
+		
+		if ( get_filename() != 'api' ) {
+			return false;
+		}
+		
+		// Can't know for sure without checking path
+		$uri	=	DunUri :: getInstance( 'SERVER', true );
+		$parts	=	explode( '/', $uri->getPath() );
+		
+		if ( in_array( 'includes', $parts ) && in_array( 'api.php', $parts ) ) {
+			return true;
+		}
+		
+		return false;
+	}
+}
+
+
+/**
+ * Function for determining if we are using SSL on this page or not
+ * @version		@fileVers@
+ * @since		1.1.0
+ */
+if (! function_exists( 'is_ssl' ) ) {
+	function is_ssl()
+	{
+		$uri	=	DunUri  :: getInstance( 'SERVER', true );
+		$scheme	=	$uri->getScheme();
+
+		return $scheme == 'https';
 	}
 }
 
@@ -188,15 +221,15 @@ if (! function_exists( 'load_bootstrap' ) )
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.php?m=' . urlencode( $module ) );
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
 		// Older versions of WHMCS require newer jQuery
 		$doc->makeCompatible( '5.2' );
 		
-		$doc->addScript( $base . '/includes/dunamis/whmcs/bootstrap/js/bootstrap.min.js' );								// Our javascript
-		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/bootstrapSwitch.js' );
+		$doc->addScript( $base . '/includes/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/includes/dunamis/core/assets/js/bootstrapSwitch.js' );
 	}
 }
 
@@ -235,8 +268,47 @@ if (! function_exists( 'load_onscreenhelp' ) )
 		$uri->delVars();
 		
 		$doc = dunloader( 'document', true );
-		$doc->addStyleSheet( $base . '/includes/dunamis/whmcs/assets/chardinjs.css' );
-		$doc->addScript( $base . '/includes/dunamis/whmcs/assets/chardinjs.js' );
+		$doc->addStyleSheet( $base . '/includes/dunamis/core/assets/css/chardinjs.css' );
+		$doc->addScript( $base . '/includes/dunamis/core/assets/js/chardinjs.js' );
+	}
+}
+
+
+/**
+ * Function to remove the filename from a URI object
+ * @desc		Won't work if URL is being SEOd in WHMCS
+ * @version		@fileVers@
+ * @param		DunUri		- $uri: the uri object to alter
+ * 
+ * @return		DunUri object
+ * @since		1.1.0
+ */
+if (! function_exists( 'remove_filename' ) )
+{
+	function remove_filename( $uri = null )
+	{
+		// Ensure we have a URI object
+		if ( $uri == null || ! is_a( $uri, 'DunUri' ) ) {
+			$uri	=	DunUri :: getInstance( 'SERVER', true );
+		}
+		
+		$path	=	$uri->getPath();
+		
+		// Use the global variable /requesturl
+		global $requesturl;
+		$req	=	trim( $requesturl, '/' );
+		$parts	=	explode( '?', $req );
+		$req	=	array_shift( $parts );
+		
+		$parts	=	explode( '/', $path );
+		foreach ( $parts as $i => $part ) {
+			if ( $part != $req ) continue;
+			unset ( $parts[$i] );
+		}
+		
+		$uri->setPath( implode( '/', $parts ) );
+		
+		return $uri;
 	}
 }
 

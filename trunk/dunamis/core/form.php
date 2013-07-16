@@ -43,6 +43,58 @@ class DunForm extends DunObject
 	}
 	
 	
+	/**
+	 * Method to add an individual field to a form
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $name: the name of the field to add
+	 * @param		object		- $field: the field definition to use
+	 * @param		string		- $moduleform: the form to attach to (module.form)
+	 *
+	 * @return		boolean
+	 * @since		1.1.0
+	 */
+	public function addField( $name, $field, $moduleform )
+	{
+		$field	=	(object) $field;
+		$parts	=	explode( '.', $moduleform );
+		$module	=	array_shift( $parts );
+		$form	=	implode( '.', $parts );
+		
+		$class = dunimport( 'fields.' . $field->type, $module );
+			
+		if (! $class ) return false;
+			
+		switch ( $class ) {
+			case 'core' :
+				$classname = ucfirst( $field->type . 'DunFields' );
+				break;
+			case 'env' :
+				$classname = ucfirst( strtolower( DUN_ENV ) ) . ucfirst( $field->type ) .'DunFields';
+				break;
+			case 'mod' :
+				$classname = ucfirst( $module ) . ucfirst( $field->type ) . 'DunFields';
+				break;
+		}
+			
+		if (! array_key_exists( 'name', $field ) ) $field->name = $name;
+		
+		self :: $forms[$moduleform][$name]	=	new $classname( (array) $field );
+		
+		return true;
+	}
+	
+	
+	/**
+	 * Method to delete a field from a form
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $field: the field name to remove
+	 * @param		string		- $form: the module.form to remove from
+	 *
+	 * @return		boolean
+	 * @since		1.0.0
+	 */
 	public function deleteField( $field, $form )
 	{
 		if (! isset( self :: $forms[$form] ) ) {
@@ -150,7 +202,13 @@ class DunForm extends DunObject
 			include_once( $path . $file . '.php' );
 		}
 		
-		self :: $forms[$module . '.' . $file] = $this->parseForm( $form, $module );
+		if (! isset( self :: $forms[$module . '.' . $file] ) ) {
+			self :: $forms[$module . '.' . $file]	=	array();
+		}
+		
+		$this->parseForm( $form, $module . '.' . $file );
+		
+		//self :: $forms[$module . '.' . $file] = $this->parseForm( $form, $module );
 		//echo '<pre>'.print_r( self :: $forms, 1 );die();
 		return self :: $forms[$module . '.' . $file];
 	}
@@ -166,32 +224,16 @@ class DunForm extends DunObject
 	 * @return		array of objects
 	 * @since		1.0.0
 	 */
-	protected function parseForm( $fields = array(), $module = null )
+	protected function parseForm( $fields = array(), $moduleform = null )
 	{
-		$form	= array();
+		$form	= self :: $forms[$moduleform];
 		
 		foreach ( $fields as $name => $field )
 		{
-			$class = dunimport( 'fields.' . $field['type'], $module );
-			
-			if (! $class ) continue;
-			
-			switch ( $class ) {
-				case 'core' :
-					$classname = ucfirst( $field['type'] . 'DunFields' );
-					break;
-				case 'env' :
-					$classname = ucfirst( strtolower( DUN_ENV ) ) . ucfirst( $field['type'] ) .'DunFields';
-					break;
-				case 'mod' :
-					$classname = ucfirst( $module ) . ucfirst( $field['type'] ) . 'DunFields';
-					break; 
-			}
-			
-			if (! array_key_exists( 'name', $field ) ) $field['name'] = $name;
-			$form[$name]	= new $classname( $field );
+			$this->addField( $name, $field, $moduleform );
 		}
 		
+		return;
 		return $form;
 	}
 	
