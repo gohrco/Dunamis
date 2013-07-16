@@ -59,6 +59,19 @@ Please select which application we want to copy this build to
 	</target>
 	
 	
+	<target name="dunamis_copy_joomla25" depends="dunamis_properties">
+			<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_joomla25" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+	
 	<target name="dunamis_copy_whmcs25" depends="dunamis_properties">
 			<echo message=" " />
 			<echo message="Begin Copying Dunamis Locally" />
