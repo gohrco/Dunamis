@@ -25,12 +25,51 @@
 			<fileset refid="dunamis.joomlalibfiles" />
 		</copy>
 		
+		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles" includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles" includes="**/*.*" />
+		
+		<copy todir="${dunamis.local.joomla}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${dunamis.local.joomla}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		
+	</target>
+	
+	
+	<target name="dunamis_copy_to_joomla25" depends="dunamis_properties">
+		
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/" id="dunamis.joomlalibfiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message="[1]  Copying Core Files" />
+		<copy todir="${dunamis.local.joomla}libraries/dunamis/">
+			<fileset refid="dunamis.corefiles" />
+		</copy>
+		<copy todir="${dunamis.local.joomla3}libraries/dunamis/">
+			<fileset refid="dunamis.corefiles" />
+		</copy>
+		
+		
+		<echo message="[2]  Copying Joomla Specific Files" />
+		<copy todir="${dunamis.local.joomla}libraries/dunamis/">
+			<fileset refid="dunamis.joomlalibfiles" />
+		</copy>
+		<copy todir="${dunamis.local.joomla3}libraries/dunamis/">
+			<fileset refid="dunamis.joomlalibfiles" />
+		</copy>
+		
 		
 		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles" includes="**/*.*" />
 		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles" includes="**/*.*" />
 		
 		<copy todir="${dunamis.local.joomla}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
 		<copy todir="${dunamis.local.joomla}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		<copy todir="${dunamis.local.joomla3}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${dunamis.local.joomla3}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
 		
 	</target>
 
