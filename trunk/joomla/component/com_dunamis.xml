@@ -39,6 +39,8 @@
 		
 	</administration>
 	
-	<updateservers />
+	<updateservers>
+		<server type="extension" priority="1" name="Go Higher Updates">https://www.gohigheris.com/updates/dunamis/joomla-component</server>
+	</updateservers>
    
 </extension>

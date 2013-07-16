@@ -26,7 +26,7 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 	protected $_expires		=	86400; // TTL
 	protected $_installpath	=	null;
 	//protected $_url			=	'http://localhost/updates/belong.xml';
-	protected $_url			=	'https://www.gohigheris.com/updates/whmcsmodules/dunamis';
+	protected $_url			=	'https://www.gohigheris.com/updates/dunamis/whmcs-module';
 	protected $_version		=	'@fileVers@';
 	
 	/**
