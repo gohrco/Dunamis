@@ -56,6 +56,7 @@ Please select which packages we want to make
 		<dunamis.build_changelog />
 		
 		<property name="package.whmcs" value="true" />
+		<property name="package.joomla" value="true" />
 		<antcall target="dunamis_package_whmcs" />
 		<antcall target="dunamis_package_joomla" />
 		
