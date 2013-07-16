@@ -3,11 +3,12 @@
 
 class DropdownDunFields extends DunFields
 {
-	protected $_optid				= 'id';
-	protected $_optname				= 'name';
-	protected $options				= array();
-	protected $value				= array();
-	protected $_translateoptions	= true;
+	protected $_optid				=	'id';
+	protected $_optname				=	'name';
+	protected $_optgroup			=	'group';
+	protected $options				=	array();
+	protected $value				=	array();
+	protected $_translateoptions	=	true;
 	
 	public function __construct( $settings = array() )
 	{
@@ -49,14 +50,27 @@ class DropdownDunFields extends DunFields
 		$attr		= array_to_string( array_merge( $this->attributes, $options ) );
 		$optns		= $this->options;
 		
-		$form		= '<select id="' . $id . '" name="'.$name.'" '.$attr.">\n";
-		$oid		= $this->_optid;
-		$oname		= $this->_optname;
+		$form		=	'<select id="' . $id . '" name="'.$name.'" '.$attr.">\n";
+		$oid		=	$this->_optid;
+		$oname		=	$this->_optname;
+		$ogroup		=	$this->_optgroup;
+		$prevgroup	=	false;
 		
 		foreach ( $optns as $optn ) {
 			$optn		=	(object) $optn;
+			if ( isset( $optn->$ogroup ) ) {
+				if ( $prevgroup ) {
+					$form .= '</optgroup>';
+				}
+				$form	.=	'<optgroup label="' . $optn->$ogroup . '">';
+				continue;
+			}
 			$selected	=	( in_array( $optn->$oid, $value ) ? ' selected="selected"' : '' ); 
 			$form		.=	'<option value="' . $optn->$oid . '"' . $selected . '>' . ( $this->_translateoptions ? t( $optn->$oname ) : $optn->$oname ) . "</option>\n";
+		}
+		
+		if ( $prevgroup ) {
+			$form .= '</optgroup>';
 		}
 		
 		return $form . '</select>';

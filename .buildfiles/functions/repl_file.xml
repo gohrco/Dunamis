@@ -11,6 +11,7 @@
 		<attribute name="package" default="${p.PROJECT_NAME}" />
 		<attribute name="version" default="${v.VERSION_REVLONG}" />
 		<attribute name="author" default="" />
+		<attribute name="email" default="${p.PROJECT_EMAIL}" />
 		<attribute name="link" default="" />
 		<attribute name="copyright" default="" />
 		<attribute name="license" default="${p.PROJECT_LICENSE}" />
@@ -34,6 +35,7 @@
 						<token key="packageName" value="@{package}" />
 						<token key="packageVers" value="@{version}" />
 						<token key="packageAuth" value="@{author}" />
+						<token key="packageEmail" value="@{email}" />
 						<token key="packageLink" value="@{link}" />
 						<token key="packageCopy" value="@{copyright}" />
 						<token key="packageLice" value="@{license}" />

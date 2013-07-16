@@ -5,12 +5,13 @@
 	<import file="../includes.xml" />
 	
 	<!-- Include individual files now -->
+	<import file="joomla.xml" />
 	<import file="whmcs.xml" />
 	
 	<target name="dunamis_copy_all" depends="dunamis_properties">
 		
 		<!-- Ask what we should copy -->
-		<input addproperty="copy.select" validargs="All,WHMCS" defaultvalue="All">
+		<input addproperty="copy.select" validargs="All,WHMCS,Joomla" defaultvalue="All">
 
 Please select which application we want to copy this build to
 
@@ -30,11 +31,19 @@ Please select which application we want to copy this build to
 	        </and>
 	     </condition>
 	     
+	     <condition property="copy.joomla">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="Joomla" trim="true" />
+	        </and>
+	     </condition>
+	     
 	    	<echo message=" " />
 			<echo message="Begin Copying Dunamis Locally" />
 			<echo message="-----------------------------------------------------" />
 		<antcall target="dunamis_copy_to_all" />
-		<antcall target="dunamis_copy_to_whmcs" />	
+		<antcall target="dunamis_copy_to_whmcs" />
+		<antcall target="dunamis_copy_to_joomla" />
 			<echo message=" " />
 			<echo message="Completed Copying Dunamis Locally" />
 			<echo message="-----------------------------------------------------" />
@@ -43,8 +52,23 @@ Please select which application we want to copy this build to
 	</target>
 	
 	<target name="dunamis_copy_to_all" depends="dunamis_properties" if="copy.all">
+		<property name="copy.joomla" value="true" />
 		<property name="copy.whmcs" value="true" />
 		<antcall target="dunamis_copy_to_whmcs" />
+		<antcall target="dunamis_copy_to_joomla" />
+	</target>
+	
+	
+	<target name="dunamis_copy_joomla25" depends="dunamis_properties">
+			<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_joomla25" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
 	</target>
 	
 	

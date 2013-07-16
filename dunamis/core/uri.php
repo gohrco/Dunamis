@@ -503,7 +503,7 @@ class DunUri
 		foreach ( $params as $key => $val )
 		{
 			if ( is_array($val) ) {
-				$out[] = JURI::buildQuery($val,$key);
+				$out[] = DunUri :: buildQuery($val,$key);
 				continue;
 			}
 
@@ -731,7 +731,7 @@ class DunUri
 	 */
 	function isInternal($url)
 	{
-		$uri	= & DunUri::getInstance($url);
+		$uri	=	DunUri :: getInstance( $url );
 		$base	=   $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host	=   $uri->toString(array('scheme', 'host', 'port'));
 		if(stripos($base, DunUri::base()) !== 0 && !empty($host)) {
