@@ -122,6 +122,7 @@ class WhmcsDunModule extends DunModule
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@
+	 * @version		1.1.1		- July 2013: DUN-2 to correct for custom path being searched first
 	 *
 	 * @return		array
 	 * @since		1.0.0
@@ -129,12 +130,12 @@ class WhmcsDunModule extends DunModule
 	public static function getModuleTypePaths()
 	{
 		return array(
-				'custom'		=> DUN_ENV_PATH,
 				'addon'			=> DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR,
 				'server'		=> DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'servers' . DIRECTORY_SEPARATOR,
 				'gateways'		=> DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'gateways' . DIRECTORY_SEPARATOR,
 				'registrars'	=> DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'registrars' . DIRECTORY_SEPARATOR,
 				'reports'		=> DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'reports' . DIRECTORY_SEPARATOR,
+				'custom'		=> DUN_ENV_PATH,
 		);
 	}
 	
@@ -268,9 +269,14 @@ class WhmcsDunModule extends DunModule
 		
 		foreach ( $paths as $type => $path ) {
 			if (! is_dir( $path . $module ) ) continue;
+			
+			// ---- BEGIN DUN-2
+			//		Create a verification to ensure we have found our module
+			if (! file_exists( $path . $module . DIRECTORY_SEPARATOR . $module . '.php' ) ) continue;
+			// ---- END DUN-2
+			
 			return $type; 
 		}
-		
 		return null;
 	}
 	
