@@ -126,7 +126,7 @@ abstract class DunDebug extends DunObject
 	 * @return		boolean
 	 * @since		1.0.11
 	 */
-	abstract protected static function isEnabled();
+	protected static function isEnabled() {}
 	
 	
 	/**

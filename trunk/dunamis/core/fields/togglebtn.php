@@ -1,13 +1,13 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * WHMCS Togglebtn field
+ * Togglebtn field
  * @version		@fileVers@
  * 
  * @author		Steven
  * @since		1.0.0
  */
-class WhmcsTogglebtnDunFields extends DunFields
+class TogglebtnDunFields extends DunFields
 {
 	
 	/**
@@ -136,7 +136,7 @@ class WhmcsTogglebtnDunFields extends DunFields
 			$base	= get_baseurl( 'client' );
 			$uri	= DunUri :: getInstance( $base, true );
 			$uri->delVars();
-			$doc->addScript( rtrim( $base, '/' ) . '/includes/dunamis/whmcs/assets/togglebtns.js' );
+			$doc->addScript( rtrim( $base, '/' ) . '/includes/dunamis/core/assets/js/togglebtns.js' );
 			$data	= true;
 		}
 		
