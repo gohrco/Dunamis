@@ -176,7 +176,7 @@ class Dunamis
 		// Handle debug feature
 		$classname	=	ucfirst( strtolower( DUN_ENV ) ) . 'DunDebug';
 		if ( class_exists( $classname ) ) {
-			$classname :: init();
+			call_user_func( "{$classname}::init" );
 		}
 	}
 	
