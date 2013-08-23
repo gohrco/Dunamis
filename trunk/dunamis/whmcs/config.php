@@ -10,10 +10,18 @@ class WhmcsDunConfig extends DunObject
 	 * 
 	 * @since		1.0.0
 	 */
-	public function __construct()
+	public function __construct( $options = array() )
 	{
-		$this->load();
-		$this->sessionLoad();
+		if (! isset( $options['database'] ) )	$options['database'] = true;
+		if (! isset( $options['session'] ) )	$options['session'] = true;
+		
+		if ( $options['database'] ) {
+			$this->load();
+		}
+		
+		if ( $options['session'] ) {
+			$this->sessionLoad();
+		}
 	}
 	
 	
@@ -53,7 +61,7 @@ class WhmcsDunConfig extends DunObject
 				
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunConfig';
-				$instance	= new $classname();
+				$instance	= new $classname( $options );
 			}
 			else {
 				$instance = new self( $options );
@@ -106,9 +114,16 @@ class WhmcsDunConfig extends DunObject
 	{
 		global $whmcs;
 		
-		if (! isset( $whmcs->config ) ) return;
+		if ( isset( $whmcs->config ) ) {
+			$items	=	$whmcs->config;
+		}
+		else if ( isset( $GLOBALS['CONFIG'] ) ) {
+			$items	=	$GLOBALS['CONFIG'];
+		}
+		else {
+			return;
+		}
 		
-		$items	= $whmcs->config;
 		foreach ( $items as $k => $v ) $this->set( $k, $v );
 	}
 	
