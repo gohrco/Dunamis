@@ -30,7 +30,7 @@ class WhmcsDunEnvironment extends DunEnvironment
 		
 		// DUN_ENV_VERSION:  we need to be able to test version
 		if (! defined( 'DUN_ENV_VERSION' ) ) {
-			$config = dunloader( 'config', true );
+			$config = dunloader( 'config', true, array( 'database' => false, 'session' => true ) );
 			$version	= $config->get( 'Version' );
 			define( 'DUN_ENV_VERSION', $version );
 		}
@@ -38,24 +38,32 @@ class WhmcsDunEnvironment extends DunEnvironment
 }
 
 
+/**
+ * Function to get a steting from WHMCS database table
+ * @access		public
+ * @version		@fileVers@ ( $id$ )
+ * @version		1.1.5		- August 2013: must rely on WHMCS database function as our DB handler breaks quote use (DUN-4)
+ * @param		string		- $checkfor: what we are checking for
+ *
+ * @return		boolean
+ * @since		1.0.2
+ */
 function get_errorsetting_whmcs( $checkfor = 'ErrorLevel' )
 {
-	$db = dunloader( 'database', true );
-	
 	switch( $checkfor ) :
 	case 'ErrorLevel' :
-		$db->setQuery( "SELECT `value` FROM tbladdonmodules WHERE `module` = 'dunamis' AND `setting` = 'ErrorLevel'" );
-		$result = $db->loadObject();
+		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'ErrorLevel' ) );
+		$data	=	mysql_fetch_object( $result );
 		
-		if (! $result ) return 'ERROR';
-		else return strtoupper( $result->value );
+		if (! $data ) return 'ERROR';
+		else return strtoupper( $data->value );
 		break;
 	case 'DebugErrors' :
-		$db->setQuery( "SELECT `value` FROM tbladdonmodules WHERE `module` = 'dunamis' AND `setting` = 'DebugErrors'" );
-		$result = $db->loadObject();
+		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'DebugErrors' ) );
+		$data	=	mysql_fetch_object( $result );
 		
-		if (! $result ) return false;
-		else if ( $result->value == 'Yes' ) return true;
+		if (! $data ) return false;
+		else if ( $data->value == 'Yes' ) return true;
 		else return false;
 		
 		break;
@@ -70,20 +78,20 @@ function get_errorsetting_whmcs( $checkfor = 'ErrorLevel' )
 /**
  * Function to see if the Dunamis framework is enabled on WHMCS
  * @version		@fileVers@
+ * @version		1.1.5		- August 2013: must rely on WHMCS database function as our DB handler breaks quote use (DUN-4)
  * 
  * @return		boolean
  * @since		1.0.2
  */
 function is_enabled_on_whmcs()
 {
-	$db = dunloader( 'database', true );
-	$db->setQuery( "SELECT * FROM tbladdonmodules WHERE `module` = 'dunamis'" );
-	$results = $db->loadObjectList();
+	$result	= select_query( 'tbladdonmodules', '*', array( 'module' => 'dunamis' ) );
+	$data	= mysql_fetch_array($result);
 	
-	// Assume if we have the module in the database it must be enabled
-	foreach ( $results as $item ) {
+	foreach ( $data as $item ) {
 		return true;
 	}
+	
 	return false;
 }
 
