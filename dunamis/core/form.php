@@ -233,7 +233,6 @@ class DunForm extends DunObject
 			$this->addField( $name, $field, $moduleform );
 		}
 		
-		return;
 		return $form;
 	}
 	
