@@ -73,6 +73,21 @@ class WhmcsDunConfig extends DunObject
 	
 	
 	/**
+	 * Method to determine if the config has a variable available
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $item: the variable item we are looking for
+	 *
+	 * @return		boolean
+	 * @since		1.1.5
+	 */
+	public function has( $item )
+	{
+		return ( isset( $this->$item ) ? true : false );
+	} 
+	
+	
+	/**
 	 * Loader method
 	 * @access		public
 	 * @version		@fileVers@
