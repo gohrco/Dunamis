@@ -226,14 +226,13 @@ class DunForm extends DunObject
 	 */
 	protected function parseForm( $fields = array(), $moduleform = null )
 	{
-		$form	= self :: $forms[$moduleform];
-		
-		foreach ( $fields as $name => $field )
-		{
+		// Cycle through our fields and add them in
+		foreach ( $fields as $name => $field ) {
 			$this->addField( $name, $field, $moduleform );
 		}
 		
-		return $form;
+		// Return our form (some modules expect the array of objects back)
+		return self :: $forms[$moduleform];
 	}
 	
 	
