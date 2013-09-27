@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="1.6.0" method="upgrade">
+	<name>dunamis</name>
+	<creationDate>@buildDate@</creationDate>
+	<author>@buildAuthor@</author>
+	<authorEmail>@buildEmail@</authorEmail>
+	<authorUrl>@buildUrl@</authorUrl>
+	<copyright>@copyWrite@</copyright>
+	<license>@buildLicense@</license>
+	<version>@fileVers@</version>
+	<description>COM_DUNAMIS_XML_DESCRIPTION</description>
+	
+	<install />			<!-- SQL Runs on install -->
+	<uninstall />		<!-- SQL Runs on uninstall -->
+	<update />			<!-- SQL Runs on update -->
+	
+	<!-- Public front end files -->
+	<files folder="site" />
+		
+	<media destination="com_dunamis" folder="media">
+		<filename>dunamis-16.png</filename>
+	</media>
+	
+	<languages folder="translations/site" />
+	
+	<administration>
+		<menu img="../media/com_dunamis/dunamis-16.png">Dunamis</menu>
+		
+		<!-- Back-end files -->
+		<files folder="admin">
+			<filename>dunamis.php</filename>
+		</files>
+		
+		<languages folder="translations/admin">
+			<language tag="en-GB">en-GB/en-GB.com_dunamis.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_dunamis.menu.ini</language>
+			<language tag="en-GB">en-GB/en-GB.com_dunamis.sys.ini</language>
+		</languages>
+		
+	</administration>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="Go Higher Updates">https://www.gohigheris.com/updates/dunamis/joomla-component</server>
+	</updateservers>
+   
+</extension>
