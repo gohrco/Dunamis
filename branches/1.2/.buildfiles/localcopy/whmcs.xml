@@ -16,39 +16,15 @@
 		</fileset>
 		
 		<echo message="[1]  Copying Core Files" />
-		<copy todir="${dunamis.local.whmcs}includes/">
+		<copy todir="${server.root}${dest}/whmcs/includes/">
 			<fileset refid="dunamis.corefiles" />
 		</copy>
 		
 		<echo message="[2]  Copying WHMCS Specific Files" />
-		<copy todir="${dunamis.local.whmcs}">
+		<copy todir="${server.root}${dest}/whmcs/">
 			<fileset refid="dunamis.whmcsfiles" />
 		</copy>
 		
 	</target>
 
-
-	<target name="dunamis_copy_to_whmcs25" depends="dunamis_properties">
-		
-		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
-			<include name="dunamis/**/*.*" />
-			<include name="*.*" />
-		</fileset>
-		
-		<fileset dir="${dunamis.src.build}/whmcs/" id="dunamis.whmcsfiles">
-			<include name="**/*.*" />
-		</fileset>
-		
-		<echo message="[1]  Copying Core Files" />
-		<copy todir="${dunamis.local.whmcs25}includes/">
-			<fileset refid="dunamis.corefiles" />
-		</copy>
-		
-		<echo message="[2]  Copying WHMCS Specific Files" />
-		<copy todir="${dunamis.local.whmcs25}">
-			<fileset refid="dunamis.whmcsfiles" />
-		</copy>
-		
-	</target>
-	
 </project>
