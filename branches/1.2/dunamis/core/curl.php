@@ -141,16 +141,18 @@ class DunCurl extends DunObject
 	 * Instantiate the object
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		1.2.0		- Oct 2013: permit serialization of curl handler options for multiple instances
 	 * @param		array		- $options: to pass along to instance
 	 * 
 	 * @return		instance of self
 	 * @since		1.0.0
 	 */
-	public static function getInstance()
+	public static function getInstance( $options = array() )
 	{
-		static $instance = null;
+		static $instance	=	array();
+		$serialize			=	serialize( $options );
 		
-		if (! is_object( $instance ) ) {
+		if (! is_object( $instance[$serialize] ) ) {
 			$class		= null;
 			$classes	= array( 'DunCurl' );
 			
@@ -169,10 +171,10 @@ class DunCurl extends DunObject
 				return null;
 			}
 			
-			$instance = new $classname();
+			$instance[$serialize] = new $classname();
 		}
 	
-		return $instance;
+		return $instance[$serialize];
 	}
 	
 	
