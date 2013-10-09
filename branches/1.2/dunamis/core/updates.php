@@ -220,8 +220,6 @@ class DunUpdates extends DunObject
 	 */
 	private function _getCurl( $url = null, $post = array(), $options = array(), $store = false )
 	{
-		$curl	=	dunloader( 'curl', false );
-		
 		// Ensure we have a URL
 		if ( $url == null ) $url = $this->getUrl();
 		
@@ -243,8 +241,26 @@ class DunUpdates extends DunObject
 			$options['FILE']	=	$store;
 		}
 		
-		$restcall	=	'simple_' . $method;
-		$response	=	$curl->$restcall( $url, $post, $options );
+		$dunoptns	=	array(	'url'			=>	$url,
+								'curloptions'	=>	$options,
+								'post'			=>	$post
+				);
+		
+		$curl		=	dunloader( 'curl', false, $dunoptns );
+		$curl->create( $url );
+		
+		if( $method == 'post' ) {
+			$curl->post( $post, $options );
+		}
+		else {
+			$curl->options( $options );
+		}
+		
+		// Execute the Curl Call
+		$response	=	$curl->execute();
+		
+// 		$restcall	=	'simple_' . $method;
+// 		$response	=	$curl->$restcall( $url, $post, $options );
 		
 		//$this->setResponse( $response );
 		$this->setInfo( $curl->info );

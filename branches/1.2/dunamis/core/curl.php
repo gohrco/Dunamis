@@ -152,7 +152,7 @@ class DunCurl extends DunObject
 		static $instance	=	array();
 		$serialize			=	serialize( $options );
 		
-		if (! is_object( $instance[$serialize] ) ) {
+		if (! isset( $instance[$serialize] ) || ! is_object( $instance[$serialize] ) ) {
 			$class		= null;
 			$classes	= array( 'DunCurl' );
 			
@@ -601,7 +601,12 @@ class DunCurl extends DunObject
 		if ( ! empty($this->headers)) {
 			$this->option(CURLOPT_HTTPHEADER, $this->headers);
 		}
-	
+		
+		// Assume we are GETTING 
+		if (! isset( $this->options[CURLOPT_CUSTOMREQUEST] ) ) {
+			$this->option( CURLOPT_CUSTOMREQUEST, 'GET' );
+		}
+		
 		$this->options();
 	
 		// Added output buffering
