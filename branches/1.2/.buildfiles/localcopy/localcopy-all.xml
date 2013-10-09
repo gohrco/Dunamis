@@ -16,12 +16,15 @@
 	
 	<target name="dunamis_copy_all" depends="dunamis_properties">
 		
-		<!-- Ask where we should copy to -->
-		<input addproperty="copy.destination" validargs="All,mods,2.5,3.0" defaultvalue="mods">
-
-Where do you want to copy Dunamis to?
-
-		</input>
+		<if>
+			<not>
+				<isset property="${copy.destination}" />
+			</not>
+			<then>
+				<!-- Ask where we should copy to -->
+				<input addproperty="copy.destination" validargs="All,mods,2.5,3.0" defaultvalue="mods">${line.separator}${line.separator}Where do you want to copy Dunamis to?${line.separator}${line.separator}</input>
+			</then>
+		</if>
 		
 		<!-- Begin logic loop -->
 		<if>
@@ -49,12 +52,15 @@ Where do you want to copy Dunamis to?
 	</target>
 	
 	<target name="dunamis_copy_to_destination">
-		<!-- Ask what we should copy -->
-		<input addproperty="copy.select" validargs="All,WHMCS,Joomla" defaultvalue="All">
-
-Please select which application we want to copy this build to
-
-		</input>
+		
+		<if>
+			<not>
+				<isset property="${copy.select}" />
+			</not>
+			<then>
+				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla" defaultvalue="All">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
+			</then>
+		</if>
 		
 		<condition property="copy.all">
 	        <and>
