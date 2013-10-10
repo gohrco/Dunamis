@@ -59,7 +59,9 @@ class WhmcsDunInput extends DunInput
 			$request= $GLOBALS['_REQUEST'];
 		}
 		
-		$data	= array_merge( array( 'get' => $get, 'post' => $post, 'request' => $request ), $data );
+		$server	=	$GLOBALS['_SERVER'];
+		
+		$data	= array_merge( array( 'get' => $get, 'post' => $post, 'request' => $request, 'server' => $server ), $data );
 		
 		parent :: load( $data );
 	}
