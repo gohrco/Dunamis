@@ -1,16 +1,7 @@
 <?php
 
-define( 'WHMCS', true );
 
-// Bamboo testing
-if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-	require_once '/opt/atlassian/bamboo/Software/Dunamis/dunamis.php';
-}
-else {
-	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
-}
-
-
+require 'bootstrap.php';
 
 class DunamisTest extends PHPUnit_Framework_TestCase
 {

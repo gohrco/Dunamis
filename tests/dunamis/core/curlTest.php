@@ -1,14 +1,7 @@
 <?php
 
-// Bamboo testing
-if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-	require_once '/opt/atlassian/bamboo/Software/Dunamis/dunamis/core/object.php';
-	require_once '/opt/atlassian/bamboo/Software/Dunamis/dunamis/core/curl.php';
-}
-else {
-	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis\core\object.php';
-	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis\core\curl.php';
-}
+
+require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
