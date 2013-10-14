@@ -1,5 +1,5 @@
 <!-- Location of your Eclipse Workspace -->
-LOCATION_ROOTDIR=${bamboo.build.working.directory}/branches/1.2
+LOCATION_ROOTDIR=${bamboo.build.working.directory}
 
 <!-- Location of this projects extensions builds folder -->
 LOCATION_BUILDDIR=/opt/atlassian/bamboo/Software/Dunamis
@@ -8,5 +8,4 @@ LOCATION_BUILDDIR=/opt/atlassian/bamboo/Software/Dunamis
 LOCATION_PACKAGES=/opt/atlassian/bamboo/Software/Dunamis
 
 <!-- Location of local server root directory (not including subdirectories of specific applications -->
-LOCATION_LOCALHOME=/home/jwhmcsco/public_html/hosting/
-LOCATION_LOCALHOME25=/home/jwhmcsco/public_html/
+LOCATION_LOCALHOME=/home/jwhmcsco/public_html
