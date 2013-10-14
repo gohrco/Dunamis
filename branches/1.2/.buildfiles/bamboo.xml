@@ -26,7 +26,7 @@
 	<target name="properties_system">
 		
 		<!-- System Level Properties -->
-		<property name="dunamis.src.dev" value="${build.dir}/branches/1.2" />
+		<property name="dunamis.src.dev" value="${build.dir}" />
 		<property name="dunamis.dst.build" value="${dunamis.local.LOCATION_BUILDDIR}" />
 		<property name="dunamis.src.build" value="${dunamis.dst.build}" />
 		
