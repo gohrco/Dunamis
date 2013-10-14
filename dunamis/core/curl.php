@@ -1,5 +1,7 @@
 <?php
 
+require_once 'object.php';
+
 
 class DunCurl extends DunObject
 {
