@@ -27,13 +27,13 @@
 	<import file="builds/build-all.xml" />
 	
 	<!-- Import Copy Files -->
-	<import file="localcopy/localcopy-all.xml" />
+	<!-- <import file="localcopy/localcopy-all.xml" />-->
 	
 	<!-- Import Packaging Files -->
-	<import file="packaging/packaging-all.xml" />
+	<!-- <import file="packaging/packaging-all.xml" />-->
 	
 	<!-- Import Packaging Files -->
-	<import file="deploy/deploy-all.xml" />
+	<!-- <import file="deploy/deploy-all.xml" />-->
 	
 	<target name="testserver_deploy" depends="build_dunamis">
 		
