@@ -20,7 +20,7 @@
 		
 		<property name="dunamis.config.project" location="config.project" />
 		<property file="${dunamis.config.project}" prefix="dunamis.project" />
-		<echoproperties />
+		
 	</target>
 	
 	<!-- Import Build Files -->
@@ -35,8 +35,8 @@
 	<!-- Import Packaging Files -->
 	<!-- <import file="deploy/deploy-all.xml" />-->
 	
-	<target name="testserver_deploy" depends="build_dunamis">
-		
+	<target name="testserver_deploy" depends="properties_files, properties_system">
+		<echoproperties />
 	</target>
 	
 	
