@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis" basedir="." default="build_dunamis">
+	
+	<!-- The target that calls all the other targets so we dont have to -->
+	<target name="dunamis_properties" depends="properties_files, properties_system" />
+	
+	<!-- Function Import -->
+	<import file="functions/build_changelog.xml" />
+	<import file="functions/create_release.xml" />
+	<import file="functions/repl_dir.xml" />
+	<import file="functions/repl_file.xml" />
+	<import file="functions/zipr_file.xml" />
+	
+	<!-- File Import -->
+	<target name="properties_files">
+		
+		<property name="dunamis.config.bamboo" location="config.bamboo" />
+		<property file="${dunamis.config.local}" prefix="dunamis.local" />
+		
+		<property name="dunamis.config.project" location="config.project" />
+		<property file="${dunamis.config.project}" prefix="dunamis.project" />
+		<echoproperties />
+	</target>
+	
+	<!-- Import Build Files -->
+	<import file="builds/build-all.xml" />
+	
+	<!-- Import Copy Files -->
+	<import file="localcopy/localcopy-all.xml" />
+	
+	<!-- Import Packaging Files -->
+	<import file="packaging/packaging-all.xml" />
+	
+	<!-- Import Packaging Files -->
+	<import file="deploy/deploy-all.xml" />
+	
+	<target name="testserver_deploy" depends="build_dunamis">
+		
+	</target>
+	
+	
+	<target name="properties_system">
+		
+		<!-- System Level Properties -->
+		<property name="dunamis.src.dev" value="${dunamis.local.LOCATION_ROOTDIR}${dunamis.project.PATH}" />
+		<property name="dunamis.dst.build" value="${dunamis.local.LOCATION_BUILDDIR}v${dunamis.project.VERSION}" />
+		<property name="dunamis.dst.package" value="${dunamis.local.LOCATION_PACKAGES}v${dunamis.project.VERSION}" />
+		<property name="dunamis.src.build" value="${dunamis.dst.build}" />
+		
+		<tstamp>
+			<format property="dunamis.TODAY" pattern="yyyy MMMM d" />
+			<format property="dunamis.RELDATE" pattern="yyyy-MM-dd" />
+		</tstamp>
+		
+		<!-- We are adding server.root to permit destination selection -->
+		<property name="server.root" value="${dunamis.local.LOCATION_LOCALHOME}" />
+		<property name="server.joomla2" value="joomla2/" />
+		<property name="server.joomla3" value="joomla3/" />
+		
+		<!-- Copy Level Properties -->
+		<property name="dunamis.local.whmcs" value="${dunamis.local.LOCATION_LOCALHOME}whmcs/" />
+		<property name="dunamis.local.whmcs25" value="${dunamis.local.LOCATION_LOCALHOME25}whmcs/" />
+		
+		<property name="dunamis.local.joomla" value="${dunamis.local.LOCATION_LOCALHOME25}joomla2/" />
+		<property name="dunamis.local.joomla3" value="${dunamis.local.LOCATION_LOCALHOME25}joomla3/" />
+		<!-- Packaging Level Properties -->
+		
+	</target>
+</project> 
