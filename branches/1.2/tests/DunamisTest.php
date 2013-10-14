@@ -1,5 +1,7 @@
 <?php
 
+define( 'WHMCS', true );
+
 // Bamboo testing
 if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
 	require_once '/opt/atlassian/bamboo/Software/Dunamis/dunamis.php';
