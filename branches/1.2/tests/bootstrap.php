@@ -1,23 +1,28 @@
 <?php
 
-//defined( 'WHMCS' ) or define( 'WHMCS', true );
+defined( 'WHMCS' ) or define( 'WHMCS', true );
 
-chdir( 'c:\xampp\www\mods\whmcs' );
-//echo "\n\n" . getcwd()."\n\n"; die();
+// Bamboo testing
+if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+	require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis.php';
+}
+else {
+	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
+}
 
-error_reporting(0);
-include 'init.php';
-/*
-error_reporting(E_ALL);
-var_dump( include "/includes/classes/class.init.php" ); die();
-
-$whmcs = new WHMCS_Init();
-$whmcs = $whmcs->init();
-
-global $CONFIG;
-$CONFIG	=	array(
-		'Version'	=>	'5.2.8',
-		);
-
-
-*/
+spl_autoload_register( function ( $class )  {
+	
+	require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis/core/object.php';
+	
+	if ( strpos( $class, 'Dun' ) ) {
+		require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis/core/' . strtolower( str_replace( 'Dun', '', $class ) ) . '.php';
+	}
+	else if ( strpos( $class, 'Whmcs' ) ) {
+		$base	=	'/home/jwhmcsco/public_html/hosting/includes/dunamis/core/' . strtolower( str_replace( 'Whmcs', '', $class ) ) . '.php';
+		if ( file_exists( $base ) ) {
+			require_once $base;
+		}
+		require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis/whmcs/' . strtolower( str_replace( 'Whmcs', '', $class ) ) . '.php';
+	}
+	
+});
