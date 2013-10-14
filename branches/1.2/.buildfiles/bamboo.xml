@@ -16,7 +16,7 @@
 	<target name="properties_files">
 		
 		<property name="dunamis.config.bamboo" location="config.bamboo" />
-		<property file="${dunamis.config.local}" prefix="dunamis.local" />
+		<property file="${dunamis.config.bamboo}" prefix="dunamis.local" />
 		
 		<property name="dunamis.config.project" location="config.project" />
 		<property file="${dunamis.config.project}" prefix="dunamis.project" />
@@ -26,7 +26,8 @@
 	<target name="properties_system">
 		
 		<!-- System Level Properties -->
-		<property name="dunamis.src.dev" value="${dunamis.local.LOCATION_ROOTDIR}/branches/1.2" />
+		<!-- Note that the build.dir is passed by Bamboo at run time -->
+		<property name="dunamis.src.dev" value="${build.dir}/branches/1.2" />
 		<property name="dunamis.dst.build" value="${dunamis.local.LOCATION_BUILDDIR}" />
 		<property name="dunamis.src.build" value="${dunamis.dst.build}" />
 		
@@ -45,6 +46,37 @@
 		<dunamis.repl_dir />
 	</target>
 	
+	<target name="copy_to_joomla" depends="properties_files, properties_system">
+		
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/"			id="dunamis.joomlalibfiles"			includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles"	includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles"		includes="**/*.*" />
+		
+		<echo message="[1]  Copying Core Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		
+		<echo message="[2]  Copying Joomla Specific Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
+		
+		<echo message="[3]  Copying Joomla Admin Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		
+		<echo message="[4]  Copying Joomla Media Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		
+	</target>
 	
+	<target name="copy_to_whmcs" depends="properties_files, properties_system">
+		
+	</target>
 	
 </project> 
