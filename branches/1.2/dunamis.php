@@ -32,8 +32,13 @@ function &get_dunamis( $module = null )
 	
 	// If this the first go around
 	if (! is_object( $instances ) ) {
-		$instances = new Dunamis();
-		$instances->initialise();
+		$instances	=	new Dunamis();
+		$result		=	$instances->initialise();
+		
+		if ( $result === false ) {
+			$instances	=	null;
+			return $instances;
+		}
 	}
 	
 	// We must specify a module
@@ -158,6 +163,11 @@ class Dunamis
 		
 		// Find the environment
 		$this->_find_environment();
+		
+		// Test for environment
+		if (! defined( 'DUN_ENV' ) ) {
+			return false;
+		}
 		
 		dunimport( 'uri', true );
 		dunimport( 'error', true );
