@@ -26,7 +26,6 @@
 	<target name="properties_system">
 		
 		<!-- System Level Properties -->
-		<!-- Note that the build.dir is passed by Bamboo at run time -->
 		<property name="dunamis.src.dev" value="${build.dir}/branches/1.2" />
 		<property name="dunamis.dst.build" value="${dunamis.local.LOCATION_BUILDDIR}" />
 		<property name="dunamis.src.build" value="${dunamis.dst.build}" />
