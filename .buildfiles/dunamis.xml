@@ -44,4 +44,8 @@
 			<echo message="=====================================================" />
 	</target>
 	
+	
+	<target name="testserver_deploy" depends="build_dunamis">
+		
+	</target>
 </project> 
