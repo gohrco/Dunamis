@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Build All" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_build_all" depends="dunamis_properties">
 			
 			<echo message=" " />
