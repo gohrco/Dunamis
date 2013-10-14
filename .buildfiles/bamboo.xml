@@ -74,8 +74,8 @@
 			<include name="**/*.*" />
 		</fileset>
 		
-		<copy todir="${server.root}includes/"><fileset refid="dunamis.corefiles" /></copy>
-		<copy todir="${server.root}"><fileset refid="dunamis.whmcsfiles" /></copy>
+		<copy todir="${server.whmcs}includes/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.whmcs}"><fileset refid="dunamis.whmcsfiles" /></copy>
 	</target>
 	
 </project> 
