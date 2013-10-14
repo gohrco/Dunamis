@@ -56,15 +56,26 @@
 		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles"	includes="**/*.*" />
 		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles"		includes="**/*.*" />
 		
-		<copy todir="${server.root}${dest}/${server.joomla}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		<copy todir="${server.joomla}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.joomla}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
+		<copy todir="${server.joomla}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${server.joomla}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
 		
 	</target>
 	
 	<target name="copy_to_whmcs" depends="properties_files, properties_system">
 		
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/whmcs/" id="dunamis.whmcsfiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<copy todir="${server.root}includes/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.root}"><fileset refid="dunamis.whmcsfiles" /></copy>
 	</target>
 	
 </project> 
