@@ -2,7 +2,7 @@
 
 
 
-require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
+require_once dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'dunamis.php';
 
 
 
