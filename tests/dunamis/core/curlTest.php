@@ -1,6 +1,7 @@
 <?php
 
-require_once 'C:\Users\Steven\workspace\Dunamis Framework\dunamis\core\curl.php';
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'curl.php';
+
 
 /**
  * Test class for DunCurl.

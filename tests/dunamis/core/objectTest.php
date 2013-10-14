@@ -1,6 +1,7 @@
 <?php
 
-require_once 'C:\Users\Steven\workspace\Dunamis Framework\dunamis\core\object.php';
+require_once dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'object.php';
+
 
 /**
  * Test class for DunObject.
