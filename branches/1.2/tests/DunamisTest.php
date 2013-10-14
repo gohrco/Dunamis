@@ -1,8 +1,12 @@
 <?php
 
-
-
-require_once dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'dunamis.php';
+// Bamboo testing
+if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+	require_once '/opt/atlassian/bamboo/Software/Dunamis/dunamis.php';
+}
+else {
+	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
+}
 
 
 
