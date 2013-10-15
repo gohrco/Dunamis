@@ -1,5 +1,6 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
+require_once( dirname( dirname( dirname( __FILE__ ) ) ) . DIRECTORY_SEPARATOR . 'dbfunctions.php' );
 
 class WhmcsDunEnvironment extends DunEnvironment
 {
