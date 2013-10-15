@@ -6,7 +6,7 @@ $ds	=	 DIRECTORY_SEPARATOR;
 
 // Bamboo testing
 if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-	require_once '/home/jwhmcsco/public_html/hosting/classes/class.init.php';
+	require_once '/home/jwhmcsco/public_html/hosting/includes/classes/class.init.php';
 	require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis.php';
 	require_once '/home/jwhmcsco/public_html/hosting/includes/dbfunctions.php';
 	require_once '/home/jwhmcsco/public_html/hosting/configuration.php';
