@@ -31,6 +31,15 @@ mysql_select_db( $db_name );
 error_reporting(E_ALL);
 
 
+/* --------------- */
+/* Initialize HTTP */
+/* --------------- */
+if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+	global $_SERVER;
+	$_SERVER['HTTP_HOST']	=	'http://jwhmcs.com/hosting/';
+}
+
+
 /* ---------------- */
 /* Initialize WHMCS */
 /* ---------------- */
