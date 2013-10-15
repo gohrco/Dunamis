@@ -210,21 +210,23 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers DunCurl::options
+     * @depends testCreate
      */
-    public function testOptions()
+    public function testOptions( $object )
     {
     	$array	=	array( 'TIMEOUT' => '30', 'RETURNTRANSFER' => true );
-    	$object	=	$this->object->options( $array );
+    	$object	=	$object->options( $array );
     	
     	$this->assertInstanceOf( 'DunCurl', $object );
     }
 
     /**
      * @covers DunCurl::option
+     * @depends testCreate
      */
-    public function testOption()
+    public function testOption( $object )
     {
-    	$object	=	$this->object->option( 'TIMEOUT', '30' );
+    	$object	=	$object->option( 'TIMEOUT', '30' );
     	$this->assertInstanceOf( 'DunCurl', $object );
     }
 
@@ -236,6 +238,8 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
 		$object	=	$this->object->create( 'https://www.gohigheris.com' );
 		
 		$this->assertInstanceOf( 'DunCurl', $object );
+		
+		return $object;
 	}
 	
 	
