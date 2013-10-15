@@ -200,52 +200,45 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers DunCurl::ssl
-     * @todo Implement testSsl().
      */
     public function testSsl()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$object	=	$this->object->ssl();
+    	
+        $this->assertInstanceOf( 'DunCurl', $object );
     }
 
     /**
      * @covers DunCurl::options
-     * @todo Implement testOptions().
      */
     public function testOptions()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$array	=	array( 'TIMEOUT' => '30', 'RETURNTRANSFER' => true );
+    	$object	=	$this->object->options( $array );
+    	
+    	$this->assertInstanceOf( 'DunCurl', $object );
     }
 
     /**
      * @covers DunCurl::option
-     * @todo Implement testOption().
      */
     public function testOption()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$object	=	$this->object->option( 'TIMEOUT', '30' );
+    	$this->assertInstanceOf( 'DunCurl', $object );
     }
 
     /**
      * @covers DunCurl::create
-     * @todo Implement testCreate().
      */
-    public function testCreate()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
+	public function testCreate()
+	{
+		$object	=	$this->object->create( 'https://www.gohigheris.com' );
+		
+		$this->assertInstanceOf( 'DunCurl', $object );
+	}
+	
+	
     /**
      * @covers DunCurl::execute
      * @todo Implement testExecute().
@@ -260,38 +253,32 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers DunCurl::is_enabled
-     * @todo Implement testIs_enabled().
      */
     public function testIs_enabled()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$this->assertTrue( is_bool( $this->object->is_enabled() ) );
     }
 
     /**
      * @covers DunCurl::debug
-     * @todo Implement testDebug().
      */
     public function testDebug()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	ob_start();
+    	$this->object->debug();
+    	$result	=	ob_get_contents();
+    	ob_end_clean();
+    	
+    	$this->assertStringStartsWith( "=============================================", $result );
     }
 
     /**
      * @covers DunCurl::debug_request
-     * @todo Implement testDebug_request().
      */
-    public function testDebug_request()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
+	public function testDebug_request()
+	{
+		$debug = $this->object->debug_request();
+		$this->assertArrayHasKey( 'url', $debug );
+	}
 }
 ?>
