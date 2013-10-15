@@ -34,7 +34,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 				"version"		=> "@fileVers@",
 				"author"		=> t( 'dunamis.config.author' ),
 				"description"	=> t( 'dunamis.config.description' ),
-				"logo"			=> get_baseurl() . 'includes/dunamis/core/assets/dunamis-48.png',
+				"logo"			=> get_baseurl() . 'includes/dunamis/core/assets/img/dunamis-48.png',
 				"language"		=> "english",
 				"fields"		=> array(
 						"DebugErrors"	=> array (
