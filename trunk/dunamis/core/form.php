@@ -144,7 +144,7 @@ class DunForm extends DunObject
 	 * @return		string
 	 * @since		1.0.0
 	 */
-	public function getButton( $type = 'submit', $args )
+	public function getButton( $type = 'submit', $args = array() )
 	{
 		$args	= array_to_string( $args );
 		return '<input type="' . $type . '" ' . $args . ' />';
