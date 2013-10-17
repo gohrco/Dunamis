@@ -45,11 +45,14 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	
     	if ( BAMBOO ) {
     		$this->assertContains( 'index', $uri->getPath() );
+    		$this->assertContains( 'jwhmcs.com', $uri->getHost() );
+    		echo '<pre>'.print_r($uri,1); die();
     	}
     	else {
 	    	$this->assertContains( 'mods/whmcs', $uri->getPath() );
+	    	$this->assertContains( 'localhost.com', $uri->getHost() );
     	}
-    	$this->assertContains( 'localhost.com', $uri->getHost() );
+    	
     	$this->assertFalse( $uri->getScheme() == 'https' );
     	
     }
@@ -118,7 +121,7 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     public function testBasePathOnly( $uri )
     {
     	if ( BAMBOO ) {
-    		$this->assertTrue( DunUri :: base( true ) == '/hosting', DunUri :: base( true ) );
+    		$this->assertTrue( DunUri :: base( true ) == 'hosting', DunUri :: base( true ) );
     	}
     	else {
 	    	$this->assertTrue( DunUri :: base( true ) == '/mods/whmcs' );
