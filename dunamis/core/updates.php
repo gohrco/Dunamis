@@ -139,11 +139,11 @@ class DunUpdates extends DunObject
 			}
 		}
 		
-		$fp	=	@fopen( $target, 'wb' );
+		$fp			=	@fopen( $target, 'wb' );
+		$result		=	false;
 		
 		if ( $fp !== false ) {
 			$adapters	=	$this->getAdapters();
-			$result		=	false;
 			
 			while (! empty( $adapters ) && ( $result === false ) ) {
 				$method	=	'_get' . ucfirst( array_shift( $adapters ) );
