@@ -120,7 +120,7 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     public function testBasePathOnly( $uri )
     {
     	if ( BAMBOO ) {
-    		$this->assertTrue( DunUri :: base( true ) == 'hosting', DunUri :: base( true ) );
+    		$this->assertTrue( DunUri :: base( true ) == '/hosting' );
     	}
     	else {
 	    	$this->assertTrue( DunUri :: base( true ) == '/mods/whmcs' );

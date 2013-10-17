@@ -219,10 +219,10 @@ class DunUri
 			
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 				//Apache CGI
-				$base['path'] =  rtrim(dirname(str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"])), '/\\');
+				$base['path'] =  trim(dirname(str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"])), '/\\');
 			} else {
 				//Others
-				$base['path'] =  rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+				$base['path'] =  trim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
 		}
 		
@@ -278,7 +278,7 @@ class DunUri
 
 		// Get the scheme
 		if ( isset( $path ) ) {
-			$root['path']    = $path;
+			$root['path']    = ltrim( $path, '\//' );
 		}
 
 		return $pathonly === false ? $root['prefix'].$root['path'].'/' : $root['path'];
