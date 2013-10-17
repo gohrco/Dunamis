@@ -55,7 +55,7 @@ class DunObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $value );
 		
 		$this->assertFalse( $object->hasNothing() );
-		return $update;
+		return $object;
 	}
 	
 	
