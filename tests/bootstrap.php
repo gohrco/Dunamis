@@ -34,9 +34,13 @@ error_reporting(E_ALL);
 /* --------------- */
 /* Initialize HTTP */
 /* --------------- */
+global $_SERVER;
 if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-	global $_SERVER;
 	$_SERVER['HTTP_HOST']	=	'http://jwhmcs.com/hosting/';
+}
+else {
+	$_SERVER['HTTP_HOST']	=	'localhost.com';
+	$_SERVER['SCRIPT_NAME']	=	'/mods/whmcs/index.php';
 }
 
 

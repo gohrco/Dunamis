@@ -1,6 +1,25 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Language File
+ * This is the core Language handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
 
+/**
+ * Dunamis Language class handler
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class DunLanguage extends DunObject
 {
 	/**
@@ -11,8 +30,20 @@ class DunLanguage extends DunObject
 	 */
 	protected $_idiom	= null;
 	
+	/**
+	 * Stores the instance of the object
+	 * @access		protected
+	 * @var			object
+	 * @since		1.0.0
+	 */
 	protected static $instance	= null;
 	
+	/**
+	 * Stores the translations of the object
+	 * @access		protected
+	 * @var			array
+	 * @since		1.0.0
+	 */
 	protected $_trans	= array();
 	
 	/**
@@ -80,12 +111,17 @@ class DunLanguage extends DunObject
 	
 		if (! is_object( self :: $instance ) ) {
 			
+			$classname	=	'DunLanguage';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunLanguage';
-				self :: $instance	= new $classname();
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				self :: $instance	= new $classname( $options );
 			}
 			else {
-				self :: $instance = new self( $options );
+				self :: $instance	= new self( $options );
 			}
 		}
 	

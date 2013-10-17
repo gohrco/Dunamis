@@ -1,6 +1,25 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Hooks File
+ * This is the core Hooks handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
 
+/**
+ * DunHooks Object
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class DunHooks extends DunObject
 {
 	
@@ -43,12 +62,17 @@ class DunHooks extends DunObject
 	{
 		if (! is_object( self :: $instance ) ) {
 			
+			$classname	=	'DunLanguage';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunHooks';
-				self :: $instance	= new $classname();
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				self :: $instance	= new $classname( $options );
 			}
 			else {
-				self :: $instance = new self();
+				self :: $instance	= new self( $options );
 			}
 		}
 	

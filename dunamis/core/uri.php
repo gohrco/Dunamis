@@ -134,6 +134,11 @@ class DunUri
 	{
 		static $instances = array();
 		
+		// Force new URI if we are requesting server incase of changes by other calls
+		if ( $uri == 'SERVER' ) {
+			$force = true;
+		}
+		
 		if ( $force && isset( $instances[$uri] ) ) {
 			unset ($instances[$uri]);
 		}
@@ -196,13 +201,15 @@ class DunUri
 	/**
 	 * Gets the base portion of the URI object
 	 * @access		public
+	 * @static
 	 * @version		@fileVers@ ( $id )
+	 * @version		1.2.0		- static declared explicitly
 	 * @param		boolean		- $pathonly: If set will only return the base of the URI [t|F]
 	 * 
 	 * @return		string containing containing the base portion of the URI
 	 * @since		1.0.0
 	 */
-	public function base($pathonly = false)
+	public static function base($pathonly = false)
 	{
 		static $base;
 		
@@ -228,7 +235,7 @@ class DunUri
 	 * @access		public
 	 * @version		@fileVers@
 	 * 
-	 * @since		3.0.2
+	 * @since		1.0.0
 	 */
 	public function cleanForInstaller()
 	{
@@ -250,14 +257,16 @@ class DunUri
 	/**
 	 * Gets the root of the URI object only
 	 * @access		public
+	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @version		1.2.0		- static declared explicitly
 	 * @param		boolean		- $pathonly: If set will send back only the path [t|F]
 	 * @param		string		- $path: If set will return the root with the provided path instead
 	 * 
 	 * @return		string containing the root of the URI
 	 * @since		1.0.0
 	 */
-	public function root($pathonly = false, $path = null)
+	public static function root($pathonly = false, $path = null)
 	{
 		static $root;
 		
@@ -279,12 +288,14 @@ class DunUri
 	/**
 	 * Gets the current URI of the server regardless of the current object
 	 * @access		public
+	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @version		1.2.0		- static declared explicitly
 	 *
 	 * @return		string of the current URI
 	 * @since		1.0.0
 	 */
-	public function current()
+	public static function current()
 	{
 		static $current;
 		
@@ -299,13 +310,14 @@ class DunUri
 	
 	/**
 	 * Takes a URI string and assigns it to the various parts of the object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $uri: the URI to parse
 	 * 
-	 * @param  string		Containing the URI to parse
-	 * 
-	 * @return True on success, false on failure
-	 * @since  3.0.0
+	 * @return		boolean
+	 * @since		1.0.0
 	 */
-	function parse($uri)
+	public function parse( $uri )
 	{
 		$retval = false;
 		$this->_uri = $uri;
@@ -334,14 +346,14 @@ class DunUri
 	
 	/**
 	 * Converts the object to a string
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array		- $parts: contains an array of URI parts to assemble and return (defaults to all)
 	 * 
-	 * @param  array		If set contains an array of URI parts to assemble and return
-	 * 
-	 * @return A string containing the requested parts of the URI
-	 * @since  3.0.0 
-	 * @see    IntObject::toString()
+	 * @return		string containing the requested parts of the URI
+	 * @since		1.0.0
 	 */
-	function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
+	public function toString($parts = array('scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'))
 	{
 		$query = $this->getQuery(); //make sure the query is created
 
@@ -361,14 +373,15 @@ class DunUri
 	
 	/**
 	 * Sets a variable to the query array
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $name: contains the name of the variable to set
+	 * @param		mixed		- $value: contains the value of the variable to set
 	 * 
-	 * @param  string		Contains the name of the variable to set
-	 * @param  varies		Contains the value of the variable to set
-	 * 
-	 * @return If there was a previous value, or null
-	 * @since  3.0.0
+	 * @return		mixed containing previous value or null if not set previously
+	 * @since		1.0.0
 	 */
-	function setVar($name, $value)
+	public function setVar($name, $value)
 	{
 		$tmp = ( isset( $this->_vars[$name] ) ? $this->_vars[$name] : null );
 		//$tmp = @$this->_vars[$name];
@@ -380,30 +393,33 @@ class DunUri
 	
 	/**
 	 * Gets a variable from the query array
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $name: contains the variable to get the value of
+	 * @param		varies		- $default: contains the default value to return if no variable found
 	 * 
-	 * @param  string		Contains the variable to get the value of
-	 * @param  varies		Contains the default value to return if no variable found
-	 * 
-	 * @return Returns the value of the variable or the default if it isn't set
-	 * @since  3.0.0
+	 * @return		mixed value of the variable or the default if it isn't set
+	 * @since		1.0.0
 	 */
-	function getVar($name = null, $default=null)
+	public function getVar( $name = null, $default = null )
 	{
-		if(isset($this->_vars[$name])) {
+		if( isset( $this->_vars[$name] ) ) {
 			return $this->_vars[$name];
 		}
+		
 		return $default;
 	}
 	
 	
 	/**
 	 * Deletes a variable from the query array
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $name: the query variable to delete from the URI
 	 * 
-	 * @param  string		Contains the variable to delete
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function delVar($name)
+	public function delVar($name)
 	{
 		if (in_array($name, array_keys($this->_vars)))
 		{
@@ -420,7 +436,7 @@ class DunUri
 	 * 
 	 * @since		1.0.1
 	 */
-	function delVars()
+	public function delVars()
 	{
 		$vars = $this->_vars;
 		foreach ( $vars as $k => $trash ) $this->delVar( $k );
@@ -429,12 +445,13 @@ class DunUri
 	
 	/**
 	 * Sets the query to the query array
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		mixed		- $query: array or string of URI query variables to set
 	 * 
-	 * @param  string		Contains the query of the URI to parse into the variable array
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setQuery($query)
+	public function setQuery($query)
 	{
 		if(!is_array($query)) {
 			if(strpos($query, '&amp;') !== false)
@@ -455,21 +472,22 @@ class DunUri
 	
 	/**
 	 * Gets the query from the query string
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		boolean		- $toArray: indicates we want the query variables as an array rather than a string
 	 * 
-	 * @param  boolean		If set will return an array rather than string
-	 * 
-	 * @return Returns the query string either as a string or as an array
-	 * @since  3.0.0
+	 * @return		string or array
+	 * @since		1.0.0
 	 */
-	function getQuery($toArray = false)
+	public function getQuery( $toArray = false )
 	{
-		if($toArray) {
+		if( $toArray ) {
 			return $this->_vars;
 		}
 
 		//If the query is empty build it first
-		if(is_null($this->_query)) {
-			$this->_query = $this->buildQuery($this->_vars);
+		if( is_null( $this->_query ) ) {
+			$this->_query = self :: buildQuery($this->_vars);
 		}
 
 		return $this->_query;
@@ -479,14 +497,17 @@ class DunUri
 	
 	/**
 	 * Builds a query from an array
-	 * 
-	 * @param  array		Array containing query variables
-	 * @param  string		If set sets an array string key[akey]
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@ ( $id$ )
+	 * @version		1.2.0		- static declared explicitly
+	 * @param		array		- Array containing query variables
+	 * @param		string		- If set sets an array string key[akey]
 	 * 
 	 * @return String containing the query array or false on failure
-	 * @since  3.0.0		
+	 * @since  1.0.0		
 	 */
-	function buildQuery ($params, $akey = null)
+	public static function buildQuery ($params, $akey = null)
 	{
 		if ( !is_array($params) || count($params) == 0 ) {
 			return false;
@@ -517,11 +538,13 @@ class DunUri
 	
 	/**
 	 * Gets the scheme of the current URI
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing scheme
-	 * @since  3.0.0
+	 * @return		string containing scheme if set
+	 * @since		1.0.0
 	 */
-	function getScheme()
+	public function getScheme()
 	{
 		return $this->_scheme;
 	}
@@ -529,12 +552,13 @@ class DunUri
 	
 	/**
 	 * Sets the scheme of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $scheme: sets the scheme for the uri (http|https|etc)
 	 * 
-	 * @param  string		Contains the scheme to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setScheme($scheme)
+	public function setScheme( $scheme )
 	{
 		$this->_scheme = $scheme;
 	}
@@ -542,11 +566,13 @@ class DunUri
 	
 	/**
 	 * Gets the username of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the username
-	 * @since  3.0.0
+	 * @return		string containing username if set
+	 * @since		1.0.0
 	 */
-	function getUser()
+	public function getUser()
 	{
 		return $this->_user;
 	}
@@ -554,12 +580,13 @@ class DunUri
 	
 	/**
 	 * Sets the username of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $user: contains the username to set
 	 * 
-	 * @param  string		Containing the username to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setUser($user)
+	public function setUser( $user )
 	{
 		$this->_user = $user;
 	}
@@ -567,11 +594,13 @@ class DunUri
 	
 	/**
 	 * Gets the password of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the password
-	 * @since  3.0.0
+	 * @return		string containing password if set
+	 * @since		1.0.0
 	 */
-	function getPass()
+	public function getPass()
 	{
 		return $this->_pass;
 	}
@@ -579,12 +608,13 @@ class DunUri
 	
 	/**
 	 * Sets the password of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $pass: contains the password to set
 	 * 
-	 * @param  string		Contains the password to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setPass($pass)
+	public function setPass( $pass )
 	{
 		$this->_pass = $pass;
 	}
@@ -592,11 +622,13 @@ class DunUri
 	
 	/**
 	 * Gets the hostname of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the hostname
-	 * @since  3.0.0
+	 * @return		string containing hostname if set
+	 * @since		1.0.0
 	 */
-	function getHost()
+	public function getHost()
 	{
 		return $this->_host;
 	}
@@ -604,12 +636,13 @@ class DunUri
 	
 	/**
 	 * Sets the hostname of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $host: the hostname to set
 	 * 
-	 * @param  string		Containing the hostname to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setHost($host)
+	public function setHost( $host )
 	{
 		$this->_host = $host;
 	}
@@ -617,11 +650,13 @@ class DunUri
 	
 	/**
 	 * Gets the port number of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the port number or null if not set
-	 * @since  3.0.0
+	 * @return		string containing port if set
+	 * @since		1.0.0
 	 */
-	function getPort()
+	public function getPort()
 	{
 		return (isset ($this->_port)) ? $this->_port : null;
 	}
@@ -629,12 +664,13 @@ class DunUri
 	
 	/**
 	 * Sets the port number of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $port: the port to set
 	 * 
-	 * @param  string		Contains the port number to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setPort($port)
+	public function setPort( $port )
 	{
 		$this->_port = $port;
 	}
@@ -642,11 +678,13 @@ class DunUri
 	
 	/**
 	 * Gets the path of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the path
-	 * @since  3.0.0
+	 * @return		string containing path if set
+	 * @since		1.0.0
 	 */
-	function getPath()
+	public function getPath()
 	{
 		return $this->_path;
 	}
@@ -654,12 +692,13 @@ class DunUri
 	
 	/**
 	 * Sets the path of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $path: contains the path to set
 	 * 
-	 * @param  string		Contains the path to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setPath($path)
+	public function setPath( $path )
 	{
 		$this->_path = $this->_cleanPath($path);
 	}
@@ -667,11 +706,13 @@ class DunUri
 	
 	/**
 	 * Gets the fragment of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return String containing the fragment
-	 * @since  3.0.0
+	 * @return		string containing fragment
+	 * @since		1.0.0
 	 */
-	function getFragment()
+	public function getFragment()
 	{
 		return $this->_fragment;
 	}
@@ -679,12 +720,13 @@ class DunUri
 	
 	/**
 	 * Sets the fragment of the current URI object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		- $anchor: the fragment to set
 	 * 
-	 * @param  string		Containing the fragment value to set
-	 * 
-	 * @since  3.0.0
+	 * @since		1.0.0
 	 */
-	function setFragment($anchor)
+	public function setFragment( $anchor )
 	{
 		$this->_fragment = $anchor;
 	}
@@ -692,11 +734,13 @@ class DunUri
 	
 	/**
 	 * Checks to see if the URI object is a fragment
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return True if so, false if not
-	 * @since  3.0.0
+	 * @return		boolean
+	 * @since		1.0.0
 	 */
-	function isFragment()
+	public function isFragment()
 	{
 		if (!is_null($this->_scheme)) return false;
 		if (!is_null($this->_host)) return false;
@@ -711,11 +755,13 @@ class DunUri
 	
 	/**
 	 * Checks to see if the URI object is set to SSL
+	 * @access		public
+	 * @version		@fileVers@
 	 * 
-	 * @return True if so, false if not
-	 * @since  3.0.0
+	 * @return		boolean
+	 * @since		1.0.0
 	 */
-	function isSSL()
+	public function isSSL()
 	{
 		return $this->getScheme() == 'https' ? true : false;
 	}
@@ -723,13 +769,14 @@ class DunUri
 	
 	/**
 	 * Checks to see if the URI is actually an internal url
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@
 	 * 
-	 * @param  string		Contains the URL to check
-	 * 
-	 * @return True if it is, false if not
-	 * @since  3.0.0
+	 * @return		boolean
+	 * @since		1.0.0
 	 */
-	function isInternal($url)
+	public static function isInternal($url)
 	{
 		$uri	=	DunUri :: getInstance( $url );
 		$base	=   $uri->toString(array('scheme', 'host', 'port', 'path'));
@@ -743,13 +790,14 @@ class DunUri
 	
 	/**
 	 * Cleans the path of any undesirable values
+	 * @access		private
+	 * @version		@fileVers@
+	 * @param		string		- $path: containing the path to clean
 	 * 
-	 * @param  string		Containing the path to clean
-	 * 
-	 * @return String containing cleaned path
-	 * @since  3.0.0
+	 * @return		string containing cleaned path
+	 * @since		1.0.0
 	 */
-	private function _cleanPath($path)
+	private function _cleanPath( $path )
 	{
 		$path = explode('/', preg_replace('#(/+)#', '/', $path));
 		
@@ -779,11 +827,12 @@ class DunUri
 	
 	/**
 	 * Parses the uri provided
+	 * @access		private
+	 * @version		@fileVers@
+	 * @param		string		- $uri: contains the URI to parse
 	 * 
-	 * @param  string		Contains the URI to parse
-	 * 
-	 * @return An array of URI parts
-	 * @since  3.0.0
+	 * @return		array containing parsed URL
+	 * @since		1.0.0
 	 */
 	private function _parseURL($uri)
 	{

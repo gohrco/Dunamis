@@ -1,6 +1,27 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Form File
+ * This is the core Form handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+// define('DUNAMIS', true);
+// include 'object.php';
 
+/**
+ * DunForm Object
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class DunForm extends DunObject
 {
 	/**
@@ -167,14 +188,18 @@ class DunForm extends DunObject
 	{
 		if (! is_object( self :: $instance ) ) {
 			
+			$classname	=	'DunForm';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunForm';
-				self :: $instance	= new $classname();
+			}
+				
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				self :: $instance	= new $classname( $options );
 			}
 			else {
-				self :: $instance = new self();
+				self :: $instance	= new self( $options );
 			}
-			
 		}
 		
 		return self :: $instance;
@@ -233,38 +258,6 @@ class DunForm extends DunObject
 		
 		// Return our form (some modules expect the array of objects back)
 		return self :: $forms[$moduleform];
-	}
-	
-	
-	public function render( $options = array() )
-	{
-		$data	= array();
-		
-		foreach ( $this->fields as $name => $field ) {
-			$fop	= ( isset( $options['field'] ) ? $options['field'] : array() );
-			$lop	= ( isset( $options['label'] ) ? $options['label'] : array() );
-			$dop	= ( isset( $options['description'] ) ? $options['description'] : array() );
-			$data[]	= (object) array( 'field' => $field->render( $fop ), 'label' => $field->label( $lop ), 'description' => $field->description( $dop ) );
-		}
-		
-		return $data;
-	}
-	
-	
-	public function setAttribute( $item, $name, $value )
-	{
-		if (! isset( $this->fields[$item] ) ) return;
-		$this->fields[$item]->setAttribute( $name, $value );
-	}
-	
-	
-	public function setAttributes( $fields = array(), $attrs = array() )
-	{
-		foreach ( $fields as $item => $vals ) {
-			foreach ( $attrs as $name => $value ) {
-				$this->setAttribute( $item, $name, $value );
-			}
-		}
 	}
 	
 	
@@ -417,5 +410,67 @@ class DunForm extends DunObject
 	public function setValues( $values = array(), $form = null )
 	{
 		return $this->setItems( $values, $form, 'value' );
+	}
+	
+	
+	/**
+	 * @deprecated
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param unknown_type $options
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
+	public function render( $options = array() )
+	{
+		$data	= array();
+	
+		foreach ( $this->fields as $name => $field ) {
+			$fop	= ( isset( $options['field'] ) ? $options['field'] : array() );
+			$lop	= ( isset( $options['label'] ) ? $options['label'] : array() );
+			$dop	= ( isset( $options['description'] ) ? $options['description'] : array() );
+			$data[]	= (object) array( 'field' => $field->render( $fop ), 'label' => $field->label( $lop ), 'description' => $field->description( $dop ) );
+		}
+	
+		return $data;
+	}
+	
+	
+	/**
+	 * @deprecated
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param unknown_type $item
+	 * @param unknown_type $name
+	 * @param unknown_type $value
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
+	public function setAttribute( $item, $name, $value )
+	{
+		if (! isset( $this->fields[$item] ) ) return;
+		$this->fields[$item]->setAttribute( $name, $value );
+	}
+	
+	
+	/**
+	 * @deprecated
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param unknown_type $fields
+	 * @param unknown_type $attrs
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
+	public function setAttributes( $fields = array(), $attrs = array() )
+	{
+		foreach ( $fields as $item => $vals ) {
+			foreach ( $attrs as $name => $value ) {
+				$this->setAttribute( $item, $name, $value );
+			}
+		}
 	}
 }

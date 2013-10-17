@@ -1,4 +1,6 @@
 <?php
+// define('DUNAMIS', true);
+// include 'object.php';
 
 
 /**
