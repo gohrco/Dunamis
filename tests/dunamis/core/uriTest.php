@@ -46,7 +46,6 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( BAMBOO ) {
     		$this->assertContains( 'hosting', $uri->getPath() );
     		$this->assertContains( 'jwhmcs.com', $uri->getHost() );
-    		echo '<pre>'.print_r($uri,1); die();
     	}
     	else {
 	    	$this->assertContains( 'mods/whmcs', $uri->getPath() );
