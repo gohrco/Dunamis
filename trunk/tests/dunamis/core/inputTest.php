@@ -62,7 +62,12 @@ class DunInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetVarString( $input )
 	{
-		$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost.com' );
+		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'jwhmcs.com' );
+		}
+		else {
+			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost.com' );
+		}
 	}
 	
 	

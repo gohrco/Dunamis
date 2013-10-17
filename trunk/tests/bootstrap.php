@@ -6,6 +6,7 @@ $ds	=	 DIRECTORY_SEPARATOR;
 
 // Bamboo testing
 if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+	define( 'BAMBOO', true );
 	require_once '/home/jwhmcsco/public_html/hosting/includes/classes/class.init.php';
 	require_once '/home/jwhmcsco/public_html/hosting/includes/dunamis.php';
 	require_once '/home/jwhmcsco/public_html/hosting/includes/dbfunctions.php';
@@ -13,6 +14,7 @@ if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
 	$rootpath	=	'/home/jwhmcsco/public_html/hosting' . $ds;
 }
 else {
+	define( 'BAMBOO', false );
 	require_once 'C:\xampp\www\mods\whmcs\includes\classes\class.init.php';
 	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
 	require_once 'C:\xampp\www\mods\whmcs\includes\dbfunctions.php';
@@ -36,7 +38,8 @@ error_reporting(E_ALL);
 /* --------------- */
 global $_SERVER;
 if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-	$_SERVER['HTTP_HOST']	=	'http://jwhmcs.com/hosting/';
+	$_SERVER['HTTP_HOST']	=	'jwhmcs.com';
+	$_SERVER['SCRIPT_NAME']	=	'hosting/index.php';
 }
 else {
 	$_SERVER['HTTP_HOST']	=	'localhost.com';

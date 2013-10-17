@@ -119,7 +119,7 @@ class DunUpdatesTest extends PHPUnit_Framework_TestCase
 			$update->setTarget( 'c:\xampp\tmp\update.tmp' );
 		}
 		
-		$value	=	$update->downloadAndStore( $update->getUrl(), array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
+		$value	=	$update->downloadAndStore( $update->getUrl(), null, array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
 		$this->assertTrue( $value !== false );
 	}
 	
