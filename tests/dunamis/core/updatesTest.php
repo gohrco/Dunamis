@@ -120,7 +120,7 @@ class DunUpdatesTest extends PHPUnit_Framework_TestCase
 		}
 		
 		$value	=	$update->downloadAndStore( $update->getUrl(), null, array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
-		$this->assertTrue( $value !== false );
+		$this->assertTrue( $value !== false, $update->getError() );
 	}
 	
 	
