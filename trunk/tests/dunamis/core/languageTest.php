@@ -70,7 +70,7 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @covers DunLanguage::loadLanguage
 	 */
-	public function testLoadLanguage( $language )
+	public function testLoadLanguage()
 	{
 		get_dunamis();
 		$language	=	dunloader( 'language', false );

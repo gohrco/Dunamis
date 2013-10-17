@@ -184,7 +184,7 @@ class DunForm extends DunObject
 	 * @return		object
 	 * @since		1.0.0
 	 */
-	public static function getInstance()
+	public static function getInstance( $options = array() )
 	{
 		if (! is_object( self :: $instance ) ) {
 			
