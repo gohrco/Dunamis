@@ -215,7 +215,7 @@ class DunUri
 		
 		if (! isset( $base ) ) {
 			$uri			= self::getInstance();
-			$base['prefix'] = $uri->toString( array('scheme', 'host', 'port'));
+			$base['prefix'] = rtrim( $uri->toString( array('scheme', 'host', 'port') ), '\//' ) . '/';
 			
 			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
 				//Apache CGI
@@ -272,7 +272,7 @@ class DunUri
 		
 		if (! isset( $root ) ) {
 			$uri	        =	self :: getInstance( self::base() );
-			$root['prefix'] =	$uri->toString( array( 'scheme', 'host', 'port' ) );
+			$root['prefix'] =	rtrim( $uri->toString( array( 'scheme', 'host', 'port' ) ), '\//' ) . '/';
 			$root['path']   =	rtrim( $uri->toString( array( 'path' ) ), '/\\' );
 		}
 
