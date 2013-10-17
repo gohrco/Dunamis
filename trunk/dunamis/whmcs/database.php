@@ -21,6 +21,16 @@ class WhmcsDunDatabase extends DunDatabase
 	 */
 	public function __construct( $options = array() )
 	{
+		// ---- BEGIN INTOUCH-5 / DUN-4
+		//		Quote duplication is failing with In Touch activate
+		global $whmcsmysql;
+		
+		if ( is_resource( $whmcsmysql ) ) {
+			$this->_resource	= & $whmcsmysql;
+			return;
+		}
+		// ---- END INTOUCH-5 / DUN-4
+		
 		// Include the WHMCS configuration file
 		include( DUN_ENV_PATH . 'configuration.php' );
 		

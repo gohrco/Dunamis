@@ -374,13 +374,18 @@ class DunUpdates extends DunObject
 		static $instance = null;
 	
 		if (! is_object( $instance ) ) {
-				
+			
+			$classname	=	'DunUpdates';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunUpdates';
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
 				$instance	= new $classname( $options );
 			}
 			else {
-				$instance = new self( $options );
+				$instance	= new self( $options );
 			}
 		}
 	

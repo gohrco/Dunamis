@@ -1,4 +1,16 @@
-<?php
+<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Input File
+ * This is the core Input handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
 
 /**
@@ -102,6 +114,17 @@ class DunInput extends DunObject
 	public function __construct( $options = array() )
 	{
 		parent :: __construct( $options );
+		
+		if ( get_class() == 'DunInput' ) {
+			$data	=	array(
+					'get'		=>	$_GET,
+					'post'		=>	$_POST,
+					'request'	=>	$_REQUEST,
+					'server'	=>	$_SERVER
+					);
+			
+			$this->load( $data );
+		}
 	}
 	
 	
@@ -120,13 +143,18 @@ class DunInput extends DunObject
 		static $instance = null;
 	
 		if (! is_object( $instance ) ) {
-				
+			
+			$classname	=	'DunInput';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunInput';
-				$instance	= new $classname();
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				$instance	= new $classname( $options );
 			}
 			else {
-				$instance = new self( $options );
+				$instance	= new self( $options );
 			}
 		}
 	
