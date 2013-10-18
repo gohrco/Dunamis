@@ -274,15 +274,17 @@ class DunUri
 		
 		if (! isset( $root ) ) {
 			$uri	        =	self :: getInstance( self::base() );
-			$root['prefix'] =	rtrim( $uri->toString( array( 'scheme', 'host', 'port' ) ), '\//' ) . '/';
+			$root['prefix'] =	rtrim( $uri->toString( array( 'scheme', 'host', 'port' ) ), '\//' );
 			$root['path']   =	trim( $uri->toString( array( 'path' ) ), '/\\' );
 		}
 
 		// Get the scheme
 		if ( isset( $path ) ) {
-			$root['path']    = trim( $path, '\//' );
+			$root['path']    = $path;
 		}
-
+		
+		$root['path']	=	'/' . trim( $root['path'], '\//' );
+		
 		return $pathonly === false ? $root['prefix'].$root['path'] : $root['path'];
 	}
 	
