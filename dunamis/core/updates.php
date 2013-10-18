@@ -257,7 +257,7 @@ class DunUpdates extends DunObject
 		
 		// Execute the Curl Call
 		$response	=	$curl->execute();
-		echo '<pre>'.print_r($curl,1);die();
+		
 // 		$restcall	=	'simple_' . $method;
 // 		$response	=	$curl->$restcall( $url, $post, $options );
 		
