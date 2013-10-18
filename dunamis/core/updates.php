@@ -163,9 +163,6 @@ class DunUpdates extends DunObject
 						$fp		= @fopen($target, 'wb');
 					}
 				}
-				else {
-					return false;
-				}
 			}
 				
 			// If we have no download, close the file pointer
