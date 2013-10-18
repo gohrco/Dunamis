@@ -176,6 +176,8 @@ class DunUpdates extends DunObject
 			if ( file_exists( $target ) ) {
 				@unlink( $target );
 			}
+			
+			$this->setError( 'Unable to retrieve download' );
 		}
 		
 		return $result;
