@@ -214,19 +214,21 @@ class DunUri
 		static $base;
 		
 		if (! isset( $base ) ) {
-			$uri			= self::getInstance();
-			$base['prefix'] = rtrim( $uri->toString( array('scheme', 'host', 'port') ), '\//' ) . '/';
+			$uri			=	self :: getInstance();
+			$base			=	array();
+			$base['prefix']	=	rtrim( $uri->toString( array( 'scheme', 'host', 'port') ), '\//' ) . '/';
 			
-			if (strpos(php_sapi_name(), 'cgi') !== false && !empty($_SERVER['REQUEST_URI'])) {
+			if ( strpos( php_sapi_name(), 'cgi' ) !== false && ! empty( $_SERVER['REQUEST_URI'] ) ) {
 				//Apache CGI
 				$base['path'] =  trim(dirname(str_replace(array('"', '<', '>', "'"), '', $_SERVER["PHP_SELF"])), '/\\');
-			} else {
+			}
+			else {
 				//Others
 				$base['path'] =  trim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 			}
 		}
 		
-		return $pathonly === false ? $base['prefix'].$base['path'].'/' : $base['path'];
+		return $pathonly === false ? $base['prefix'].$base['path'] : '/' . $base['path'];
 	}
 	
 	
@@ -273,15 +275,15 @@ class DunUri
 		if (! isset( $root ) ) {
 			$uri	        =	self :: getInstance( self::base() );
 			$root['prefix'] =	rtrim( $uri->toString( array( 'scheme', 'host', 'port' ) ), '\//' ) . '/';
-			$root['path']   =	rtrim( $uri->toString( array( 'path' ) ), '/\\' );
+			$root['path']   =	trim( $uri->toString( array( 'path' ) ), '/\\' );
 		}
 
 		// Get the scheme
 		if ( isset( $path ) ) {
-			$root['path']    = ltrim( $path, '\//' );
+			$root['path']    = trim( $path, '\//' );
 		}
 
-		return $pathonly === false ? $root['prefix'].$root['path'].'/' : $root['path'];
+		return $pathonly === false ? $root['prefix'].$root['path'] : $root['path'];
 	}
 	
 	
