@@ -113,13 +113,15 @@ class DunUpdatesTest extends PHPUnit_Framework_TestCase
 		$update->setUrl( 'https://www.gohigheris.com/customer-downloads/dunamis-framework/v1.1.5/dunamiswhmcsv1-1-5-zip' );
 		
 		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+			$target	=	'/home/jwhmcsco/public_html/hosting/tmp/updatetest.tmp';
 			$update->setTarget( '/home/jwhmcsco/public_html/hosting/tmp/updatetest.tmp' );
 		}
 		else {
+			$target	=	'c:\xampp\tmp\update.tmp';
 			$update->setTarget( 'c:\xampp\tmp\update.tmp' );
 		}
 		
-		$value	=	$update->downloadAndStore( $update->getUrl(), null, array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
+		$value	=	$update->downloadAndStore( $update->getUrl(), $target, array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
 		$this->assertTrue( $value !== false, $update->getError() );
 	}
 	
