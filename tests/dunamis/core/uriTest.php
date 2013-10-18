@@ -106,10 +106,10 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     public function testBase( $uri )
     {
     	if ( BAMBOO ) {
-    		$this->assertTrue( DunUri :: base() == 'http://jwhmcs.com/hosting/', DunUri :: base() );
+    		$this->assertTrue( DunUri :: base() == 'http://jwhmcs.com/hosting', DunUri :: base() );
     	}
     	else {
-	    	$this->assertTrue( DunUri :: base() == 'http://localhost.com/mods/whmcs/' );
+	    	$this->assertTrue( DunUri :: base() == 'http://localhost.com/mods/whmcs' );
     	}
     }
     
@@ -157,10 +157,10 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     public function testRootWithPath()
     {
     	if ( BAMBOO ) {
-    		$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://jwhmcs.com/mycustompath/test/', DunUri :: root( false, '/mycustompath/test' ) );
+    		$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://jwhmcs.com/mycustompath/test', DunUri :: root( false, '/mycustompath/test' ) );
     	}
     	else {
-	    	$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://localhost.com/mycustompath/test/' );
+	    	$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://localhost.com/mycustompath/test', DunUri :: root( false, '/mycustompath/test' ) );
     	}
     }
     
@@ -169,7 +169,7 @@ class DunUriTest extends PHPUnit_Framework_TestCase
      */
     public function testRootPathOnly()
     {
-    	$this->assertTrue( DunUri :: root( true ) == '/mycustompath/test' );
+    	$this->assertTrue( DunUri :: root( true ) == '/mycustompath/test', DunUri :: root( true ) );
     }
     
     /**
