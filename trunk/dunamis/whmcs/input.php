@@ -29,6 +29,7 @@ class WhmcsDunInput extends DunInput
 	 * Method to load the input into the object
 	 * @access		protected
 	 * @version		@fileVers@
+	 * @version		1.2.0		- Oct 2013: correction for PHP 5.2 and WHMCS 5.2+ issues
 	 * @param		array		- $data: if overloaded can be passed data
 	 * 
 	 * @since		1.0.3
@@ -38,15 +39,22 @@ class WhmcsDunInput extends DunInput
 		$get = $post = $request = array();
 		
 		if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
-			$ca	= $GLOBALS['whmcs'];
 			
-			$reflect	=	new ReflectionObject( $ca );
-			$property	=	$reflect->getProperty( 'input' );
-			$property->setAccessible( true );
-			
-			$post		=	$property->getValue( $ca );
-			$request	=	$property->getValue( $ca );
-			
+			if ( method_exists( 'ReflectionProperty', 'setAccessible' ) ) {
+				$ca	= $GLOBALS['whmcs'];
+				
+				$reflect	=	new ReflectionObject( $ca );
+				$property	=	$reflect->getProperty( 'input' );
+				$property->setAccessible( true );
+				
+				$post		=	$property->getValue( $ca );
+				$request	=	$property->getValue( $ca );
+			}
+			else {
+				$get	= $GLOBALS['_GET'];
+				$post	= $GLOBALS['_POST'];
+				$request= $GLOBALS['_REQUEST'];
+			}
 		}
 		else if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 			global $whmcs;

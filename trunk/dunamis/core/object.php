@@ -49,8 +49,15 @@ class DunObject
 	public function __call( $name, $arguments )
 	{
 		if ( strpos( $name, 'get' ) !== false && strpos( $name, 'get' ) == 0 ) {
-			$var	=	'_' . strtolower( preg_replace( "#^get#", '', $name ) );
-			return $this->$var;
+			$var		=	'_' . strtolower( preg_replace( "#^get#", '', $name ) );
+			$default	=	(! empty( $arguments ) ? array_shift( $arguments ) : false );
+			
+			if (! isset( $this->$var ) ) {
+				return $default;
+			}
+			else {
+				return $this->$var;
+			}
 		}
 	
 		if ( strpos( $name, 'set' ) !== false && strpos( $name, 'set' ) == 0 ) {

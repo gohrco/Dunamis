@@ -1,6 +1,27 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Document File
+ * This is the core Document handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+// define('DUNAMIS', true);
+// include 'object.php';
 
+/**
+ * DunDocument Object
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 class DunDocument extends DunObject
 {
 	
@@ -34,7 +55,7 @@ class DunDocument extends DunObject
 	 * @var			array
 	 * @since		1.0.0
 	 */
-	protected $_styleSheets	= array();
+	protected $_stylesheets	= array();
 	
 	
 	/**
@@ -111,9 +132,9 @@ class DunDocument extends DunObject
 	 */
 	public function addStyleSheet( $url, $type = 'text/css', $media = null, $attribs = array() )
 	{
-		$this->_styleSheets[$url]['mime'] = $type;
-		$this->_styleSheets[$url]['media'] = $media;
-		$this->_styleSheets[$url]['attribs'] = $attribs;
+		$this->_stylesheets[$url]['mime'] = $type;
+		$this->_stylesheets[$url]['media'] = $media;
+		$this->_stylesheets[$url]['attribs'] = $attribs;
 		
 		return $this;
 	}
@@ -156,7 +177,7 @@ class DunDocument extends DunObject
 		$buffer	= null;
 		
 		// Generate stylesheet links
-		foreach ( $this->_styleSheets as $strSrc => $strAttr) {
+		foreach ( $this->_stylesheets as $strSrc => $strAttr) {
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
 			
 			if (! is_null( $strAttr['media'] ) ) {
@@ -223,12 +244,17 @@ class DunDocument extends DunObject
 	
 		if (! is_object( $instance ) ) {
 			
+			$classname	=	'DunDocument';
+			
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunDocument';
-				$instance	= new $classname();
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				$instance	= new $classname( $options );
 			}
 			else {
-				$instance = new self( $options );
+				$instance	= new self( $options );
 			}
 		}
 	

@@ -1,5 +1,27 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
+/**
+ * Dunamis Core Error File
+ * This is the core Error handler of the Dunamis Framework
+ *
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+// define('DUNAMIS', true);
+// include 'object.php';
+
+/**
+ * DunError Object
+ * @version		@fileVers@
+ *
+ * @author		Steven
+ * @since		1.0.0
+ */
 define( 'DUN_NOTICE',	1 );
 define( 'DUN_WARNING',	2 );
 define( 'DUN_ERROR',	4 );
