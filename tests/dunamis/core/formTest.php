@@ -131,9 +131,9 @@ class DunFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetItem( $form )
 	{
-		$form->setItem( 'gid', 'This is a test item description', 'dunamis.testform', 'description' );
+		$form->setItem( 'gid', 'This is a test item description', 'dunamis.testform', 'name' );
 		$field	=	$form->getField( 'gid', 'dunamis.testform' );
-		$this->assertTrue( $field->get( '_description' ) == 'This is a test item description' );
+		$this->assertTrue( $field->getName() == 'This is a test item description' );
 	}
 	
 	

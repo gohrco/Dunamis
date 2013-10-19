@@ -120,6 +120,11 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
      */
 	public function testRenderHeadData( $doc )
 	{
+		$doc->addScript( 'test.js' );
+		$doc->addScriptDeclaration( 'jQuery("#test").val();' );
+		$doc->addStyleSheet( 'test.css' );
+		$doc->addStyleDeclaration( '.main { color: #000000; }' );
+		
 		$head	=	$doc->renderHeadData();
 		
 		$this->assertContains( '<style type="text/css">', $head );
