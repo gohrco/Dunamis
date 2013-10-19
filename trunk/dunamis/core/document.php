@@ -243,7 +243,19 @@ class DunDocument extends DunObject
 		static $instance = null;
 		
 		if (! is_object( $instance ) ) {
-			$instance	=	new self( $options );
+			
+			$classname	=	'DunDocument';
+			
+			if ( defined( 'DUN_ENV' ) && get_called_class() !== $classname ) {
+				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunDocument';
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				$instance	= new $classname( $options );
+			}
+			else {
+				$instance	= new self( $options );
+			}
 		}
 	
 		return $instance;
