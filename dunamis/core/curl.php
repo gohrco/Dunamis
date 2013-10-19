@@ -9,7 +9,7 @@ class DunCurl extends DunObject
 	 * @var			integer
 	 * @since		3.0.0 (0.4)
 	 */
-	private	$count			= 0;
+	public $count			= 0;
 	
 	/**
 	 * Contains the curl response for debugging
@@ -126,14 +126,48 @@ class DunCurl extends DunObject
 	 * @return		redirect to appropriate method
 	 * @since		1.0.0
 	 */
-	public function __call( $method, $arguments )
+	public function __call( $name, $arguments )
 	{
-		if ( in_array( $method, array( 'simple_get', 'simple_post', 'simple_put', 'simple_delete') ) ) {
+		if ( in_array( $name, array( 'simple_get', 'simple_post', 'simple_put', 'simple_delete') ) ) {
 			// Take off the "simple_" and past get/post/put/delete to _simple_call
-			$verb = str_replace( 'simple_', '', $method );
+			$verb = str_replace( 'simple_', '', $name );
 			array_unshift( $arguments, $verb );
 			return call_user_func_array( array( $this, '_simple_call' ), $arguments );
 		}
+		
+		/* GETTER */
+		if ( strpos( $name, 'get' ) !== false && strpos( $name, 'get' ) == 0 ) {
+			$var		=	strtolower( preg_replace( "#^get#", '', $name ) );
+			$default	=	(! empty( $arguments ) ? $arguments[0] : false );
+				
+			if ( isset( $this->$var ) ) {
+				return $this->$var;
+			}
+		}
+		
+		/* SETTER */
+		if ( strpos( $name, 'set' ) !== false && strpos( $name, 'set' ) == 0 ) {
+			// Lets try object properties first
+			$var		=	strtolower( preg_replace( "#^set#", '', $name ) );
+			$value		=	(! empty( $arguments ) ? $arguments[0] : false );
+				
+			if ( property_exists( get_class( $this ), $var ) ) {
+				$this->$var = $value;
+				return $this;
+			}
+		}
+		
+		/* HASER */
+		if ( strpos( $name, 'has' ) !== false && strpos( $name, 'has' ) == 0 ) {
+			// Lets try object properties first
+			$var		=	strtolower( preg_replace( "#^has#", '', $name ) );
+				
+			if ( isset( $this->$var ) && ! empty( $this->$var ) ) {
+				return true;
+			}
+		}
+		
+		return parent :: __call( $name, $arguments );
 	}
 	
 	

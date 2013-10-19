@@ -1,6 +1,6 @@
 <?php
 
-
+/* Bootstrap! */
 require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
@@ -21,6 +21,7 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+    	get_dunamis( 'dunamis' );
         $this->object = new DunCurl;
     }
 
@@ -31,171 +32,159 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
     protected function tearDown()
     {
     }
-
-    /**
-     * @covers DunCurl::__call
-     * @todo Implement test__call().
-     */
-    public function test__call()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
+    
+    
     /**
      * @covers DunCurl::getInstance
      */
     public function testGetInstance()
     {
-    	$instance	=	DunCurl :: getInstance();
+    	$curl	=	DunCurl :: getInstance();
     	
-    	$this->assertInstanceOf( 'DunCurl', $instance );
+    	$this->assertInstanceOf( 'DunCurl', $curl );
+    	return $curl;
     }
+    
 
     /**
-     * @covers DunCurl::_simple_call
-     * @todo Implement test_simple_call().
+     * @covers DunCurl::__call
+     * @depends testGetInstance
      */
-    public function test_simple_call()
+    public function testSetVariable( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$curl->setTarget( 'value' );
+    	$curl->setTest( 'test' );
+    	$curl->setResponse( 'Hi there' );
+    	
+    	$this->assertAttributeContains( 'value', '_target', $curl );
+    	$this->assertAttributeContains( 'test', '_test', $curl );
+    	$this->assertAttributeContains( 'Hi there', 'response', $curl );
+    	return $curl;
     }
-
+    
+    
     /**
-     * @covers DunCurl::simple_ftp_get
-     * @todo Implement testSimple_ftp_get().
+     * @covers DunCurl::__call
+     * @depends testSetVariable
      */
-    public function testSimple_ftp_get()
+    public function testHasVariable( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$value = $curl->hasTarget();
+    	$this->assertTrue( $value, 'Unable to find target value' );
+    
+    	$value = $curl->hasTest();
+    	$this->assertTrue( $value, 'Unable to find test value' );
+    
+    	$this->assertFalse( $curl->hasNothing(), 'object has a nothing property' );
+    	return $curl;
     }
-
+    
+    
     /**
-     * @covers DunCurl::post
-     * @todo Implement testPost().
+     * @covers DunCurl::__call
+     * @depends testSetVariable
      */
-    public function testPost()
+    public function testGetVariable( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers DunCurl::put
-     * @todo Implement testPut().
-     */
-    public function testPut()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
-    }
-
-    /**
-     * @covers DunCurl::delete
-     * @todo Implement testDelete().
-     */
-    public function testDelete()
-    {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$value = $curl->getTarget();
+    	$this->assertTrue( $value == 'value' );
+    
+    	$value = $curl->getTest();
+    	$this->assertTrue( $value == 'test' );
+    	return $curl;
     }
 
     /**
      * @covers DunCurl::set_cookies
-     * @todo Implement testSet_cookies().
+     * @depends testSetVariable
      */
-    public function testSet_cookies()
+    public function testSet_cookies( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$curl->set_cookies( 'cookie=something&monster=gone' );
+    	$options	=	$curl->getOptions();
+    	$this->assertTrue( $options[CURLOPT_COOKIE] == 'cookie=something&monster=gone' );
+    	
+    	$curl->set_cookies( array( 'cookie' => 'something', 'monster' => 'goneagain' ) );
+    	$options	=	$curl->getOptions();
+    	$this->assertTrue( $options[CURLOPT_COOKIE] == 'cookie=something&monster=goneagain' );
     }
 
     /**
      * @covers DunCurl::has_errors
-     * @todo Implement testHas_errors().
+     * @depends testSetVariable
      */
-    public function testHas_errors()
+    public function testHas_errors( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$this->assertFalse( $curl->has_errors() );
+    	$curl->setError_code( '404' );
+    	$curl->setError_string( 'baderror' );
+    	$this->assertTrue( $curl->has_errors() == 'baderror' );
     }
 
     /**
      * @covers DunCurl::http_header
-     * @todo Implement testHttp_header().
+     * @depends testSetVariable
      */
-    public function testHttp_header()
+    public function testHttp_header( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $curl->http_header( 'Content', 'somevaluehere' );
+        $hdrs	=	$curl->getHeaders();
+        
+        $this->assertTrue( is_array( $hdrs ) );
+        $this->assertTrue( $hdrs[0] == 'Content: somevaluehere' );
+        
+        $curl->http_header( 'ContentTwo: is here' );
+        $hdrs	=	$curl->getHeaders();
+        
+        $this->assertTrue( is_array( $hdrs ) );
+        $this->assertTrue( $hdrs[0] == 'Content: somevaluehere' );
+        $this->assertTrue( $hdrs[1] == 'ContentTwo: is here' );
     }
 
     /**
      * @covers DunCurl::http_method
-     * @todo Implement testHttp_method().
+     * @depends testSetVariable
      */
-    public function testHttp_method()
+    public function testHttp_method( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $curl->http_method( 'posted' );
+        $optns	=	$curl->getOptions();
+        $this->assertTrue( $optns[CURLOPT_CUSTOMREQUEST] == 'POSTED' );
     }
 
     /**
      * @covers DunCurl::http_login
-     * @todo Implement testHttp_login().
+     * @depends testSetVariable
      */
-    public function testHttp_login()
+    public function testHttp_login( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $curl->http_login( 'steven', 'password' );
+        $optns	=	$curl->getOptions();
+        $this->assertTrue( $optns[CURLOPT_HTTPAUTH] == CURLAUTH_ANY );
+        $this->assertTrue( $optns[CURLOPT_USERPWD] == 'steven:password' );
     }
 
     /**
      * @covers DunCurl::proxy
-     * @todo Implement testProxy().
+     * @depends testSetVariable
      */
-    public function testProxy()
+    public function testProxy( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $curl->proxy( 'http://www.jwhmcs.com', '8080' );
+        $optns	=	$curl->getOptions();
+        $this->assertTrue( $optns[CURLOPT_HTTPPROXYTUNNEL] );
+        $this->assertTrue( $optns[CURLOPT_PROXY] == 'http://www.jwhmcs.com:8080' );
     }
 
     /**
      * @covers DunCurl::proxy_login
-     * @todo Implement testProxy_login().
+     * @depends testSetVariable
      */
-    public function testProxy_login()
+    public function testProxy_login( $curl )
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+        $curl->proxy_login( 'proxyname', 'proxypass' );
+        $optns	=	$curl->getOptions();
+        $this->assertTrue( $optns[CURLOPT_PROXYUSERPWD] == 'proxyname:proxypass' );
     }
 
     /**
@@ -208,6 +197,19 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf( 'DunCurl', $object );
     }
 
+    /**
+     * @covers DunCurl::create
+     */
+	public function testCreate()
+	{
+		$object	=	$this->object->create( 'https://www.gohigheris.com' );
+		
+		$this->assertInstanceOf( 'DunCurl', $object );
+		
+		return $object;
+	}
+	
+	
     /**
      * @covers DunCurl::options
      * @depends testCreate
@@ -231,28 +233,17 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers DunCurl::create
-     */
-	public function testCreate()
-	{
-		$object	=	$this->object->create( 'https://www.gohigheris.com' );
-		
-		$this->assertInstanceOf( 'DunCurl', $object );
-		
-		return $object;
-	}
-	
-	
-    /**
      * @covers DunCurl::execute
-     * @todo Implement testExecute().
      */
     public function testExecute()
     {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-          'This test has not been implemented yet.'
-        );
+    	$curl	=	dunloader( 'curl', false, array( 'test' => 'something' ) );
+    	
+    	$curl->create( 'https://www.gohigheris.com' );
+    	$result	=	$curl->execute();
+    	
+    	$this->assertTrue( is_string( $result ) );
+    	$this->assertFalse( $curl->has_errors() );
     }
 
     /**

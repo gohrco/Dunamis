@@ -12,8 +12,6 @@
  * @license         @buildLicense@
  */
 
-// define('DUNAMIS', true);
-// include 'object.php';
 
 /**
  * DunForm Object
@@ -193,7 +191,7 @@ class DunForm extends DunObject
 			if ( defined( 'DUN_ENV' ) ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunForm';
 			}
-				
+			
 			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
 				self :: $instance	= new $classname( $options );
 			}

@@ -139,7 +139,7 @@ class WhmcsDunDocument extends DunDocument
 		$buffer	= null;
 		
 		// Generate stylesheet links
-		foreach ( $this->_styleSheets as $strSrc => $strAttr) {
+		foreach ( $this->_stylesheets as $strSrc => $strAttr) {
 			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
 			
 			if (! is_null( $strAttr['media'] ) ) {
