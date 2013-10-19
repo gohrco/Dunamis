@@ -244,6 +244,8 @@ class DunDocument extends DunObject
 	
 		if (! is_object( $instance ) ) {
 			
+			$instance	=	new self( $options );
+			/*
 			$classname	=	'DunDocument';
 			
 			if ( defined( 'DUN_ENV' ) ) {
@@ -255,7 +257,7 @@ class DunDocument extends DunObject
 			}
 			else {
 				$instance	= new self( $options );
-			}
+			}*/
 		}
 	
 		return $instance;
