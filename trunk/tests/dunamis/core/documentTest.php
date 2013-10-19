@@ -38,7 +38,7 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
     public function testGetInstance()
     {
     	get_dunamis( 'dunamis' );
-    	$doc	=	dunloader( 'document', false, array( 'new' => 'object' ) );
+    	$doc	=	dunloader( 'document', false, array( 'force' => true ) );
     	$this->assertTrue( $doc !== null, 'Loader did not return an object' );
     	$this->assertTrue( is_object( $doc ) );
     	$this->assertInstanceOf( 'DunDocument', $doc );
@@ -120,7 +120,7 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
 	public function testRenderHeadData()
 	{
 		get_dunamis( 'dunamis' );
-		$doc	=	dunloader( 'document', false );
+		$doc	=	dunloader( 'document', false, array( 'force' => true ) );
 		
 		$doc->addScript( 'test.js' );
 		$doc->addScriptDeclaration( 'jQuery("#test").val();' );

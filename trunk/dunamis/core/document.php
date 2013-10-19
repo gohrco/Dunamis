@@ -242,6 +242,10 @@ class DunDocument extends DunObject
 	{
 		static $instance = null;
 		
+		if ( isset( $options['force'] ) && $options['force'] === true ) {
+			$instance = null;
+		}
+		
 		if (! is_object( $instance ) ) {
 			
 			$classname	=	'DunDocument';
