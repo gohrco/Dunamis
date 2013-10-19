@@ -21,7 +21,7 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-    	get_dunamis( 'dunamis' );
+    	
     }
 
     /**
@@ -116,10 +116,12 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers DunDocument::renderHeadData
-     * @depends testGetInstance
      */
-	public function testRenderHeadData( $doc )
+	public function testRenderHeadData()
 	{
+		get_dunamis( 'dunamis' );
+		$doc	=	dunloader( 'document', false );
+		
 		$doc->addScript( 'test.js' );
 		$doc->addScriptDeclaration( 'jQuery("#test").val();' );
 		$doc->addStyleSheet( 'test.css' );
