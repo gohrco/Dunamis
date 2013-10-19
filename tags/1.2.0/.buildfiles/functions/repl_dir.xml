@@ -1,0 +1,84 @@
+<project>
+
+	<macrodef name="dunamis.repl_dir">
+		<!-- File Structure -->
+		<attribute name="src" default="" />
+		<attribute name="dest" default="" />
+		<attribute name="pkg" default="" />
+		<attribute name="source" default="${dunamis.src.dev}/@{src}" />
+		<attribute name="destination" default="${dunamis.dst.build}/@{dest}" />
+		<!-- Attributes -->
+		<attribute name="project" default="${p.PROJECT_NAME}" />
+		<attribute name="package" default="${dunamis.project.NAME}" />
+		<attribute name="version" default="${dunamis.project.VERSION}" />
+		<attribute name="author" default="${dunamis.project.AUTHOR}" />
+		<attribute name="email" default="${dunamis.project.EMAIL}" />
+		<attribute name="link" default="${dunamis.project.URL}" />
+		<attribute name="copyright" default="${dunamis.project.COPYRIGHT}" />
+		<attribute name="license" default="${dunamis.project.LICENSE}" />
+		<attribute name="date" default="${dunamis.TODAY}" />
+		
+		<sequential>
+			
+			<delete dir="@{destination}" />
+			<mkdir dir="@{destination}" />
+			
+			<copy todir="@{destination}">
+				<fileset dir="@{source}">
+					<exclude name=".*" />
+					<exclude name="README.rst" />
+					<exclude name=".buildfiles/**" />
+					<exclude name=".buildfiles/**/*.*" />
+					<exclude name=".settings/**" />
+					<exclude name=".settings/**/*.*" />
+					<exclude name="**/*.png" />
+					<exclude name="**/*.jpg" />
+					<exclude name="**/*.gif" />
+					<exclude name="**/*.pdf" />
+				</fileset>
+				<filterchain>
+					<replacetokens>
+						<token key="projectName" value="@{project}" />
+						<token key="packageName" value="@{package}" />
+						<token key="packageVers" value="@{version}" />
+						<token key="packageAuth" value="@{author}" />
+						<token key="packageEmail" value="@{email}" />
+						<token key="packageLink" value="@{link}" />
+						<token key="packageCopy" value="@{copyright}" />
+						<token key="packageLice" value="@{license}" />
+						<token key="packageDate" value="@{date}" />
+						<token key="fileVers" value="@{version}" />
+						<token key="fileDate" value="@{date}" />
+						<!-- Legacy tokens -->
+						<token key="projectName" value="@{project}" />
+						<token key="packageName" value="@{package}" />
+						<token key="fileVers" value="@{version}" />
+						<token key="mainVers" value="@{version}" />
+						<token key="buildDate" value="@{date}" />
+						<token key="copyRight" value="@{copyright}" />
+						<token key="buildAuthor" value="@{author}" />
+						<token key="buildEmail" value="@{email}" />
+						<token key="buildUrl" value="@{link}" />
+						<token key="buildLicense" value="@{license}" />
+					</replacetokens>
+				</filterchain>
+			</copy>
+			
+			<fileset dir="@{source}" id="images">
+				<exclude name="README.rst" />
+				<exclude name=".buildfiles/**/*.*" />
+				<exclude name=".settings/**/*.*" />
+				<include name="**/*.png" />
+				<include name="**/*.jpg" />
+				<include name="**/*.gif" />
+				<include name="**/*.pdf" />
+			</fileset>
+			
+			<copy todir="@{destination}">
+				<fileset refid="images" />
+			</copy>
+			
+		</sequential>
+	</macrodef>
+	
+</project>
