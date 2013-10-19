@@ -38,7 +38,7 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
     public function testGetInstance()
     {
     	get_dunamis( 'dunamis' );
-    	$doc	=	dunloader( 'document' );
+    	$doc	=	dunloader( 'document', false, array( 'new' => 'object' ) );
     	$this->assertTrue( $doc !== null, 'Loader did not return an object' );
     	$this->assertTrue( is_object( $doc ) );
     	$this->assertInstanceOf( 'DunDocument', $doc );
