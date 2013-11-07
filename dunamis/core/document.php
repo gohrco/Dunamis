@@ -250,7 +250,7 @@ class DunDocument extends DunObject
 			
 			$classname	=	'DunDocument';
 			
-			if ( defined( 'DUN_ENV' ) && get_called_class() !== $classname ) {
+			if ( defined( 'DUN_ENV' ) && self :: get_called_class() !== $classname ) {
 				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunDocument';
 			}
 			

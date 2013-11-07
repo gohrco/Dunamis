@@ -68,5 +68,15 @@ class DunObjectTest extends PHPUnit_Framework_TestCase
 		$value = $object->getTest();
 		$this->assertTrue( $value == 'value' );
 	}
+	
+	
+	/**
+	 * @covers DunUpdates::get_called_class
+	 */
+	public function testCalledClass()
+	{
+		$value	=	DunObject :: get_called_class();
+		$this->assertTrue( $value == 'DunObject' );
+	}
 }
 ?>

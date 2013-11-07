@@ -73,4 +73,38 @@ class DunObject
 			return $value;
 		}
 	}
+	
+	
+	/**
+	 * Method to retrieve the called class
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 *
+	 * @return		string
+	 * @since		1.2.1
+	 */
+	public static function get_called_class()
+	{
+		// Rely on Late Static Binds for 5.3+
+		if ( version_compare( PHP_VERSION, '5.3', 'ge' ) ) {
+			return get_called_class();
+		}
+	
+		// 5.2 and below
+		$btArray	=	debug_backtrace();
+	
+		foreach ( $btArray as $bt ) {
+			if ( __METHOD__ == $bt['function'] ) continue;
+			if (! isset( $bt['line'] ) || ! isset( $bt['file'] ) ) continue;
+			if ( empty( $bt['args'] ) ) continue;
+			if ( strpos( $bt['args'][0], 'getInstance' ) === false ) continue;
+			if ( strpos( $bt['args'][0], '::' ) === false ) continue;
+			$parts	=	explode( '::', $bt['args'][0] );
+			$called	=	$parts[0];
+			break;
+		}
+	
+		return $called;
+	}
 }
