@@ -1,6 +1,13 @@
 <?php defined('DUNAMIS') OR exit('No direct script access allowed');
 
-require_once( dirname( dirname( dirname( __FILE__ ) ) ) . DIRECTORY_SEPARATOR . 'dbfunctions.php' );
+// ---- BEGIN DUN-8
+//		Including the WHMCS environment first in Joomla causes fatal error
+$filename	=	dirname( dirname( dirname( __FILE__ ) ) ) . DIRECTORY_SEPARATOR . 'dbfunctions.php';
+
+if ( file_exists( $filename ) ) {
+	require_once $filename;
+}
+// ---- END DUN-8
 
 class WhmcsDunEnvironment extends DunEnvironment
 {
