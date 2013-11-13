@@ -8,7 +8,7 @@
 		<attribute name="source" default="${dunamis.src.dev}/@{src}" />
 		<attribute name="destination" default="${dunamis.dst.build}/@{dest}" />
 		<!-- Attributes -->
-		<attribute name="project" default="${p.PROJECT_NAME}" />
+		<attribute name="project" default="${dunamis.project.NAME}" />
 		<attribute name="package" default="${dunamis.project.NAME}" />
 		<attribute name="version" default="${dunamis.project.VERSION}" />
 		<attribute name="author" default="${dunamis.project.AUTHOR}" />
