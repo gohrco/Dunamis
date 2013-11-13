@@ -51,14 +51,20 @@ class JoomlaDunEnvironment extends DunEnvironment
 		if (! defined( 'DUN_ENV_VERSION' ) ) {
 			
 			$path	=	DUN_ENV_PATH . 'libraries' . DIRECTORY_SEPARATOR;
+			
+			// ---- BEGIN DUN-9
+			//		Installation of Dunamis Library causes fatal error WSOD
 			// We must test for Joomla version
-			if ( file_exists( $filename = $path . 'joomla' . DIRECTORY_SEPARATOR . 'version.php' ) ) {
-				@include_once( $filename );
+			if (! class_exists( 'JVersion' ) ) {
+				if ( file_exists( $filename = $path . 'joomla' . DIRECTORY_SEPARATOR . 'version.php' ) ) {
+					@include_once( $filename );
+				}
+				else {
+					$filename	=	$path . 'cms' . DIRECTORY_SEPARATOR . 'version' . DIRECTORY_SEPARATOR . 'version.php';
+					@include_once( $filename );
+				}
 			}
-			else {
-				$filename	=	$path . 'cms' . DIRECTORY_SEPARATOR . 'version' . DIRECTORY_SEPARATOR . 'version.php';
-				@include_once( $filename );
-			}
+			// ---- END DUN-9
 			
 			if ( class_exists( 'JVersion' ) ) {
 				$version = new JVersion();
