@@ -92,6 +92,14 @@ class DunCurl extends DunObject
 	public	$debugmethod	= null;
 	
 	/**
+	 * We store the options used for curl here
+	 * @access		public
+	 * @var			array
+	 * @since		1.2.2
+	 */
+	public	$debugoptions	=	array();
+	
+	/**
 	 * The posted variables to the curl call
 	 * @access		public
 	 * @var			array
@@ -625,11 +633,20 @@ class DunCurl extends DunObject
 		if ( ! isset($this->options[CURLOPT_FAILONERROR])) {
 			$this->options[CURLOPT_FAILONERROR] = TRUE;
 		}
-	
+		
+		// Test for redirect capabilities
 		if ( ! ini_get('safe_mode') && !ini_get('open_basedir')) {
+			$checkforredirects	=
+			$origredirsetting	=	false;
 			if ( ! isset($this->options[CURLOPT_FOLLOWLOCATION])) {
 				$this->options[CURLOPT_FOLLOWLOCATION] = TRUE;
 			}
+		}
+		// We CANT redirect with curl so we must search the response for redirects
+		else {
+			$checkforredirects	=	true;
+			$origredirsetting	=	( isset( $this->options[CURLOPT_HEADER] ) ? $this->options[CURLOPT_HEADER] : false );
+			$this->options[CURLOPT_HEADER] = TRUE;
 		}
 	
 		if ( ! empty($this->headers)) {
@@ -664,17 +681,54 @@ class DunCurl extends DunObject
 				
 			return FALSE;
 		}
-	
-		// Request successful
-		else {
-			curl_close($this->session);
-			$this->debugresponse	= $this->response;
-			$this->debugmethod		= $this->options[CURLOPT_CUSTOMREQUEST];
-			$this->debugpost		= ( $this->debugmethod == "POST" ? $this->debugpost : array() );
-			$response = $this->response;
-			$this->set_defaults();
-			return $response;
+		else if ( $checkforredirects && ( $this->info['http_code'] == 301 || $this->info['http_code'] == 302 || $this->info['http_code'] == 303 ) ) {
+			$parts		=	explode( "\r\n\r\n", $this->response );
+			$hdrlines	=	explode( "\r\n", $parts[0] );
+			$url		=	null;
+			foreach ( $hdrlines as $hdrline ) {
+				if ( strpos( $hdrline, 'Location: ' ) === false ) continue;
+				$url	=	str_replace( 'Location: ', '', $hdrline );
+				break;
+			}
+			
+			if ( $this->count > 4 ) {
+				$this->count--;
+				$optns	=	$this->options;
+				$optns['Safe Mode or Open Basedir Enabled'] = ( $checkforredirects === true ? 'Yes' : 'No' );
+				$optns['Original HEAD Setting']	=	( $origredirsetting ? 'Yes' : 'No' );
+				$this->debugoptions		=	self :: translateOptions( $optns );
+				$this->debugresponse	= $this->response;
+				$this->debugmethod		= $this->options[CURLOPT_CUSTOMREQUEST];
+				$this->debugpost		= ( $this->debugmethod == "POST" ? $this->debugpost : array() );
+				$response = $this->response;
+				$this->set_defaults();
+				return false;
+			}
+			
+			$this->count++;
+			
+			$this->option( CURLOPT_URL, $url );
+			return $this->execute();
 		}
+		
+		// Catch requests that aren't looking for the header but we had to add it on
+		if ( $checkforredirects && ! $origredirsetting ) {
+			$parts	=	explode( "\r\n\r\n", $this->response, 2 );
+			$this->response	=	array_pop( $parts );
+		}
+		
+		// Request successful
+		curl_close($this->session);
+		$optns	=	$this->options;
+		$optns['Safe Mode or Open Basedir Enabled'] = ( $checkforredirects === true ? 'Yes' : 'No' );
+		$optns['Original HEAD Setting']	=	( $origredirsetting ? 'Yes' : 'No' );
+		$this->debugoptions		=	self :: translateOptions( $optns );
+		$this->debugresponse	= $this->response;
+		$this->debugmethod		= $this->options[CURLOPT_CUSTOMREQUEST];
+		$this->debugpost		= ( $this->debugmethod == "POST" ? $this->debugpost : array() );
+		$response = $this->response;
+		$this->set_defaults();
+		return $response;
 	}
 	
 	
@@ -762,4 +816,174 @@ class DunCurl extends DunObject
 		$this->session = NULL;
 	}
 	
+	
+	/**
+	 * Translates the options array into something usable
+	 * @static
+	 * @access		private
+	 * @version		@fileVers@
+	 * @param		array		$options		The array of options used to curl
+	 *
+	 * @return		array
+	 * @since		1.2.2
+	 */
+	private static function translateOptions( $options = array() )
+	{
+		$data	=	array();
+		$names	=	self :: xCurlOpts();
+		
+		foreach ( $options as $key => $setting ) {
+		
+			if ( isset( $names[$key] ) ) {
+				$name	=	$names[$key];
+			}
+			else {
+				$name	=	$key;
+			}
+			
+			if ( $setting === true || $setting == '1' ) {
+				$value	=	'true';
+			}
+			else if ( $setting === false || $setting == '0' ) {
+				$value	=	'false';
+			}
+			else {
+				$value	=	$setting;
+			}
+			
+			$data[$name]	=	$value;
+		}
+		
+		return $data;
+	}
+	
+	
+	/**
+	 * Stores our array of curloptions for translation
+	 * @static
+	 * @access		private
+	 * @version		@fileVers@
+	 * 
+	 * @return		array 
+	 * @since		1.2.2
+	 */
+	private static function xCurlOpts()
+	{
+		return array(
+				CURLAUTH_ANY => 'CURLAUTH_ANY',
+				CURLAUTH_ANYSAFE => 'CURLAUTH_ANYSAFE',
+				CURLINFO_HEADER_OUT => 'CURLINFO_HEADER_OUT',
+				CURLOPT_AUTOREFERER => 'CURLOPT_AUTOREFERER',
+				CURLOPT_BINARYTRANSFER => 'CURLOPT_BINARYTRANSFER',
+				CURLOPT_BUFFERSIZE => 'CURLOPT_BUFFERSIZE',
+				CURLOPT_CAINFO => 'CURLOPT_CAINFO',
+				CURLOPT_CAPATH => 'CURLOPT_CAPATH',
+				CURLOPT_CERTINFO => 'CURLOPT_CERTINFO',
+				CURLOPT_CLOSEPOLICY => 'CURLOPT_CLOSEPOLICY',
+				CURLOPT_CONNECT_ONLY => 'CURLOPT_CONNECT_ONLY',
+				CURLOPT_CONNECTTIMEOUT => 'CURLOPT_CONNECTTIMEOUT',
+				CURLOPT_CONNECTTIMEOUT_MS => 'CURLOPT_CONNECTTIMEOUT_MS',
+				CURLOPT_COOKIE => 'CURLOPT_COOKIE',
+				CURLOPT_COOKIEFILE => 'CURLOPT_COOKIEFILE',
+				CURLOPT_COOKIEJAR => 'CURLOPT_COOKIEJAR',
+				CURLOPT_COOKIESESSION => 'CURLOPT_COOKIESESSION',
+				CURLOPT_CRLF => 'CURLOPT_CRLF',
+				CURLOPT_CUSTOMREQUEST => 'CURLOPT_CUSTOMREQUEST',
+				CURLOPT_DNS_CACHE_TIMEOUT => 'CURLOPT_DNS_CACHE_TIMEOUT',
+				CURLOPT_DNS_USE_GLOBAL_CACHE => 'CURLOPT_DNS_USE_GLOBAL_CACHE',
+				CURLOPT_EGDSOCKET => 'CURLOPT_EGDSOCKET',
+				CURLOPT_ENCODING => 'CURLOPT_ENCODING',
+				CURLOPT_FAILONERROR => 'CURLOPT_FAILONERROR',
+				CURLOPT_FILE => 'CURLOPT_FILE',
+				CURLOPT_FILETIME => 'CURLOPT_FILETIME',
+				CURLOPT_FOLLOWLOCATION => 'CURLOPT_FOLLOWLOCATION',
+				CURLOPT_FORBID_REUSE => 'CURLOPT_FORBID_REUSE',
+				CURLOPT_FRESH_CONNECT => 'CURLOPT_FRESH_CONNECT',
+				CURLOPT_FTP_CREATE_MISSING_DIRS => 'CURLOPT_FTP_CREATE_MISSING_DIRS',
+				CURLOPT_FTP_USE_EPRT => 'CURLOPT_FTP_USE_EPRT',
+				CURLOPT_FTP_USE_EPSV => 'CURLOPT_FTP_USE_EPSV',
+				CURLOPT_FTPAPPEND => 'CURLOPT_FTPAPPEND',
+				CURLOPT_FTPASCII => 'CURLOPT_FTPASCII',
+				CURLOPT_FTPLISTONLY => 'CURLOPT_FTPLISTONLY',
+				CURLOPT_FTPPORT => 'CURLOPT_FTPPORT',
+				CURLOPT_FTPSSLAUTH => 'CURLOPT_FTPSSLAUTH',
+				CURLOPT_HEADER => 'CURLOPT_HEADER',
+				CURLOPT_HEADERFUNCTION => 'CURLOPT_HEADERFUNCTION',
+				CURLOPT_HTTP_VERSION => 'CURLOPT_HTTP_VERSION',
+				CURLOPT_HTTP200ALIASES => 'CURLOPT_HTTP200ALIASES',
+				CURLOPT_HTTPAUTH => 'CURLOPT_HTTPAUTH',
+				CURLOPT_HTTPGET => 'CURLOPT_HTTPGET',
+				CURLOPT_HTTPHEADER => 'CURLOPT_HTTPHEADER',
+				CURLOPT_HTTPPROXYTUNNEL => 'CURLOPT_HTTPPROXYTUNNEL',
+				CURLOPT_INFILE => 'CURLOPT_INFILE',
+				CURLOPT_INFILESIZE => 'CURLOPT_INFILESIZE',
+				CURLOPT_INTERFACE => 'CURLOPT_INTERFACE',
+				CURLOPT_IPRESOLVE => 'CURLOPT_IPRESOLVE',
+				CURLOPT_KEYPASSWD => 'CURLOPT_KEYPASSWD',
+				CURLOPT_KRB4LEVEL => 'CURLOPT_KRB4LEVEL',
+				CURLOPT_LOW_SPEED_LIMIT => 'CURLOPT_LOW_SPEED_LIMIT',
+				CURLOPT_LOW_SPEED_TIME => 'CURLOPT_LOW_SPEED_TIME',
+				CURLOPT_MAX_RECV_SPEED_LARGE => 'CURLOPT_MAX_RECV_SPEED_LARGE',
+				CURLOPT_MAX_SEND_SPEED_LARGE => 'CURLOPT_MAX_SEND_SPEED_LARGE',
+				CURLOPT_MAXCONNECTS => 'CURLOPT_MAXCONNECTS',
+				CURLOPT_MAXREDIRS => 'CURLOPT_MAXREDIRS',
+				CURLOPT_MUTE => 'CURLOPT_MUTE',
+				CURLOPT_NETRC => 'CURLOPT_NETRC',
+				CURLOPT_NOBODY => 'CURLOPT_NOBODY',
+				CURLOPT_NOPROGRESS => 'CURLOPT_NOPROGRESS',
+				CURLOPT_NOSIGNAL => 'CURLOPT_NOSIGNAL',
+				CURLOPT_PASSWDFUNCTION => 'CURLOPT_PASSWDFUNCTION',
+				CURLOPT_PORT => 'CURLOPT_PORT',
+				CURLOPT_POST => 'CURLOPT_POST',
+				CURLOPT_POSTFIELDS => 'CURLOPT_POSTFIELDS',
+				CURLOPT_POSTQUOTE => 'CURLOPT_POSTQUOTE',
+				CURLOPT_PROGRESSFUNCTION => 'CURLOPT_PROGRESSFUNCTION',
+				CURLOPT_PROTOCOLS => 'CURLOPT_PROTOCOLS',
+				CURLOPT_PROXY => 'CURLOPT_PROXY',
+				CURLOPT_PROXYAUTH => 'CURLOPT_PROXYAUTH',
+				CURLOPT_PROXYPORT => 'CURLOPT_PROXYPORT',
+				CURLOPT_PROXYTYPE => 'CURLOPT_PROXYTYPE',
+				CURLOPT_PROXYUSERPWD => 'CURLOPT_PROXYUSERPWD',
+				CURLOPT_PUT => 'CURLOPT_PUT',
+				CURLOPT_QUOTE => 'CURLOPT_QUOTE',
+				CURLOPT_RANDOM_FILE => 'CURLOPT_RANDOM_FILE',
+				CURLOPT_RANGE => 'CURLOPT_RANGE',
+				CURLOPT_READFUNCTION => 'CURLOPT_READFUNCTION',
+				CURLOPT_REDIR_PROTOCOLS => 'CURLOPT_REDIR_PROTOCOLS',
+				CURLOPT_REFERER => 'CURLOPT_REFERER',
+				CURLOPT_RESUME_FROM => 'CURLOPT_RESUME_FROM',
+				CURLOPT_RETURNTRANSFER => 'CURLOPT_RETURNTRANSFER',
+				CURLOPT_SHARE => 'CURLOPT_SHARE',
+				CURLOPT_SSH_AUTH_TYPES => 'CURLOPT_SSH_AUTH_TYPES',
+				CURLOPT_SSH_HOST_PUBLIC_KEY_MD5 => 'CURLOPT_SSH_HOST_PUBLIC_KEY_MD5',
+				CURLOPT_SSH_PRIVATE_KEYFILE => 'CURLOPT_SSH_PRIVATE_KEYFILE',
+				CURLOPT_SSH_PUBLIC_KEYFILE => 'CURLOPT_SSH_PUBLIC_KEYFILE',
+				CURLOPT_SSL_CIPHER_LIST => 'CURLOPT_SSL_CIPHER_LIST',
+				CURLOPT_SSL_VERIFYHOST => 'CURLOPT_SSL_VERIFYHOST',
+				CURLOPT_SSL_VERIFYPEER => 'CURLOPT_SSL_VERIFYPEER',
+				CURLOPT_SSLCERT => 'CURLOPT_SSLCERT',
+				CURLOPT_SSLCERTPASSWD => 'CURLOPT_SSLCERTPASSWD',
+				CURLOPT_SSLCERTTYPE => 'CURLOPT_SSLCERTTYPE',
+				CURLOPT_SSLENGINE => 'CURLOPT_SSLENGINE',
+				CURLOPT_SSLENGINE_DEFAULT => 'CURLOPT_SSLENGINE_DEFAULT',
+				CURLOPT_SSLKEY => 'CURLOPT_SSLKEY',
+				CURLOPT_SSLKEYPASSWD => 'CURLOPT_SSLKEYPASSWD',
+				CURLOPT_SSLKEYTYPE => 'CURLOPT_SSLKEYTYPE',
+				CURLOPT_SSLVERSION => 'CURLOPT_SSLVERSION',
+				CURLOPT_STDERR => 'CURLOPT_STDERR',
+				CURLOPT_TIMECONDITION => 'CURLOPT_TIMECONDITION',
+				CURLOPT_TIMEOUT => 'CURLOPT_TIMEOUT',
+				CURLOPT_TIMEOUT_MS => 'CURLOPT_TIMEOUT_MS',
+				CURLOPT_TIMEVALUE => 'CURLOPT_TIMEVALUE',
+				CURLOPT_TRANSFERTEXT => 'CURLOPT_TRANSFERTEXT',
+				CURLOPT_UNRESTRICTED_AUTH => 'CURLOPT_UNRESTRICTED_AUTH',
+				CURLOPT_UPLOAD => 'CURLOPT_UPLOAD',
+				CURLOPT_URL => 'CURLOPT_URL',
+				CURLOPT_USERAGENT => 'CURLOPT_USERAGENT',
+				CURLOPT_USERPWD => 'CURLOPT_USERPWD',
+				CURLOPT_VERBOSE => 'CURLOPT_VERBOSE',
+				CURLOPT_WRITEFUNCTION => 'CURLOPT_WRITEFUNCTION',
+				CURLOPT_WRITEHEADER => 'CURLOPT_WRITEHEADER',
+		);
+	}
 }
