@@ -124,6 +124,7 @@ class JoomlaDunConfig extends DunObject
 	 */
 	public function set( $item, $value )
 	{
+		if ( empty( $item ) ) return;
 		$this->$item = $value;
 	}
 }
