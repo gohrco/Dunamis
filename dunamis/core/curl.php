@@ -705,10 +705,24 @@ class DunCurl extends DunObject
 				return false;
 			}
 			
-			$this->count++;
+			// We'll create a new instance of curl for this
+			$method	=	strtolower( $this->options[CURLOPT_CUSTOMREQUEST] );
+			$hdrs	=	$this->headers;
+			$optns	=	$this->options;
 			
-			$this->option( CURLOPT_URL, $url );
-			return $this->execute();
+			$curl	=	dunloader( 'curl', false );
+			$curl->create( $url );
+			
+			if ( $method == 'get' ) {
+				$curl->http_method( 'get' );
+				$curl->options( $this->options );
+			}
+			else {
+				$curl->$method( $this->debugpost, $this->options );
+			}
+			
+			$curl->count	=	$this->count + 1;
+			return $curl->execute();
 		}
 		
 		// Catch requests that aren't looking for the header but we had to add it on
