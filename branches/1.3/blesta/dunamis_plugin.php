@@ -69,11 +69,12 @@ class DunamisPlugin extends Plugin
 	 */
 	public function getLogo()
 	{
-		return	'dunamis' . DIRECTORY_SEPARATOR . 
+		return	'framework' . DIRECTORY_SEPARATOR .
+				'dunamis' . DIRECTORY_SEPARATOR . 
 				'core' . DIRECTORY_SEPARATOR .
 				'assets' . DIRECTORY_SEPARATOR .
 				'img' . DIRECTORY_SEPARATOR  .
-				"dunamis-48.png";
+				"dunonblesta.png";
 	}
 	
 	
@@ -136,16 +137,15 @@ class DunamisPlugin extends Plugin
 	public function init()
 	{
 		// Get and require file
-		$path	=	dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'dunamis.php';
+		$path	=	dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'dunamis.php';
 		require_once $path;
 		
 		// Initialize Dunamis
-		try {
-			get_dunamis();
+		if (! function_exists( 'get_dunamis' ) ) {
+			$this->Input->setErrors( array( 'dunamis'=> array( 'message' => 'Unable to locate the Dunamis Framework - check that it is installed properly') ) );
 		}
-		catch ( Exception $e ) {
-			$this->Input->setErrors( array( 'dunamis'=> array( 'message' => $e->getMessage() ) ) );
-		}
+		
+		get_dunamis();
 	}
 	
 	
@@ -159,7 +159,7 @@ class DunamisPlugin extends Plugin
 	 */
 	public function install( $plugin_id )
 	{
-		require_once 'helper_install.php';
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'blesta' . DIRECTORY_SEPARATOR . 'helpers.php';
 		
 		// Installation Tasks To Perform
 		//     * Get a list of files to change
@@ -177,10 +177,10 @@ class DunamisPlugin extends Plugin
 			}
 				
 			// Rename the file
-			DunHelper :: changeFileExtension( $pdt, 'jblesta-bak' );
+			DunHelper :: changeFileExtension( $pdt, 'dunamis-bak' );
 				
 			// Apply our changes and save
-			$content = DunHelper :: applyDunamisMods( $content );
+			$content = $this->_applyDunamisMods( $content );
 			DunHelper :: writeFile( $pdt, $content );
 		}
 	}
@@ -197,15 +197,15 @@ class DunamisPlugin extends Plugin
 	 */
 	public function uninstall( $plugin_id, $last_instance )
 	{
-		require_once 'helper_install.php';
+		require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'blesta' . DIRECTORY_SEPARATOR . 'helpers.php';
 		
 		// Uninstallation Tasks To Perform
 		//     * Get a list of files to change back
-		//     * Swap jblesta-bak / pdt files
-		//     * Delete .jblesta-bak files
+		//     * Swap dunamis-bak / pdt files
+		//     * Delete .dunamis-bak files
 		
 		// Gather list of files
-		$pdts	=	array_merge( DunHelper :: getFiles( 'structure', 'jblesta-bak' ), DunHelper :: getFiles( 'structure_admin_login', 'jblesta-bak' ) );
+		$pdts	=	array_merge( DunHelper :: getFiles( 'structure', 'dunamis-bak' ), DunHelper :: getFiles( 'structure_admin_login', 'dunamis-bak' ) );
 		
 		// Do the work
 		foreach ( $pdts as $pdt ) {
@@ -227,5 +227,58 @@ class DunamisPlugin extends Plugin
 	public function upgrade( $current_version, $plugin_id )
 	{
 		
+	}
+	
+	
+	/**
+	 * Method to apply the modifications needed to the structure files for Blesta
+	 * @access		private
+	 * @version		@fileVers@
+	 * @param		string		$content		Contains our original pdt content
+	 *
+	 * @return		string						Modified pdt content
+	 * @since		1.3.0
+	 */
+	private function _applyDunamisMods( $content )
+	{
+		$regexes	=	$this->_getRegexes();
+	
+		foreach ( $regexes as $regex ) {
+			preg_match_all( $regex->find, $content, $matches );
+			$content = preg_replace( $regex->find, $regex->repl, $content );
+		}
+	
+		return $content;
+	}
+	
+	
+	/**
+	 * Gets the regular expressions to run against pdt files
+	 * @access		private
+	 * @version		@fileVers@
+	 *
+	 * @return		array of objects		Objects contain the regex and replacement
+	 * @since		1.3.0
+	 */
+	private function _getRegexes()
+	{
+		$data	=	array();
+	
+		$data[]	=	(object) array(
+				'find'	=>	"#(<head>)#i",
+				'repl'	=>	"\$1\n\t<?php echo dunloader('document', true)->renderMetaData() ?>"
+		);
+	
+		$data[]	=	(object) array(
+				'find'	=>	"#(<\/title>)#i",
+				'repl'	=>	"\$1\n\t<?php echo dunloader( 'document', true )->renderHeadData() ?>"
+		);
+	
+		$data[]	=	(object) array(
+				'find'	=>	"#(<\/body>)#i",
+				'repl'	=>	"<?php echo dunloader( 'document', true )->renderFootData() ?>\n\t\$1"
+		);
+	
+		return $data;
 	}
 }

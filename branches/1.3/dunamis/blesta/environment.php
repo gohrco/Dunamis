@@ -42,7 +42,7 @@ class BlestaDunEnvironment extends DunEnvironment
 		
 		// DUN_ENV_PATH:  path to the system environment folder
 		if (! defined( 'DUN_ENV_PATH' ) ) {
-			define( 'DUN_ENV_PATH', dirname( dirname( dirname( __FILE__ ) ) ) . DIRECTORY_SEPARATOR );
+			define( 'DUN_ENV_PATH', ROOTWEBDIR );
 		}
 		
 		dunimport( 'helpers', true, true );

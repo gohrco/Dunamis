@@ -25,7 +25,7 @@
 		</copy>
 		
 		<echo message="[2]  Copying Core Files" />
-		<copy todir="${server.root}${dest}/blesta/plugins/dunamis/">
+		<copy todir="${server.root}${dest}/blesta/plugins/dunamis/framework/">
 			<fileset refid="dunamis.corefiles" />
 		</copy>
 		

@@ -5,63 +5,32 @@ if (! function_exists( 'get_baseurl' ) )
 {
 	function get_baseurl( $location = 'client' )
 	{
-		$uri	= DunUri :: getInstance( 'SERVER', true );
+		$hostname	=	isset( Configure::get( "Blesta.company" )->hostname ) ? Configure::get( "Blesta.company" )->hostname : "";
+		$http		=	"http" . ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] != "off" ? "s" : "" ) . "://";
 		
-		// -----------------------------------------------
-		// First we clean up the uri
-		// -----------------------------------------------
-		// Kill query strings
-		$uri->setQuery( null );
+		$tags		= array(
+				'base_url'		=>	$http . $hostname . "/",
+				'blesta_url'	=>	$http . $hostname . WEBDIR,
+				'client_url'	=>	$http . $hostname . WEBDIR . Configure :: get( 'Route.client' ),
+				'admin_url'		=>	$http . $hostname . WEBDIR . Configure :: get( 'Route.admin' )
+		);
 		
-		// Kill the filename if set
-		$path	= $uri->getPath();
-		$parts	= explode( '/', $path );
-		if ( strstr( end( $parts ), '.php' ) !== false ) {
-			array_pop( $parts );
-			$uri->setPath( implode( '/', $parts ) );
-		}
+		switch ( $location ) :
+		case 'client' :
+			return $tags['blesta_url'];
+			break;
+		case 'admin' :
+			return $tags['admin_url'];
+			break;
+		endswitch;
 		
-		// See if we are in admin but requesting another location
-		if ( is_admin() && $location != 'admin' ) {
-			$path	= $uri->getPath();
-			$parts	= explode( '/', $path );
-				
-			$parts	= array_reverse( $parts );
-				
-			if ( strstr( $parts[0], '.php' ) !== false ) {
-				array_shift( $parts );
-			}
-				
-			array_shift( $parts );
-				
-			$parts	= array_reverse( $parts );
-			$path	= implode( '/', $parts );
-				
-			$uri->setPath( $path . '/' );
-		}
-		// If we are in admin and we are requesting the admin then we are there :)
-		else if ( is_admin() && $location == 'admin' ) {
-			return $uri->toString();
-		}
+		// If we are still here we are looking for a module URL
+		dunimport( 'module', true );
+		$uri	=	DunUri :: getInstance( $tags['blesta_url'], true );
+		$path	=	BlestaDunModule :: locateModuleUrl( $location ) . $location . '/';
 		
-		// -----------------------------------------------
-		// Next switch based on location request
-		// -----------------------------------------------
-		switch ( $location ) {
-			// We are looking for the front end location
-			case 'client' :
-				return $uri->toString();
-				break;
-			// We are looking for the admin location
-			case 'admin' :
-				break;
-			// We are looking for the module location
-			default :
-				$path	= WhmcsDunModule :: locateModuleUrl( $location ) . $location . '/';
-				$uri->setPath( rtrim( $uri->getPath(), '/' ) . $path );
-				return $uri->toString();
-				break;
-		}
+		$uri->setPath( rtrim( $uri->getPath(), '/' ) . $path );
+		return $uri->toString();
 	}
 }
 
@@ -233,15 +202,13 @@ if (! function_exists( 'load_bootstrap' ) )
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( $base . '/includes/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
-		$doc->addStyleSheet( $base . '/includes/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
+		$doc->addStyleSheet( $base . '/plugins/dunamis/framework/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . '/plugins/dunamis/framework/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/plugins/dunamis/framework/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
-		// Older versions of WHMCS require newer jQuery
-		$doc->makeCompatible( '5.2' );
+		$doc->addScript( $base . '/plugins/dunamis/framework/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/plugins/dunamis/framework/dunamis/core/assets/js/bootstrapSwitch.js' );
 		
-		$doc->addScript( $base . '/includes/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
-		$doc->addScript( $base . '/includes/dunamis/core/assets/js/bootstrapSwitch.js' );
 	}
 }
 
@@ -281,5 +248,170 @@ if (! function_exists( 'remove_filename' ) )
 		$uri->setPath( implode( '/', $parts ) );
 		
 		return $uri;
+	}
+}
+
+
+
+/**
+ * Dunamis Installation Helper
+ * @desc		This file is a helper file used to install the Dunamis Framework on Blesta
+ * @package		Dunamis
+ * @subpackage	Blesta
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
+class DunHelper
+{
+
+	/**
+	 * Method to change the file extension for a path/file
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		$file		The path/filename to work on
+	 * @param		string		$ext		The new extension to use [bak]
+	 * @param		boolean		$ow			Indicates we should overwrite an existing file w/ the new extension [TRUE|false]
+	 * @param		boolean		$move		Indicates we want to move the file not copy it [TRUE|false]
+	 *
+	 * @return		boolean
+	 * @since		1.3.0
+	 */
+	public static function changeFileExtension( $file, $ext = 'bak', $ow = true, $move = true )
+	{
+		$parsed		=	pathinfo( $file );
+
+		$newfile	=	substr( $file, 0, ( -1 * strlen( $parsed['extension'] ) ) ) . $ext;
+
+		// Unable to overwrite
+		if ( file_exists( $newfile ) && ! $ow ) {
+			return false;
+		}
+		else {
+			unlink ( $newfile );
+		}
+
+		if ( $move ) {
+			rename( $file, $newfile );
+		}
+		else {
+			if ( function_exists( 'copy' ) ) {
+				copy( $file, $newfile );
+			}
+			// work around for disabled copy
+			else {
+				$contentx	=	@file_get_contents( $file );
+				$openedfile	=	fopen( $newfile, "w");
+				fwrite( $openedfile, $contentx );
+				fclose( $openedfile );
+
+				if ( $contentx === FALSE ) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Retrieve files given the name and extension sought
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		$name		The name of the file to search (without extension)
+	 * @param		string		$ext		The file extension we are searching for
+	 *
+	 * @return		array					An array of filenames with full paths matching the name and extension sought
+	 * @since		1.3.0
+	 */
+	public static function getFiles( $name = 'structure', $ext = 'pdt' )
+	{
+		$paths	=	self :: _readDirectories();
+		$files	=	array();
+		$name	=	$name . '.' . $ext;
+
+		foreach ( $paths as $path ) {
+			if (! file_exists( $path . $name ) ) continue;
+			if ( is_readable( $path . $name ) ) {
+				$files[]	=	$path . $name;
+			}
+		}
+
+		return $files;
+	}
+
+
+	/**
+	 * Method to read a file
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		$file		The path/file to read
+	 *
+	 * @return		string|false			Either the contents of the file or false on failure
+	 * @since		1.3.0
+	 */
+	public static function readFile( $file )
+	{
+		if ( file_exists( $file ) && is_readable( $file ) && function_exists( 'file_get_contents' ) ) {
+			return file_get_contents( $file );
+		}
+
+		return false;
+	}
+
+
+	/**
+	 * Method to write to a file
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		$file		The path/file to write to
+	 * @param		string		$content	The content of the new file
+	 * @param		boolean		$ow			Indicates we should overwrite an existing file [true|FALSE]
+	 *
+	 * @return		boolean
+	 * @since		1.3.0
+	 */
+	public static function writeFile( $file, $content, $ow = false )
+	{
+		if ( file_exists( $file ) && $ow === false ) {
+			return false;
+		}
+
+		return file_put_contents( $file, $content );
+	}
+
+
+	/**
+	 * Method to read directories for directories recursively
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string		$dir		The directory to walk [VIEWDIR]
+	 *
+	 * @return		array					Contains an array of directories found
+	 * @since		1.3.0
+	 */
+	private static function _readDirectories( $dir = VIEWDIR )
+	{
+		$dh		=	opendir( $dir );
+		$dirs	=	array();
+
+		while ( false !== ( $entry = readdir( $dh ) ) ) {
+			if ( in_array( $entry, array( '.', '..' ) ) ) continue;
+			if ( is_dir( $dir . $entry ) ) {
+				$dirs[]		=	$dir . $entry . DIRECTORY_SEPARATOR;
+				$subdirs	=	self :: _readDirectories( $dir . $entry . DIRECTORY_SEPARATOR );
+				foreach ( $subdirs as $sub ) $dirs[]	=	$sub;
+				continue;
+			}
+		}
+
+		return $dirs;
 	}
 }
