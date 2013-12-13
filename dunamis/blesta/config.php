@@ -31,7 +31,11 @@ class BlestaDunConfig extends DunObject
 	 */
 	public function __construct( $options = array() )
 	{
+		if (! isset( $options['database'] ) )	$options['database'] = true;
 		
+		if ( $options['database'] ) {
+			$this->load();
+		}
 	}
 	
 	
@@ -46,7 +50,7 @@ class BlestaDunConfig extends DunObject
 	 */
 	public function get( $item )
 	{
-		$item	=	Configure :: get( $item );
+		$item	=	Configure :: get( 'Dunamis.' . $item );
 		
 		if ( $item != null ) {
 			return $item;
@@ -96,7 +100,7 @@ class BlestaDunConfig extends DunObject
 	 */
 	public function has( $item )
 	{
-		return Configure :: exists( $item );
+		return Configure :: exists( 'Dunamis.' . $item );
 	} 
 	
 	
@@ -111,6 +115,7 @@ class BlestaDunConfig extends DunObject
 	 */
 	public function set( $item, $value )
 	{
-		Configure :: set ( $item, $value );
+		// Lets namespace to avoide conflicts
+		Configure :: set ( 'Dunamis.' . $item, $value );
 	}
 }

@@ -23,6 +23,8 @@
 class BlestaDunDocument extends DunDocument
 {
 	
+	public $docvars	=	array();
+	
 	static public $iscompat	= false;
 	
 	/**
@@ -36,6 +38,40 @@ class BlestaDunDocument extends DunDocument
 	public function __construct( $options = array() )
 	{
 		parent :: __construct( $options );
+	}
+	
+	
+	/**
+	 * Method to get an individual variable from the object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string			The name of the variable we want
+	 * @param		mixed			The default value in case it isn't set (optional)[FALSE]
+	 * 
+	 * @return		mixed
+	 * @since		1.0.0
+	 */
+	public function getVar( $name, $default = false )
+	{
+		if ( isset( $this->docvars[$name] ) ) {
+			return $this->docvars[$name];
+		}
+		
+		return $default;
+	}
+	
+	
+	/**
+	 * Method to get all the variables set in the object
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @return		array			Contains the variables that have been set in the object
+	 * @since		1.0.0
+	 */
+	public function getVars()
+	{
+		return $this->docvars;
 	}
 	
 	
@@ -109,8 +145,11 @@ class BlestaDunDocument extends DunDocument
 	{
 		$lnEnd	= "\12";
 		$tab	= "\11";
-		$buffer	= null;
-	
+		
+		// Include our jQuery library first
+		$base	=	get_baseurl( 'dunamis' );
+		$buffer	=	$tab . '<script src="' . $base . 'framework/dunamis/core/assets/js/jquery.1-10-2.js" type="text/javascript"></script>';
+		
 		// Generate script file links
 		foreach ( $this->_scripts as $strSrc => $strAttr ) {
 			$buffer .= $tab . '<script src="' . $strSrc . '"';
@@ -140,7 +179,10 @@ class BlestaDunDocument extends DunDocument
 			$buffer .= $content . $lnEnd;
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
-	
+		
+		// Now we have to revert the jQuery back to Blesta
+		$buffer .= $tab . '<script type="text/javascript">jqdun = $.noConflict( true );</script>';
+		
 		return $buffer;
 	}
 	
@@ -196,6 +238,24 @@ class BlestaDunDocument extends DunDocument
 	public function renderMetaData()
 	{
 		return null;
+	}
+	
+	
+	/**
+	 * Method to set a variable into the object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string			The name of the variable we want to set
+	 * @param		mixed			The value we are setting
+	 * 
+	 * @return		mixed			The original value or false if not set previously
+	 * @since		1.0.0
+	 */
+	public function setVar( $name, $value )
+	{
+		$previous = $this->getVar( $name, false );
+		$this->docvars[$name] = $value;
+		return $previous;
 	}
 	
 	
