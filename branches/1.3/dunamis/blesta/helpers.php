@@ -322,15 +322,16 @@ class DunHelper
 	 * @static
 	 * @access		public
 	 * @version		@fileVers@
-	 * @param		string		$name		The name of the file to search (without extension)
-	 * @param		string		$ext		The file extension we are searching for
+	 * @param		string				The name of the file to search (without extension)
+	 * @param		string				The file extension we are searching for
+	 * @param		string				The directory to search through
 	 *
-	 * @return		array					An array of filenames with full paths matching the name and extension sought
+	 * @return		array				An array of filenames with full paths matching the name and extension sought
 	 * @since		1.3.0
 	 */
-	public static function getFiles( $name = 'structure', $ext = 'pdt' )
+	public static function getFiles( $name = 'structure', $ext = 'pdt', $dir = VIEWDIR )
 	{
-		$paths	=	self :: _readDirectories();
+		$paths	=	self :: _readDirectories( $dir );
 		$files	=	array();
 		$name	=	$name . '.' . $ext;
 
@@ -397,7 +398,7 @@ class DunHelper
 	 * @return		array					Contains an array of directories found
 	 * @since		1.3.0
 	 */
-	private static function _readDirectories( $dir = VIEWDIR )
+	private static function _readDirectories( $dir )
 	{
 		$dh		=	opendir( $dir );
 		$dirs	=	array();
