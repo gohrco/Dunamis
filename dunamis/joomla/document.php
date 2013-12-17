@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Joomla Dunamis Document File
- * This is the environment handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * Joomla Dunamis Document class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.1.0
+ * Dunamis Document class for Joomla
+ * @desc		This handles document requests for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class JoomlaDunDocument extends DunDocument
 {
@@ -46,7 +47,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @param		boolean		- $async: adds the async attribute
 	 *
 	 * @return		self to permit chaining
-	 * @since		1.0.0
+	 * @since		1.1.0
 	 */
 	public function addScript( $url, $type = 'text/javascript', $defer = false, $async = false )
 	{
@@ -65,7 +66,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @param		string		- $type: the type of script
 	 *
 	 * @return		self to permit chaining
-	 * @since		1.0.0
+	 * @since		1.1.0
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -86,7 +87,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @param		array		- $attribs: any attributes to set
 	 *
 	 * @return		self to permit chaining
-	 * @since		1.0.0
+	 * @since		1.1.0
 	 */
 	public function addStyleSheet( $url, $type = 'text/css', $media = null, $attribs = array() )
 	{
@@ -104,7 +105,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @param		string		- $type: the type of style we are writing
 	 *
 	 * @return		self to permit chaining
-	 * @since		1.0.0
+	 * @since		1.1.0
 	 */
 	public function addStyleDeclaration( $content, $type = 'text/css' )
 	{

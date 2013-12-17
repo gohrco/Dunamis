@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Joomla Dunamis Database File
- * This is the database handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * Joomla Dunamis Database class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.1.0
+ * Dunamis Database class for Joomla
+ * @desc		This grabs database handler from Joomla for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class JoomlaDunDatabase extends DunDatabase
 {
@@ -37,7 +38,7 @@ class JoomlaDunDatabase extends DunDatabase
 	 * @version		@fileVers@
 	 * @param		array		- $options: contains an array of arguments
 	 * 
-	 * @since		1.0.0
+	 * @since		1.1.0
 	 */
 	public function __construct( $options = array() )
 	{
@@ -56,35 +57,6 @@ class JoomlaDunDatabase extends DunDatabase
 		
 		// Construct the object
 		parent :: __construct( $options );
-	}
-	
-	
-	/**
-	 * Given a filename and extension and type parse and execute commands
-	 * @TODO:  Determine if we need to implement this file handler for Joomla
-	 * @access		public
-	 * @version		@fileVers@
-	 * @param		string		- $filename: the relative path and filename
-	 * @param		string		- $extension: the extension name
-	 * 
-	 * @return		boolean
-	 * @since		1.0.0
-	 */
-	public function handleFile( $filename, $extension = null )
-	{
-		return true;
-		$path	= WhmcsDunModule :: locateModule( $extension ) . $filename;
-		
-		if (! file_exists( $path ) ) return false;
-		
-		$commands = $this->parseFile( $path );
-		
-		foreach ( $commands as $sql ) {
-			$this->setQuery( $sql );
-			$this->query();
-		}
-		
-		return true;
 	}
 	
 	

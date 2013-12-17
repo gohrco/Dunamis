@@ -1,6 +1,7 @@
 <?php
 /**
  * @package         @packageName@
+ * @subpackage		Blesta
  * @version         @fileVers@
  *
  * @author          @buildAuthor@
@@ -11,18 +12,12 @@
 
 defined('DUNAMIS') OR exit('No direct script access allowed');
 
+
 /**
- * Dunamis Form class for Blesta
- * @desc		This is the form handler for creating and handling forms with the Blesta environment
- * @package		Dunamis
- * @subpackage	Blesta
- * @author		@packageAuth@
- * @link		@packageLink@
- * @copyright	@packageCopy@
- * @license		@packageLice@
+ * Function for retrieving the base url
+ * @version		@fileVers@
+ * @since		1.3.0
  */
-
-
 if (! function_exists( 'get_baseurl' ) )
 {
 	function get_baseurl( $location = 'client' )
