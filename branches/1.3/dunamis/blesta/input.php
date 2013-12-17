@@ -11,6 +11,7 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Dunamis Input Handler

@@ -9,6 +9,7 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Dunamis Form class for Blesta

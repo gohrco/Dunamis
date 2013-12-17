@@ -1,11 +1,25 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Blesta ToggleYN field
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.3.0
+ * Yes / No Toggle Button Field
+ * @desc		This is used to render and manage the Yes / No toggle button field for a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Blesta
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class BlestaToggleynDunFields extends DunFields
 {
