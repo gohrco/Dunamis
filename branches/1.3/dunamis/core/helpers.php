@@ -1,7 +1,16 @@
 <?php
-// define('DUNAMIS', true);
-// include 'object.php';
+/**
+ * @package         @packageName@
+ * @subpackage		Core
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Function for converting an array over to a string

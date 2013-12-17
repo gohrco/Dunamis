@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * WHMCS Dunamis Updates File
- * This is the environment Updates handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * WHMCS Dunamis Updates class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.10
+ * Dunamis Updates class for WHMCS
+ * @desc		This manages updates for WHMCS for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsDunUpdates extends DunUpdates
 {

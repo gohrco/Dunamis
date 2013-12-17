@@ -1,4 +1,15 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 // ---- BEGIN DUN-8
 //		Including the WHMCS environment first in Joomla causes fatal error
@@ -9,6 +20,17 @@ if ( file_exists( $filename ) ) {
 }
 // ---- END DUN-8
 
+
+/**
+ * Dunamis Environment class for WHMCS
+ * @desc		This is the environment file for determining if we are in the WHMCS environment
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class WhmcsDunEnvironment extends DunEnvironment
 {
 	

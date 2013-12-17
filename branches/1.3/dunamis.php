@@ -4,6 +4,7 @@
  * This is the core of the Dunamis Framework
  *
  * @package         @packageName@
+ * @subpackage		Core
  * @version         @fileVers@
  *
  * @author          @buildAuthor@

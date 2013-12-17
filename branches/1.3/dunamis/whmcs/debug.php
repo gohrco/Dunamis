@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * WHMCS Debug File
- * This is the environment debug handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * WHMCS Debug class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.11
+ * Dunamis Debug handler for WHMCS
+ * @desc		This is the debug handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsDunDebug extends DunDebug
 {

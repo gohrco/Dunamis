@@ -1,12 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Togglebtn field
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.0
- */
+ * Toggle Button Field
+ * @desc		This is used to render and manage the toggle button field for a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+*/
 class TogglebtnDunFields extends DunFields
 {
 	

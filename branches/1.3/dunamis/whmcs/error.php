@@ -1,8 +1,39 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
+/**
+ * Dunamis Error class for WHMCS
+ * @desc		This is the error handler for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class WhmcsDunError extends DunError
 {
+	
+	/**
+	 * Method to actually display the errors back
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string			The error level we want to have returned
+	 * 
+	 * @return		string			Contains the errors in an HTML table
+	 * @since		1.0.0
+	 */
 	static public function displayErrors( $level = 'ERROR' )
 	{
 		// See if we have error reporting enabled
@@ -32,6 +63,14 @@ class WhmcsDunError extends DunError
 	}
 	
 	
+	/**
+	 * Method to set the styling for error display in the document handler
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @since		1.0.0
+	 */
 	static public function setStyle()
 	{
 		$css	= <<<CSS
@@ -76,6 +115,16 @@ CSS;
 	}
 	
 	
+	/**
+	 * Method to provide translations for error codes
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		integer			The error code to translate
+	 *
+	 * @return		string			Contains the translated code
+	 * @since		1.0.0
+	 */
 	static public function translate( $code = 1 )
 	{
 		return DunError :: translate( $code );

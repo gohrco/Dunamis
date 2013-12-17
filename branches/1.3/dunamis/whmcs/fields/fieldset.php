@@ -1,12 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * WHMCS Fieldset field
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.10
- */
+ * Fieldset Field
+ * @desc		This is used to render a wrapping fieldset for a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+*/
 class WhmcsFieldsetDunFields extends DunFields
 {
 	

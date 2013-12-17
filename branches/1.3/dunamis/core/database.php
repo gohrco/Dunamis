@@ -1,12 +1,25 @@
 <?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * DunDatabase Object
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.0
+ * Dunamis Core Database File
+ * @desc		This is the core database handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunDatabase extends DunObject
 {

@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Core Error File
- * This is the core Error handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,16 +9,8 @@
  * @license         @buildLicense@
  */
 
-// define('DUNAMIS', true);
-// include 'object.php';
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
-/**
- * DunError Object
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
- */
 define( 'DUN_NOTICE',	1 );
 define( 'DUN_WARNING',	2 );
 define( 'DUN_ERROR',	4 );
@@ -30,6 +19,16 @@ define( 'DUN_UNNOTICE',		8 );
 define( 'DUN_UNWARNING',	16 );
 define( 'DUN_UNERROR',		32 );
 
+/**
+ * Dunamis Core Error File
+ * @desc		This is the core error handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class DunError extends DunObject
 {
 	static protected $_loaded	= false;
