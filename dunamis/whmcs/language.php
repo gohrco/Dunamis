@@ -1,6 +1,26 @@
 <?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
+/**
+ * Dunamis Language handler for WHMCS
+ * @desc		This permits our own translation to be used within WHMCS for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class WhmcsDunLanguage extends DunLanguage
 {
 	/**

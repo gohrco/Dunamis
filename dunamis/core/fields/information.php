@@ -1,12 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Dunamis Information field
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.3.0
- */
+ * Information Field
+ * @desc		This is used to render HTML for a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+*/
 class InformationDunFields extends DunFields
 {
 	/**

@@ -1,12 +1,25 @@
 <?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * WhmcsDunInput Object
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.3
+ * Dunamis Input handler for WHMCS
+ * @desc		This interacts with WHMCS' input handler / variables for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsDunInput extends DunInput
 {

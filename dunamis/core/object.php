@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Object File
- * This is the core object file - everything is built upon it
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,12 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
+
 /**
- * Dunamis Object class
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
+ * Dunamis Core Object File
+ * @desc		This is the core object file for the Dunamis Framework - everything is built upon it
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunObject
 {
