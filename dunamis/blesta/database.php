@@ -1,4 +1,4 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
  * @package         @packageName@
  * @version         @fileVers@
@@ -9,6 +9,7 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Dunamis Database class for Blesta
