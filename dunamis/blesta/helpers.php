@@ -105,7 +105,7 @@ if (! function_exists( 'get_path' ) )
 		}
 		
 		// Append filename
-		$path	.=	DIRECTORY_SEPARATOR . $filename;
+		$path	=	rtrim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . $filename;
 		
 		return ( file_exists( $path ) ? $path : false );
 	}
