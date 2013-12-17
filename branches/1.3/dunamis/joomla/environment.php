@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Joomla Dunamis Environment File
- * This is the environment handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * Joomla Dunamis Environment class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.1.0
+ * Dunamis Environment class for Joomla
+ * @desc		This is used by Dunamis to determine the environment and to set common environment variables 
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class JoomlaDunEnvironment extends DunEnvironment
 {
@@ -79,7 +80,7 @@ class JoomlaDunEnvironment extends DunEnvironment
  * Function to set error reporting based on configuration
  * @TODO:  Implementation of errorsetting checking for Joomla
  * @access		public
- * @version		@fileVers@ ( $id$ )
+ * @version		@fileVers@
  * @param		string		- $checkfor: what we are looking for
  *
  * @return		void|string|boolean

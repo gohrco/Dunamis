@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * WHMCS Dunamis Updates File
- * This is the environment Updates handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,15 +9,18 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 dunimport( 'cms.installer.installer' );
 
-
 /**
- * WHMCS Dunamis Updates class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.10
+ * Dunamis Updates class for Joomla
+ * @desc		This manages updates for Joomla for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class JoomlaDunUpdates extends DunUpdates
 {
@@ -34,7 +34,7 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Constructor method
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 * @param		array		- $options: anything we want to set
 	 *
 	 * @since		1.1.0
@@ -56,10 +56,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for downloading an update
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		boolean
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	public function download()
 	{
@@ -73,10 +73,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Simple method for determining updates exist
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		boolean or 'error' on problem
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	public function exist()
 	{
@@ -97,10 +97,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for downloading an update
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		boolean
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	public function extract()
 	{
@@ -119,10 +119,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for getting the update target for locating the downloaded archive
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		string
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	public function getUpdateTarget()
 	{
@@ -133,7 +133,7 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for downloading the update
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		void
 	 * @since		1.0.0
@@ -173,10 +173,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for testing if an update exists
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 * 
 	 * @return		string containing update or false on none
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	public function updatesExist()
 	{
@@ -194,12 +194,12 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method to compare two versions
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 * @param		stdClass		- $update: if we are comparing on the fly we can pass this along
 	 * @param		boolean			- $getvers: if we want the most up to date version or bool response
 	 *
 	 * @return		boolean true on new update, false on not, null on no update found | string containing most recent version
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateCompare( stdClass $update = null, $getvers = false )
 	{
@@ -221,11 +221,11 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for testing the lastrun date
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 * @param		timestamp		- $lastrun: if we want to manually check a timestamp
 	 *
 	 * @return		boolean true on expired
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateExpired( $lastrun = null )
 	{
@@ -237,10 +237,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for finding an update
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		boolean
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateFind()
 	{
@@ -294,10 +294,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for reading an update in
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		boolean
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateRead()
 	{
@@ -308,11 +308,11 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for getting the update target
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 * 
 	 * @return		false on empty update
 	 * @return		string
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateTarget()
 	{
@@ -333,11 +333,11 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for getting a download URL for update
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@ 
 	 *
 	 * @return		false on empty update
 	 * @return		string
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateUrl()
 	{
@@ -350,10 +350,10 @@ class JoomlaDunUpdates extends DunUpdates
 	/**
 	 * Method for writing an update out
 	 * @access		protected
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 *
 	 * @return		boolean
-	 * @since		1.0.10
+	 * @since		1.1.0
 	 */
 	protected function _updateWrite()
 	{

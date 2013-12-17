@@ -1,5 +1,16 @@
 <?php
+/**
+ * @package         @packageName@
+ * @subpackage		Joomla
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
  * Function for conveniently finding the baseurl for a given location
