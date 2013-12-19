@@ -148,8 +148,8 @@ class BlestaDunDocument extends DunDocument
 		$tab	= "\11";
 		
 		// Include our jQuery library first
-		$base	=	get_baseurl( 'dunamis' );
-		$buffer	=	$tab . '<script src="' . $base . 'framework/dunamis/core/assets/js/jquery.1-10-2.js" type="text/javascript"></script>';
+		$base	=	get_baseurl( 'client' );
+		$buffer	=	$tab . '<script src="' . $base . 'plugins/dunamis/framework/dunamis/core/assets/js/jquery.1-10-2.js" type="text/javascript"></script>';
 		
 		// Generate script file links
 		foreach ( $this->_scripts as $strSrc => $strAttr ) {
