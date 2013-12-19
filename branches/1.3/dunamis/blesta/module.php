@@ -83,7 +83,7 @@ class BlestaDunModule extends DunModule
 	{
 		switch( $type ) {
 			case 'plugin' :
-				return '/plugins/';
+				return '/plugin/';
 				break;
 			case 'module' :
 				return '/components/modules/';
