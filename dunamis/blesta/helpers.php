@@ -155,6 +155,19 @@ if (! function_exists( 'is_admin' ) )
 
 
 /**
+ * Function for determining if we are in an ajax request or not (only known to catch jQuery ajax requests atm)
+ * @version		@fileVers@
+ * @since		1.3.0
+ */
+if (! function_exists( 'is_ajax' ) )
+{
+	function is_ajax()
+	{
+		return ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) === 'xmlhttprequest' );
+	}
+}
+
+/**
  * Function for determining if we are in the api area or not
  * @version		@fileVers@
  * @since		1.0.0
