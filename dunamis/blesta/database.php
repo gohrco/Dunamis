@@ -58,7 +58,7 @@ class BlestaDunDatabase extends DunDatabase
 	 */
 	public function handleFile( $filename, $extension = null )
 	{
-		$path	= WhmcsDunModule :: locateModule( $extension ) . $filename;
+		$path	= BlestaDunModule :: locateModule( $extension ) . $filename;
 		
 		if (! file_exists( $path ) ) return false;
 		
