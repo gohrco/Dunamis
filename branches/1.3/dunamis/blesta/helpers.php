@@ -10,8 +10,7 @@
  * @license         @buildLicense@
  */
 
-defined('DUNAMIS') OR exit('No direct script access allowed');
-
+// Do not include the script access check - blesta installer needs access to this file before dunamis does
 
 /**
  * Function for retrieving the base url
