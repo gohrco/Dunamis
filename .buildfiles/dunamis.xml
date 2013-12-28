@@ -29,6 +29,7 @@
 			<echo message="Begin Packaging Project" />
 			<echo message="=====================================================" />
 		<antcall target="dunamis_packaging_all" />
+		<dunamis.document />
 			<echo message="=====================================================" />
 			<echo message="Completed Packaging Project" />
 			<echo message="=====================================================" />

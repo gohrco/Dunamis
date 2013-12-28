@@ -74,7 +74,7 @@ class DunamisPlugin extends Plugin
 				'core' . DIRECTORY_SEPARATOR .
 				'assets' . DIRECTORY_SEPARATOR .
 				'img' . DIRECTORY_SEPARATOR  .
-				"dunonblesta.png";
+				"logo.png";
 	}
 	
 	
