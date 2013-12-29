@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Module File
- * This is the module file that each product module is based on
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,12 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
+
 /**
- * Dunamis Module class
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
+ * Dunamis Core Module File
+ * @desc		This is the core module handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunModule extends DunObject
 {

@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Core Uri File
- * This is the core Uri handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Dunamis URI class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.10
+ * Dunamis Core URI File
+ * @desc		This is the core URI handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunUri
 {

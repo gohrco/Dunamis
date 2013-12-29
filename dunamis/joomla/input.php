@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Joomla Dunamis Environment File
- * This is the environment handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * Joomla Dunamis Input class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.1.0
+ * Dunamis Input class for Joomla
+ * @desc		This manages interactions with Joomla!'s Input handler and the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class JoomlaDunInput extends DunInput
 {

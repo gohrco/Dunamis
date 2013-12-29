@@ -1,6 +1,23 @@
 <?php
+/**
+ * @package         @packageName@
+ * @subpackage		WHMCS
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 
+/**
+ * Function for retrieving the base url
+ * @version		@fileVers@
+ * @since		1.0.0
+ */
 if (! function_exists( 'get_baseurl' ) )
 {
 	function get_baseurl( $location = 'client' )

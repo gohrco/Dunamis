@@ -1,12 +1,25 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * WHMCS API class handler
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.10
+ * Dunamis API class handler for WHMCS
+ * @desc		This provides a means of interacting through the WHMCS API for modules built on the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsDunApi extends DunObject
 {
@@ -94,7 +107,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method for building the response
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 *
 	 * @return		void
 	 * @since		1.0.10
@@ -121,7 +134,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method for setting the data to the object
 	 * @access		public
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		mixed		- $data: the data to set
 	 *
 	 * @since		1.0.10
@@ -141,7 +154,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method for building the json response
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 *
 	 * @return		string
 	 * @since		1.0.10
@@ -155,7 +168,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method for building an NVP response back
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		array		- $data: the data array to build
 	 * @param		string		- $prefix: a prefix to attach for arrayed data
 	 *
@@ -191,7 +204,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method for building the xml response
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 *
 	 * @return		string
 	 * @since		1.0.10
@@ -211,7 +224,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Test for seeing if a string is UTF8 or not
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		string		- $Str: the string we are testing
 	 *
 	 * @return		boolean
@@ -242,7 +255,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Transliterate data
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		mixed		- $data: the data to translit
 	 *
 	 * @return		transliterated data
@@ -268,7 +281,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method to ensure a value is UTF8
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		string		$str
 	 *
 	 * @return		utf8 string
@@ -285,7 +298,7 @@ class WhmcsDunApi extends DunObject
 	/**
 	 * Method to cleanup xml data
 	 * @access		private
-	 * @version		@fileVers@ ( $id$ )
+	 * @version		@fileVers@
 	 * @param		mixed		- $data: the data to wrap in cdatas
 	 *
 	 * @return		mixed

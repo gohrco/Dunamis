@@ -1,6 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
+/**
+ * Dunamis Configuration class for Joomla
+ * @desc		This grabs configuration settings from Joomla for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Joomla
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class JoomlaDunConfig extends DunObject
 {
 	/**
