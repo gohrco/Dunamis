@@ -9,6 +9,7 @@
 	<!-- Function Import -->
 	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/build_changelog.xml" />
 	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/create_release.xml" />
+	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/document.xml" />
 	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/repl_dir.xml" />
 	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/repl_file.xml" />
 	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/zipr_file.xml" />

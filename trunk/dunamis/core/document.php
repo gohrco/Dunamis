@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Core Document File
- * This is the core Document handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,15 +9,17 @@
  * @license         @buildLicense@
  */
 
-// define('DUNAMIS', true);
-// include 'object.php';
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * DunDocument Object
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
+ * Dunamis Core Document File
+ * @desc		This is the core document handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunDocument extends DunObject
 {

@@ -1,6 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
+/**
+ * Dunamis Hooks handler for WHMCS
+ * @desc		This interacts with the WHMCS hook handler for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class WhmcsDunHooks extends DunHooks
 {
 	/**

@@ -1,8 +1,15 @@
 <?php
 /**
- * This file outputs document data to the admin head
+ * @package         @packageName@
+ * @subpackage		WHMCS
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ * 
+ * @desc			This file outputs document data to the admin head
  */
-// $gof = & GoF :: getInstance();
-// $doc =   $gof->getDocument();
 
 echo dunloader( 'document', true )->renderHeadData();

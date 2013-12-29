@@ -1,6 +1,26 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
+/**
+ * Dunamis Document handler for WHMCS
+ * @desc		This is the document handler for the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
+ */
 class WhmcsDunDocument extends DunDocument
 {
 	

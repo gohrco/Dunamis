@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Core Updates File
- * This is the core Updates handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,17 @@
  * @license         @buildLicense@
  */
 
+defined( 'DUNAMIS' ) OR exit('No direct script access allowed');
 
 /**
- * Dunamis Updates class handler
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.10
+ * Dunamis Updates class for WHMCS
+ * @desc		This manages updates for the core of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class DunUpdates extends DunObject
 {

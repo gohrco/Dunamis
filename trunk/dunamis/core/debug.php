@@ -1,8 +1,5 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
 /**
- * Dunamis Core Debug File
- * This is the core Debug handler of the Dunamis Framework
- *
  * @package         @packageName@
  * @version         @fileVers@
  *
@@ -12,13 +9,18 @@
  * @license         @buildLicense@
  */
 
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Dunamis Debug class handler
- * @version		@fileVers@
- * 
- * @author		Steven
- * @since		1.0.11
+ * Dunamis Core Debug File
+ * @abstract
+ * @desc		This is the core Debug handler of the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	Core
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 abstract class DunDebug extends DunObject
 {

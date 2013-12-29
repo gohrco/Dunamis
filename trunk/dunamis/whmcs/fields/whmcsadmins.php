@@ -1,15 +1,28 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 // Ensure the dropdown fields are loaded
 dunimport( 'fields.dropdown' );
 
 /**
- * WHMCS Whmcsadmins Field
- * @desc		This field renders a dropdown field containing WHMCS admins for selecting in a form
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
+ * WHMCSAdmins Field
+ * @desc		This is used to render a dropdown of WHMCS admins for selection in a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsWhmcsadminsDunFields extends DropdownDunFields
 {

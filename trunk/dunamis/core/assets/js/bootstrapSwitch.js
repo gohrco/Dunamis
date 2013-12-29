@@ -233,6 +233,6 @@
   };
 }(jQuery);
 
-jQuery(function () {
+!function ($) {
 	jQuery('.switch')['bootstrapSwitch']();
-});
+}(jQuery);

@@ -1,15 +1,28 @@
-<?php defined('DUNAMIS') OR exit('No direct script access allowed');
+<?php
+/**
+ * @package         @packageName@
+ * @version         @fileVers@
+ *
+ * @author          @buildAuthor@
+ * @link            @buildUrl@
+ * @copyright       @copyRight@
+ * @license         @buildLicense@
+ */
+
+defined('DUNAMIS') OR exit('No direct script access allowed');
 
 // Ensure the dropdown fields are loaded
 dunimport( 'fields.dropdown' );
 
 /**
- * WHMCS Whmcsclientgroups Field
- * @desc		This field renders a dropdown field containing WHMCS client groups for selecting in a form
- * @version		@fileVers@
- *
- * @author		Steven
- * @since		1.0.0
+ * WHMCSClientgroups Field
+ * @desc		This is used to render a dropdown of Client Groups for selection in a form in the Dunamis Framework
+ * @package		Dunamis
+ * @subpackage	WHMCS
+ * @author		@packageAuth@
+ * @link		@packageLink@
+ * @copyright	@packageCopy@
+ * @license		@packageLice@
  */
 class WhmcsWhmcsclientgroupsDunFields extends DropdownDunFields
 {
