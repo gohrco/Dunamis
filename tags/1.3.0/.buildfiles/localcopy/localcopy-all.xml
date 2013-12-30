@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Copy" basedir=".">
+	
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="C:\Program Files\eclipse\plugins\org.apache.ant_1.8.2.v20120109-1030\lib\ant-contrib-1.0b3.jar" />
+		</classpath>
+	</taskdef>
+	
+	<import file="../includes.xml" />
+	
+	<!-- Include individual files now -->
+	<import file="blesta.xml" />
+	<import file="joomla.xml" />
+	<import file="whmcs.xml" />
+	
+	<target name="dunamis_copy_all" depends="dunamis_properties">
+		
+		<if>
+			<not>
+				<isset property="${copy.destination}" />
+			</not>
+			<then>
+				<!-- Ask where we should copy to -->
+				<input addproperty="copy.destination" validargs="All,mods,2.5,3.0" defaultvalue="mods">${line.separator}${line.separator}Where do you want to copy Dunamis to?${line.separator}${line.separator}</input>
+			</then>
+		</if>
+		
+		<!-- Begin logic loop -->
+		<if>
+			<or>
+				<equals arg1="${copy.destination}" arg2="mods" trim="true" />
+				<equals arg1="${copy.destination}" arg2="2.5" trim="true" />
+				<equals arg1="${copy.destination}" arg2="3.0" trim="true" />
+            </or>
+			<then>
+				<property name="dest" value="${copy.destination}" />
+				<antcall target="dunamis_copy_to_destination" />
+			</then>
+		<elseif>
+			<equals arg1="${copy.destination}" arg2="All" trim="true"/>
+			<then>
+				<for list="mods,2.5,3.0" param="item">
+					<sequential>
+						<var name="dest" value="@{item}" />
+						<antcall target="dunamis_copy_to_destination" />
+					</sequential>
+				</for>
+			</then>
+		</elseif>
+		</if>
+	</target>
+	
+	<target name="dunamis_copy_to_destination">
+		
+		<if>
+			<not>
+				<isset property="${copy.select}" />
+			</not>
+			<then>
+				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla,Blesta" defaultvalue="All">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
+			</then>
+		</if>
+		
+		<condition property="copy.all">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="All" trim="true" />
+	        </and>
+	     </condition>
+	     
+	     <condition property="copy.whmcs">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="WHMCS" trim="true" />
+	        </and>
+	     </condition>
+	     
+	     <condition property="copy.joomla">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="Joomla" trim="true" />
+	        </and>
+	     </condition>
+	     
+	     <condition property="copy.blesta">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="Blesta" trim="true" />
+	        </and>
+	     </condition>
+	     
+	    	<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_all" />
+		<antcall target="dunamis_copy_to_whmcs" />
+		<antcall target="dunamis_copy_to_joomla" />
+		<antcall target="dunamis_copy_to_blesta" />
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+	<target name="dunamis_copy_to_all" depends="dunamis_properties" if="copy.all">
+		<property name="copy.blesta" value="true" />
+		<property name="copy.joomla" value="true" />
+		<property name="copy.whmcs" value="true" />
+		<antcall target="dunamis_copy_to_blesta" />
+		<antcall target="dunamis_copy_to_whmcs" />
+		<antcall target="dunamis_copy_to_joomla" />
+	</target>
+	
+	
+	<target name="dunamis_copy_joomla25" depends="dunamis_properties">
+			<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_joomla25" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+	
+	<target name="dunamis_copy_whmcs25" depends="dunamis_properties">
+			<echo message=" " />
+			<echo message="Begin Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_copy_to_whmcs25" />	
+			<echo message=" " />
+			<echo message="Completed Copying Dunamis Locally" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+</project>
