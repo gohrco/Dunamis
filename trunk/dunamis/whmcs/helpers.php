@@ -22,7 +22,13 @@ if (! function_exists( 'get_baseurl' ) )
 {
 	function get_baseurl( $location = 'client' )
 	{
-		$uri	= DunUri :: getInstance( 'SERVER', true );
+		// Let's get our System URL first
+		$config	=	dunloader( 'config', true );
+		$uri	=	DunUri :: getInstance( rtrim( $config->get( 'SystemURL' ), '/' ) . '/', true );
+		
+		// Check SSL on current URL
+		$curi	=	DunUri :: getInstance( 'SERVER', true );
+		$uri->setScheme( $curi->getScheme() );
 		
 		// -----------------------------------------------
 		// First we clean up the uri
