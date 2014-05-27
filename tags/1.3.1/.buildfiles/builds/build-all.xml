@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Build All" basedir=".">
+	
+	<target name="dunamis_build_all" depends="dunamis_properties">
+			
+			<echo message=" " />
+			<echo message="Begin Building WHMCS Addon Module" />
+			<echo message="-----------------------------------------------------" />
+			
+		<dunamis.repl_dir />
+			
+			<echo message=" " />
+			<echo message="Begin Building WHMCS Addon Module" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target> 
+	
+</project> 
