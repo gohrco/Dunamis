@@ -43,7 +43,10 @@ class JoomlaDunDatabase extends DunDatabase
 	public function __construct( $options = array() )
 	{
 		// Include the WHMCS configuration file
-		@include_once( DUN_ENV_PATH . 'configuration.php' );
+		if (! class_exists( 'JConfig' ) ) {
+			@include_once( DUN_ENV_PATH . 'configuration.php' );
+		}
+		
 		
 		$config	=	new JConfig();
 		
