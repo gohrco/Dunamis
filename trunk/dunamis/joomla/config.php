@@ -96,7 +96,9 @@ class JoomlaDunConfig extends DunObject
 		$file	=	DUN_ENV_PATH . 'configuration.php';
 		if (! file_exists( $file ) ) return;
 		
-		@include_once( $file );
+		if (! class_exists ( 'JConfig' ) ) {
+			@include_once( $file );
+		}
 		
 		if (! class_exists( 'JConfig' ) ) return;
 		
