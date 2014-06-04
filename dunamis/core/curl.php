@@ -701,14 +701,27 @@ class DunCurl extends DunObject
 				
 			return FALSE;
 		}
-		else if ( $checkforredirects && ( $this->info['http_code'] == 301 || $this->info['http_code'] == 302 || $this->info['http_code'] == 303 ) ) {
-			$parts		=	explode( "\r\n\r\n", $this->response );
-			$hdrlines	=	explode( "\r\n", $parts[0] );
+		else if ( $this->info['http_code'] == 301 || $this->info['http_code'] == 302 || $this->info['http_code'] == 303 ) {
+			
 			$url		=	null;
-			foreach ( $hdrlines as $hdrline ) {
-				if ( strpos( $hdrline, 'Location: ' ) === false ) continue;
-				$url	=	str_replace( 'Location: ', '', $hdrline );
-				break;
+			
+			if ( $checkforredirects ) {
+				$parts		=	explode( "\r\n\r\n", $this->response );
+				$hdrlines	=	explode( "\r\n", $parts[0] );
+				
+				foreach ( $hdrlines as $hdrline ) {
+					if ( strpos( $hdrline, 'Location: ' ) === false ) continue;
+					$url	=	str_replace( 'Location: ', '', $hdrline );
+					break;
+				}
+			}
+			
+			if ( is_null( $url ) && isset( $this->info['redirect_url'] ) ) {
+				$url = $this->info['redirect_url'];
+			}
+			
+			if ( is_null( $url ) ) {
+				$this->count = 5;
 			}
 			
 			if ( $this->count > 4 ) {
