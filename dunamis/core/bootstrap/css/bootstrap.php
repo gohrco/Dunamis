@@ -9,7 +9,7 @@ if ( file_exists( $path ) ) include_once( $path );
 
 if (! array_key_exists( 'm', $_GET ) ) exit();
 
-$m = '#' . $_GET['m'];
+$m	=	'#' . htmlspecialchars( strip_tags( $_GET['m'] ), ENT_XHTML|ENT_QUOTES );
 
 ?>
 
