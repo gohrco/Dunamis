@@ -146,6 +146,34 @@ class DunamisPlugin extends Plugin
 		}
 		
 		get_dunamis();
+		
+		/**
+		 * As of 1.3.2 - we check to see if our changes are applied to the files on each load
+		 */
+		
+		if (! is_admin() ) return;
+		
+		dunloader( 'helpers', true );
+		
+		$files		=	DunHelper :: checkFiles();
+		$regexes	=	$this->_getRegexes();
+		
+		foreach ( $files as $path => $names ) {
+				
+			if ( false === ( $content = DunHelper :: readFile( $path ) ) ) {
+				continue;
+			}
+				
+			DunHelper :: changeFileExtension( $path, 'dunamis-bak' );
+				
+			foreach ( $names as $name ) {
+				preg_match_all( $regexes[$name]->find, $content, $matches );
+				$content = preg_replace( $regexes[$name]->find, $regexes[$name]->repl, $content );
+			}
+				
+			DunHelper :: writeFile( $path, $content );
+		}
+		
 	}
 	
 	
@@ -256,6 +284,7 @@ class DunamisPlugin extends Plugin
 	 * Gets the regular expressions to run against pdt files
 	 * @access		private
 	 * @version		@fileVers@
+	 * @version		1.3.2					Added name to array element for checking purposes
 	 *
 	 * @return		array of objects		Objects contain the regex and replacement
 	 * @since		1.3.0
@@ -264,17 +293,17 @@ class DunamisPlugin extends Plugin
 	{
 		$data	=	array();
 	
-		$data[]	=	(object) array(
+		$data['metadata']	=	(object) array(
 				'find'	=>	"#(<head>)#i",
 				'repl'	=>	"\$1\n\t<?php echo dunloader('document', true)->renderMetaData() ?>"
 		);
 	
-		$data[]	=	(object) array(
+		$data['headdata']	=	(object) array(
 				'find'	=>	"#(<\/title>)#i",
 				'repl'	=>	"\$1\n\t<?php echo dunloader( 'document', true )->renderHeadData() ?>"
 		);
 	
-		$data[]	=	(object) array(
+		$data['footdata']	=	(object) array(
 				'find'	=>	"#(<\/body>)#i",
 				'repl'	=>	"<?php echo dunloader( 'document', true )->renderFootData() ?>\n\t\$1"
 		);
