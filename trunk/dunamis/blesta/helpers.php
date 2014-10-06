@@ -345,7 +345,45 @@ class DunHelper
 		return true;
 	}
 
-
+	
+	/**
+	 * Method to check files for modifications
+	 * @static
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		array
+	 * @since		1.3.2
+	 */
+	public static function checkFiles()
+	{
+		// Grab array of structure files to be sure they are up to date
+		$pdts		=	array_merge( DunHelper :: getFiles( 'structure' ), DunHelper :: getFiles( 'structure_admin_login' ) );
+		$regexes	=	array();
+		$regexes[]	=	(object) array(	'name'	=>	'metadata',	'find'	=>	"#echo dunloader\([\s]*'document',[\s]*true[\s]*\)->renderMetaData\(\);?#"	);
+		$regexes[]	=	(object) array(	'name'	=>	'headdata',	'find'	=>	"#echo dunloader\([\s]*'document',[\s]*true[\s]*\)->renderHeadData\(\);?#"	);
+		$regexes[]	=	(object) array(	'name'	=>	'footdata',	'find'	=>	"#echo dunloader\([\s]*'document',[\s]*true[\s]*\)->renderFootData\(\);?#"	);
+		$data		=	array();
+	
+		foreach ( $pdts as $pdt ) {
+				
+			if ( false === ( $content = DunHelper :: readFile( $pdt ) ) ) {
+				continue;
+			}
+				
+			foreach ( $regexes as $regex ) {
+				$count	=	preg_match_all( $regex->find, $content, $matches );
+				if ( $count == '0' ) {
+					if (! is_array( $data[$pdt] ) ) $data[$pdt] = array();
+					$data[$pdt][]	=	$regex->name;
+				}
+			}
+		}
+	
+		return $data;
+	}
+	
+	
 	/**
 	 * Retrieve files given the name and extension sought
 	 * @static
