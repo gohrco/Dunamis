@@ -33,6 +33,7 @@
 				<equals arg1="${copy.destination}" arg2="mods" trim="true" />
 				<equals arg1="${copy.destination}" arg2="2.5" trim="true" />
 				<equals arg1="${copy.destination}" arg2="3.0" trim="true" />
+				<equals arg1="${copy.destination}" arg2="3.1" trim="true" />
             </or>
 			<then>
 				<property name="dest" value="${copy.destination}" />
