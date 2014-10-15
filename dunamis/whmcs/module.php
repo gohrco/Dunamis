@@ -112,7 +112,7 @@ class WhmcsDunModule extends DunModule
 				return '/modules/registrars/';
 				break;
 			case 'reports' :
-				return '/modules/reports/';
+				return get_baseurl( 'admin' ) . '/reports.php';
 				break;
 		}
 	}
@@ -214,6 +214,7 @@ class WhmcsDunModule extends DunModule
 			case 'server' :
 			case 'gateways' :
 			case 'registrars' :
+			case 'reports' :
 				
 				if ( is_api() ) return 'api';
 				
@@ -224,9 +225,6 @@ class WhmcsDunModule extends DunModule
 					: 'client'
 					)
 				);
-				break;
-			case 'reports' :
-	
 				break;
 		}
 	}
@@ -254,6 +252,7 @@ class WhmcsDunModule extends DunModule
 			case 'server' :
 			case 'gateways' :
 			case 'registrars' :
+			case 'reports' :
 				
 				if ( is_api() ) return 'api.php';
 				
@@ -264,9 +263,6 @@ class WhmcsDunModule extends DunModule
 					: 'client.php'
 					)
 				);
-				break;
-			case 'reports' :
-	
 				break;
 		}
 	}

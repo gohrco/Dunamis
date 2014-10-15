@@ -64,6 +64,11 @@ if (! function_exists( 'get_baseurl' ) )
 		}
 		// If we are in admin and we are requesting the admin then we are there :)
 		else if ( is_admin() && $location == 'admin' ) {
+			if ( $uri->toString() == get_baseurl( 'client' ) ) {
+				include dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'configuration.php';
+				$adminfolder	=	( isset( $customadminpath ) ? $customadminpath : 'admin' );
+				$uri->setPath( rtrim( $uri->getPath(), '/' ) . '/admin' );
+			}
 			return $uri->toString();
 		}
 		
@@ -80,8 +85,18 @@ if (! function_exists( 'get_baseurl' ) )
 				break;
 			// We are looking for the module location
 			default :
-				$path	= WhmcsDunModule :: locateModuleUrl( $location ) . $location . '/';
-				$uri->setPath( rtrim( $uri->getPath(), '/' ) . $path );
+				$type	= WhmcsDunModule :: locateModuleType( $location );
+				
+				switch ( $type ) {
+					case 'reports' :
+						$uri	= DunUri :: getInstance( WhmcsDunModule :: locateModuleUrl( $location ), true );
+						$uri->setVar( 'report', $location );
+						break;
+					default :
+						$path	= WhmcsDunModule :: locateModuleUrl( $location ) . $location . '/';
+						$uri->setPath( rtrim( $uri->getPath(), '/' ) . $path );
+				}
+				
 				return $uri->toString();
 				break;
 		}
