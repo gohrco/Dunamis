@@ -14,6 +14,7 @@
 	<import file="blesta.xml" />
 	<import file="joomla.xml" />
 	<import file="whmcs.xml" />
+	<import file="wordpress.xml" />
 	
 	<target name="dunamis_copy_all" depends="dunamis_properties">
 		
@@ -60,7 +61,7 @@
 				<isset property="${copy.select}" />
 			</not>
 			<then>
-				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla,Blesta" defaultvalue="All">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
+				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla,Blesta,Wordpress" defaultvalue="All">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
 			</then>
 		</if>
 		
@@ -92,6 +93,13 @@
 	        </and>
 	     </condition>
 	     
+	     <condition property="copy.wordpress">
+	        <and>
+	           <isset property="copy.select" />
+	           <equals arg1="${copy.select}" arg2="Wordpress" trim="true" />
+	        </and>
+	     </condition>
+	     
 	    	<echo message=" " />
 			<echo message="Begin Copying Dunamis Locally" />
 			<echo message="-----------------------------------------------------" />
@@ -99,6 +107,7 @@
 		<antcall target="dunamis_copy_to_whmcs" />
 		<antcall target="dunamis_copy_to_joomla" />
 		<antcall target="dunamis_copy_to_blesta" />
+		<antcall target="dunamis_copy_to_wordpress" />
 			<echo message=" " />
 			<echo message="Completed Copying Dunamis Locally" />
 			<echo message="-----------------------------------------------------" />
@@ -110,9 +119,11 @@
 		<property name="copy.blesta" value="true" />
 		<property name="copy.joomla" value="true" />
 		<property name="copy.whmcs" value="true" />
+		<property name="copy.wordpress" value="true" />
 		<antcall target="dunamis_copy_to_blesta" />
 		<antcall target="dunamis_copy_to_whmcs" />
 		<antcall target="dunamis_copy_to_joomla" />
+		<antcall target="dunamis_copy_to_wordpress" />
 	</target>
 	
 	
