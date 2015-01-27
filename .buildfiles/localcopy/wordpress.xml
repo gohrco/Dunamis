@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Copy - Wordpress" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_copy_to_wordpress" depends="dunamis_properties" if="copy.wordpress">
+		
+		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/"			id="dunamis.joomlalibfiles"			includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles"	includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles"		includes="**/*.*" />
+		
+		<echo message="[1]  Copying Core Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		
+		<echo message="[2]  Copying Joomla Specific Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
+		
+		<echo message="[3]  Copying Joomla Admin Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
+		
+		<echo message="[4]  Copying Joomla Media Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		
+	</target>
+	
+</project>
