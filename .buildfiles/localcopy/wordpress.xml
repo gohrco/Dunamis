@@ -11,25 +11,13 @@
 			<include name="*.*" />
 		</fileset>
 		
-		<fileset dir="${dunamis.src.build}/joomla/library/"			id="dunamis.joomlalibfiles"			includes="**/*.*" />
-		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles"	includes="**/*.*" />
-		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles"		includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/wordpress/"				id="dunamis.wordpressfiles"			includes="**/*.*" />
 		
-		<echo message="[1]  Copying Core Files" />
-		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		<echo message="[1]  Copying Wordpress Specific Files" />
+		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/"><fileset refid="dunamis.wordpressfiles" /></copy>
 		
-		<echo message="[2]  Copying Joomla Specific Files" />
-		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.joomlalibfiles" /></copy>
-		
-		<echo message="[3]  Copying Joomla Admin Files" />
-		<copy todir="${server.root}${dest}/${server.joomla2}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla3}administrator/components/com_dunamis/"><fileset refid="dunamis.joomlacomadminfiles" /></copy>
-		
-		<echo message="[4]  Copying Joomla Media Files" />
-		<copy todir="${server.root}${dest}/${server.joomla2}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
-		<copy todir="${server.root}${dest}/${server.joomla3}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		<echo message="[2]  Copying Core Files" />
+		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
 		
 	</target>
 	
