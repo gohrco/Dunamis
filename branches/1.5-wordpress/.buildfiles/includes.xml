@@ -20,10 +20,12 @@
 	<!-- File Import -->
 	<target name="dunamis_property_files">
 		
-		<property name="dunamis.config.local" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.local" />
+		<!-- <property name="dunamis.config.local" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.local" /> -->
+		<property name="dunamis.config.local" location="c:/Users/Steven/workspace/Dunamis/.buildfiles/config.local" />
 		<property file="${dunamis.config.local}" prefix="dunamis.local" />
 		
-		<property name="dunamis.config.project" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.project" />
+		<!-- <property name="dunamis.config.project" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.project" /> -->
+		<property name="dunamis.config.project" location="c:/Users/Steven/workspace/Dunamis/.buildfiles/config.project" />
 		<property file="${dunamis.config.project}" prefix="dunamis.project" />
 		
 	</target>
