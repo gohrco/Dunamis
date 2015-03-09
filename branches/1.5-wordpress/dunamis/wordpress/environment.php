@@ -13,9 +13,9 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Dunamis Environment class for Blesta
- * @desc		This is the environment file for determining if we are in the Blesta environment
+ * @desc		This is the environment file for determining if we are in the Wordpress environment
  * @package		Dunamis
- * @subpackage	Blesta
+ * @subpackage	Wordpress
  * @author		@packageAuth@
  * @link		@packageLink@
  * @copyright	@packageCopy@

@@ -12,16 +12,21 @@
 defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Dunamis Module class for Blesta
+ * ========================================
+ *  STILL TO BE DONE
+ * ======================================== 
+ */
+/**
+ * Dunamis Module class for Wordpress
  * @desc		This is our base module class for our modules for the Dunamis Framework
  * @package		Dunamis
- * @subpackage	Blesta
+ * @subpackage	Wordpress
  * @author		@packageAuth@
  * @link		@packageLink@
  * @copyright	@packageCopy@
  * @license		@packageLice@
  */
-class BlestaDunModule extends DunModule
+class WordpressDunModule extends DunModule
 {
 	protected $area	= 'client';
 	
@@ -29,7 +34,7 @@ class BlestaDunModule extends DunModule
 	 * Stores the type of module we are using
 	 * @access		protected
 	 * @var			string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	protected $type	= null;
 	
@@ -38,7 +43,7 @@ class BlestaDunModule extends DunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 * 
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 * @see			DunModule :: __construct()
 	 */
 	public function __construct()
@@ -57,7 +62,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $type: the type of module to build
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function buildModulePath( $module = null, $type = null )
 	{
@@ -77,7 +82,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $type: the type of module to build
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function buildModuleUrl( $module = null, $type = null )
 	{
@@ -106,7 +111,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $addon: the type of addon we are looking for
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function getModuleTypePath( $type = 'plugin' )
 	{
@@ -123,7 +128,7 @@ class BlestaDunModule extends DunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		array
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function getModuleTypePaths()
 	{
@@ -156,7 +161,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $folder: a string containing a folder name or null for no dir
 	 * 
 	 * @return		string | false on failure
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function locateModule( $module = null, $folder = null )
 	{
@@ -183,7 +188,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $module: the name of the module to locate
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function locateModuleClassname( $module = null )
 	{
@@ -218,7 +223,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $module: the name of the module to locate
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function locateModuleFilename( $module = null )
 	{
@@ -254,7 +259,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $module: the name of the module to locate
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function locateModuleType( $module = null )
 	{
@@ -277,7 +282,7 @@ class BlestaDunModule extends DunModule
 	 * @param		string		- $module: the name of the module to locate
 	 *
 	 * @return		string
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public static function locateModuleUrl( $module = null )
 	{

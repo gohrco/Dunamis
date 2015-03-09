@@ -41,6 +41,14 @@ if (! function_exists( '_d' ) ) {
 }
 
 
+/**
+ * Lists hooks with functions to help determine issues 
+ * @version		@fileVers@
+ * @param		mixed		- $array: contains the data to output
+ * @param		bool		- $die: to kill the application and die on the spot
+ *
+ * @since		1.5.0
+ */
 if (! function_exists( 'list_hooked_functions' ) ) {
 	function list_hooked_functions($tag=false){
 		global $wp_filter;

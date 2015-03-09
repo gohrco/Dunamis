@@ -17,7 +17,7 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
  * Dunamis Input Handler
  * @desc		This is the input handler for the Dunamis Framework Plugin
  * @package		Dunamis
- * @subpackage	Blesta
+ * @subpackage	Wordpress
  * @author		@packageAuth@
  * @link		@packageLink@
  * @copyright	@packageCopy@
@@ -31,7 +31,7 @@ class WordpressDunInput extends DunInput
 	 * @version		@fileVers@
 	 * @param		array		- $options: contains an array of arguments
 	 *
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	public function __construct( $options = array() )
 	{
@@ -46,15 +46,17 @@ class WordpressDunInput extends DunInput
 	 * @version		@fileVers@
 	 * @param		array		- $data: if overloaded can be passed data
 	 * 
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 */
 	protected function load( $data = array() )
 	{
-		$get		= $post = $request = array();
+		$get		=
+		$post		=
+		$request	=	array();
 		
-		$get		= $GLOBALS['_GET'];
-		$post		= $GLOBALS['_POST'];
-		$request	= $GLOBALS['_REQUEST'];
+		$get		=	$GLOBALS['_GET'];
+		$post		=	$GLOBALS['_POST'];
+		$request	=	$GLOBALS['_REQUEST'];
 		$server		=	$GLOBALS['_SERVER'];
 		
 		$data	= array_merge( array( 'get' => $get, 'post' => $post, 'request' => $request, 'server' => $server ), $data );
