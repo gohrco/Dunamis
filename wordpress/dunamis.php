@@ -27,7 +27,6 @@ function dunamis_init()
 		$dunamis	=	get_dunamis();
 	}
 	
-	$input		=	dunloader( 'input', true );
 	//list_hooked_functions();
 	
 }

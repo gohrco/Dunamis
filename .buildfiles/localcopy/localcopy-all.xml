@@ -61,7 +61,7 @@
 				<isset property="${copy.select}" />
 			</not>
 			<then>
-				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla,Blesta,Wordpress" defaultvalue="All">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
+				<!-- Ask what we should copy --><input addproperty="copy.select" validargs="All,WHMCS,Joomla,Blesta,Wordpress" defaultvalue="Wordpress">${line.separator}${line.separator}Please select which application we want to copy this build to${line.separator}${line.separator}</input>
 			</then>
 		</if>
 		
