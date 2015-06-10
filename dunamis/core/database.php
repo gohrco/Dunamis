@@ -501,7 +501,9 @@ class DunDatabase extends DunObject
 		}
 	
 		$this->_cursor = mysql_query( $sql, $this->_resource );
-	
+		
+		dunloader( 'debug', true )->addQuery( $sql );
+		
 		// If this failed
 		if (!$this->_cursor)
 		{

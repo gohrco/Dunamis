@@ -96,6 +96,14 @@ class DunCurl extends DunObject
 	public	$info			= array();
 	
 	/**
+	 * The headers we sent stored for debugging purposes
+	 * @access		public
+	 * @var			array
+	 * @since		1.3.3
+	 */
+	public $debugheaders	=	array();
+	
+	/**
 	 * The response stored for debugging purposes
 	 * @access		public
 	 * @var			string
@@ -697,6 +705,11 @@ class DunCurl extends DunObject
 			$this->error_string = curl_error($this->session) . ' [' . $this->url .']';
 				
 			curl_close($this->session);
+			$this->debugoptions		=	self :: translateOptions( $optns );
+			$this->debugresponse	=	$this->response;
+			$this->debugheaders		=	$this->headers;
+			$this->debugmethod		=	$this->options[CURLOPT_CUSTOMREQUEST];
+			$this->debugpost		=	( $this->debugmethod == "POST" ? $this->debugpost : array() );
 			$this->set_defaults();
 				
 			return FALSE;
@@ -729,6 +742,7 @@ class DunCurl extends DunObject
 				$optns	=	$this->options;
 				$optns['Safe Mode or Open Basedir Enabled'] = ( $checkforredirects === true ? 'Yes' : 'No' );
 				$optns['Original HEAD Setting']	=	( $origredirsetting ? 'Yes' : 'No' );
+				$this->debugheaders		=	$this->headers;
 				$this->debugoptions		=	self :: translateOptions( $optns );
 				$this->debugresponse	= $this->response;
 				$this->debugmethod		= $this->options[CURLOPT_CUSTOMREQUEST];
@@ -770,6 +784,7 @@ class DunCurl extends DunObject
 		$optns['Safe Mode or Open Basedir Enabled'] = ( $checkforredirects === true ? 'Yes' : 'No' );
 		$optns['Original HEAD Setting']	=	( $origredirsetting ? 'Yes' : 'No' );
 		$this->debugoptions		=	self :: translateOptions( $optns );
+		$this->debugheaders		=	$this->headers;
 		$this->debugresponse	= $this->response;
 		$this->debugmethod		= $this->options[CURLOPT_CUSTOMREQUEST];
 		$this->debugpost		= ( $this->debugmethod == "POST" ? $this->debugpost : array() );

@@ -484,7 +484,7 @@ function dunloader( $request = null, $environment = false, $options = array() )
 					$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
 				}
 				else {
-					$instances['environment'][$request][$serialize] = true;
+					$instances['environment'][$request][$serialize] = dunloader( $request, false );
 				}
 			}
 		}
