@@ -13,7 +13,6 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
  * Dunamis Core Debug File
- * @abstract
  * @desc		This is the core Debug handler of the Dunamis Framework
  * @package		Dunamis
  * @subpackage	Core
@@ -22,10 +21,36 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
  * @copyright	@packageCopy@
  * @license		@packageLice@
  */
-abstract class DunDebug extends DunObject
+class DunDebug extends DunObject
 {
 	protected static $instance	=	null;
 	protected static $isEnabled	=	null;
+	
+	
+	/**
+	 * Method to add a database query to
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param unknown $q
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
+	public function addApi( $call, $method, $post = array(), $optns = array(), $result = null, $curlinfo = array() )
+	{
+		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\ApiBarPanel' )->data[] = array( 'call' => $call, 'method' => $method, 'post' => $post, 'optns' => $optns, 'result' => $result, 'curlinfo' => $curlinfo );
+	}
+	
+	
+	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		1.3.3
+	 */
+	public function addQuery( $q ) { }
 	
 	/**
 	 * Method to log an error message
@@ -40,6 +65,38 @@ abstract class DunDebug extends DunObject
 	{
 		if (! self :: $isEnabled ) return;
 		self :: $instance->error( t( $msg ), $label, $options  );
+	}
+	
+	
+	/**
+	 * Singleton
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@
+	 * @param		array		- $options: contains an array of arguments
+	 *
+	 * @return		object
+	 * @since		1.3.3
+	 */
+	public static function getInstance( $options = array() )
+	{
+		if (! is_object( self :: $instance ) ) {
+				
+			$classname	=	'DunDebug';
+				
+			if ( defined( 'DUN_ENV' ) ) {
+				$classname = ucfirst( strtolower( DUN_ENV ) ) . 'DunDebug';
+			}
+			
+			if ( class_exists( $classname ) && defined( 'DUN_ENV' ) ) {
+				self :: $instance	= new $classname( $options );
+			}
+			else {
+				self :: $instance	= new self( $options );
+			}
+		}
+	
+		return self :: $instance;
 	}
 	
 	
@@ -121,7 +178,6 @@ abstract class DunDebug extends DunObject
 	/**
 	 * Method to check if debugging is enabled
 	 * @access		protected
-	 * @abstract
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
 	 *
