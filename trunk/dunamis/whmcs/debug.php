@@ -41,7 +41,35 @@ class WhmcsDunDebug extends DunDebug
 		}
 		
 		// Lets initialized
-		parent :: init();
+		$tpath	=	dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
+		
+		require $tpath . 'IBarPanel.php';
+		require $tpath . 'Bar.php';
+		require $tpath . 'BlueScreen.php';
+		require $tpath . 'DefaultBarPanel.php';
+		require $tpath . 'Dumper.php';
+		require $tpath . 'FireLogger.php';
+		require $tpath . 'Helpers.php';
+		require $tpath . 'Logger.php';
+		require $tpath . 'Debugger.php';
+		require $tpath . 'OutputDebugger.php';
+		require $tpath . 'shortcuts.php';
+		require $tpath . 'Queries.php';
+		
+		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
+		$productionMode	=	php_sapi_name() === 'cli' || ( stripos($serverName, '.local' ) === false && stripos( $serverName, 'localhost' ) === false );
+		
+		// Permit custom location of logs
+		$logpath = DUN_ENV_PATH . 'logs';
+		
+		$phpeval = <<< TXT
+\Tracy\Debugger :: \$strictMode = true;
+\Tracy\Debugger :: \$scream = true;
+\Tracy\Debugger :: \$onFatalError = "\UnknownException::setFatalErrorHandler";
+\Tracy\Debugger :: enable( \$productionMode, \$logpath );
+\Tracy\Debugger :: getBar()->addPanel( new \Tracy\QueriesBarPanel );
+TXT;
+		eval( $phpeval );
 	}
 	
 	
