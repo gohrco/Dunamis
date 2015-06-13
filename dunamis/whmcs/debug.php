@@ -23,6 +23,14 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
  */
 class WhmcsDunDebug extends DunDebug
 {
+	/**
+	 * Variable to indicate we have initialized already
+	 * @static
+	 * @var			boolean
+	 * @since		1.3.3
+	 */
+	static $initialized = false;
+	
 	
 	/**
 	 * Method to add a database query to 
@@ -31,10 +39,13 @@ class WhmcsDunDebug extends DunDebug
 	 * @param unknown $q
 	 *
 	 * @return		void
-	 * @since		1.0.0
+	 * @since		1.3.3
 	 */
 	public function addQuery( $q )
 	{
+		if (! self :: $initialized ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
 		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\QueriesBarPanel' )->data[] = array( 'dump' => $q );
 	}
 	
@@ -50,27 +61,27 @@ class WhmcsDunDebug extends DunDebug
 	 */
 	public static function init()
 	{
-		// Check to see if we are enabled or not
-		if (! self :: isEnabled() ) {
-			return;
-		}
-		
 		// Lets initialized
 		$tpath	=	dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
 		
-		require $tpath . 'IBarPanel.php';
-		require $tpath . 'Bar.php';
-		require $tpath . 'BlueScreen.php';
-		require $tpath . 'DefaultBarPanel.php';
-		require $tpath . 'Dumper.php';
-		require $tpath . 'FireLogger.php';
-		require $tpath . 'Helpers.php';
-		require $tpath . 'Logger.php';
-		require $tpath . 'Debugger.php';
-		require $tpath . 'OutputDebugger.php';
-		require $tpath . 'shortcuts.php';
-		require $tpath . 'Queries.php';
-		require $tpath . 'Api.php';
+		require_once $tpath . 'IBarPanel.php';
+		require_once $tpath . 'Bar.php';
+		require_once $tpath . 'BlueScreen.php';
+		require_once $tpath . 'DefaultBarPanel.php';
+		require_once $tpath . 'Dumper.php';
+		require_once $tpath . 'FireLogger.php';
+		require_once $tpath . 'Helpers.php';
+		require_once $tpath . 'Logger.php';
+		require_once $tpath . 'Debugger.php';
+		require_once $tpath . 'OutputDebugger.php';
+		require_once $tpath . 'shortcuts.php';
+		require_once $tpath . 'Queries.php';
+		require_once $tpath . 'Api.php';
+		
+		// Check to see if we are enabled or not
+		if (! self :: isEnabled() ) return;
+		if ( self :: $initialized ) return;
+		
 		
 		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
 		$productionMode	=	php_sapi_name() === 'cli' || ( stripos($serverName, '.local' ) === false && stripos( $serverName, 'localhost' ) === false );
@@ -87,6 +98,8 @@ class WhmcsDunDebug extends DunDebug
 \Tracy\Debugger :: getBar()->addPanel( new \Tracy\ApiBarPanel );
 TXT;
 		eval( $phpeval );
+		
+		self :: $initialized = true;
 	}
 	
 	
@@ -106,6 +119,23 @@ TXT;
 		}
 		
 		return (bool) self :: $isEnabled;
+	}
+	
+	
+	/**
+	 * Method for returning a debug response via the API
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		1.3.3
+	 */
+	public function renderforApi()
+	{
+		if (! self :: $initialized ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		return \Tracy\Debugger :: getBar()->renderforApi();
 	}
 }
 

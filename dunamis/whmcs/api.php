@@ -161,6 +161,12 @@ class WhmcsDunApi extends DunObject
 	 */
 	private function _buildJson()
 	{
+		if ( is_array( $this->data ) ) {
+			$this->data['debug']	=	\Tracy\Debugger :: getBar()->renderforApi();
+		}
+		elseif ( is_object( $this->data ) ) {
+			$this->data->debug		=	\Tracy\Debugger :: getBar()->renderforApi();
+		}
 		return json_encode( $this->data );
 	}
 	

@@ -705,6 +705,10 @@ class DunCurl extends DunObject
 			$this->error_string = curl_error($this->session) . ' [' . $this->url .']';
 				
 			curl_close($this->session);
+			$optns	=	$this->options;
+			$optns['Safe Mode or Open Basedir Enabled']	=	( $checkforredirects === true ? 'Yes' : 'No' );
+			$optns['Original HEAD Setting']				=	( $origredirsetting ? 'Yes' : 'No' );
+			
 			$this->debugoptions		=	self :: translateOptions( $optns );
 			$this->debugresponse	=	$this->response;
 			$this->debugheaders		=	$this->headers;

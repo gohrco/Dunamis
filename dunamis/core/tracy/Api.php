@@ -28,7 +28,33 @@ class ApiBarPanel implements IBarPanel
 		
 	}
 
-
+	
+	/**
+	 * Method to add data over to our debugger bar
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array
+	 *
+	 * @author		Steven Mueller
+	 * @since		1.3.3
+	 */
+	public function addData( $data = array() )
+	{
+		if (! \Tracy\Debugger :: isEnabled() ) return;
+	
+		// Process incoming data
+		extract( $data );
+	
+		// Lets get our debug info first
+		$string	=	json_decode( preg_replace( "#^[^{]*#im", "", $result ), false );
+		$debug	=	(! isset( $string->debug ) ? array() :  json_decode( base64_decode( $string->debug ), false ) );
+	
+		// Add to our stack
+		$this->data[]	=	array( 'call' => $call, 'method' => $method, 'post' => $post, 'optns' => $optns, 'result' => $result, 'curlinfo' => $curlinfo, 'debug' => $debug );
+	
+	}
+	
+	
 	/**
 	 * Renders HTML code for custom tab.
 	 * @return string

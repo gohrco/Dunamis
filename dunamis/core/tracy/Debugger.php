@@ -130,7 +130,13 @@ class Debugger
 		throw new \LogicException;
 	}
 
-
+	
+	public static function disable()
+	{
+		self :: $enabled = false;
+	}
+	
+	
 	/**
 	 * Enables displaying or logging errors and exceptions.
 	 * @param  mixed         production, development mode, autodetection or IP address(es) whitelist.

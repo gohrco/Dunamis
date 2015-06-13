@@ -38,8 +38,12 @@ $cnt	=	1;
 	#tracy-debug .tracy-panel table tr.delete {
 		background-color: #FFD8D8;
 	}
-	#tracy-debug .tracy-panel tr:nth-child(2n) td {
-		background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ) !important;
+	#tracy-debug .tracy-inner table tr:nth-child(2n) td {
+		background: none !important;
+	}
+	
+	#tracy-debug .tracy-inner table tr.tracy-alt {
+		background: linear-gradient( rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04) ) !important;
 	}
 	
 	#tracy-debug-panel-Tracy-ApiBarPanel.tracy-mode-float {
@@ -49,6 +53,12 @@ $cnt	=	1;
 	#tracy-debug-panel-Tracy-ApiBarPanel.tracy-mode-float .tracy-inner.tracy-DumpPanel {
 		max-width: 100%;
 	}
+	.tracy-inner .remote-api img {
+		vertical-align: middle;
+		position: relative;
+		top: -1px;
+		margin-right: 3px !important;
+	}
 </style>
 
 
@@ -57,23 +67,51 @@ $cnt	=	1;
 <div class="tracy-inner tracy-DumpPanel">
 
 <table>
-<?php foreach ($this->data as $item): ?>
-	<?php $class	=	'success'; ?>
-	<tr class="<?php echo $i++ % 2 ? 'tracy-alt' : '' ?> <?php echo $class ?>">
+<?php foreach ($this->data as $my => $item): ?>
+	<?php $class	=	'success' . ( $i++ % 2 ? ' tracy-alt' : '' ); ?>
+	<tr class="<?php echo $class ?>">
 		<td width="15"><?php echo $cnt++ ?>) </td><td>
 		<td width="25"><?php echo $item['method'] ?></td>
 		<td><?php echo $item['call'] ?></td>
 		<td>
-			<a href="#post<?php echo $i?>" class="tracy-toggle-collapsed">Variables</a><div style="display: none; " id="post<?php echo $i ?>"><pre><?php echo print_r($item['post'],1) ?></pre></div>
-			<a href="#optn<?php echo $i?>" class="tracy-toggle-collapsed">Curl Options</a><div style="display: none; " id="optn<?php echo $i ?>"><pre><?php echo print_r($item['optns'],1) ?></pre></div>
+			<a href="#post<?php echo $i?>" class="tracy-toggle-collapsed">Variables</a>
+			<a href="#optn<?php echo $i?>" class="tracy-toggle-collapsed">Curl Options</a>
 		</td>
 		<td>
-			<a href="#result<?php echo $i?>" class="tracy-toggle-collapsed">Response</a><div style="display: none; " id="result<?php echo $i ?>"><?php echo ( is_bool( $item['result'] ) ? var_dump( $item['result'] ) : $item['result'] ) ?></div>
+			<a href="#result<?php echo $i?>" class="tracy-toggle-collapsed">Response</a>
 		</td>
 		<td>
-			<a href="#curl<?php echo $i?>" class="tracy-toggle-collapsed">Curl Info</a><div style="display: none; " id="curl<?php echo $i ?>"><pre><?php echo print_r($item['curlinfo'],1) ?></pre></div>
+			<a href="#curl<?php echo $i?>" class="tracy-toggle-collapsed">Curl Info</a>
+		</td>
+		<td class="remote-api">
+			<?php if ( $item['debug'] ) : ?>
+			<?php foreach ( $item['debug'] as $k => &$ri ) :
+				if (! $ri->tab && !$ri->panel ) { unset( $item['debug'][$k] ); continue; }
+				if ( $ri->tab && ! $ri->panel ) { echo ' ' . $ri->tab; unset( $item['debug'][$k] ); continue; }
+				if (! $ri->tab && $ri->panel ) { unset( $item['debug'][$k] ); continue; }
+				?>
+				&nbsp;<a href="#remote<?php echo $my . $ri->id ?>" class="tracy-toggle-collapsed"><?php echo $ri->tab ?></a>
+				
+			<?php endforeach; ?>
+			<?php endif; ?>
+		</td>
+	</tr>
+	<tr class="<?php echo $class ?>">
+		<td width="15">&nbsp;</td>
+		<td colspan="7">
+			<div style="display: none; max-width: 500px; " id="post<?php echo $i ?>"><pre><?php echo print_r($item['post'],1) ?></pre></div>
+			<div style="display: none; max-width: 500px; " id="optn<?php echo $i ?>"><pre><?php echo print_r($item['optns'],1) ?></pre></div>
+			<div style="display: none; max-width: 500px; " id="result<?php echo $i ?>"><?php echo ( is_bool( $item['result'] ) ? var_dump( $item['result'] ) : $item['result'] ) ?></div>
+			<div style="display: none; max-width: 500px; " id="curl<?php echo $i ?>"><pre><?php echo print_r($item['curlinfo'],1) ?></pre></div>
+			
+			<?php if ( $item['debug'] ) : ?>
+			<?php foreach ( $item['debug'] as $k => &$ri ) : ?>
+				<div style="display: none; " id="remote<?php echo $my . $ri->id ?>"><?php echo $ri->panel ?></div>
+			<?php endforeach; ?>
+			<?php endif; ?>
 		</td>
 	</tr>
 <?php endforeach ?>
 </table>
 </div>
+<div class=" tracy-panel  tracy-mode-peek" id="tracy-debug-panel-test1">Hi There</div>
