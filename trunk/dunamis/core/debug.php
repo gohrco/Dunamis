@@ -23,6 +23,7 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
  */
 class DunDebug extends DunObject
 {
+	static $initialized = false;
 	protected static $instance	=	null;
 	protected static $isEnabled	=	null;
 	
@@ -34,11 +35,14 @@ class DunDebug extends DunObject
 	 * @param unknown $q
 	 *
 	 * @return		void
-	 * @since		1.0.0
+	 * @since		1.3.3
 	 */
-	public function addApi( $call, $method, $post = array(), $optns = array(), $result = null, $curlinfo = array() )
+	public function addApi( $data = array() )
 	{
-		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\ApiBarPanel' )->data[] = array( 'call' => $call, 'method' => $method, 'post' => $post, 'optns' => $optns, 'result' => $result, 'curlinfo' => $curlinfo );
+		if (! self :: $initialized ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\ApiBarPanel' )->addData( $data );
 	}
 	
 	
@@ -51,6 +55,7 @@ class DunDebug extends DunObject
 	 * @since		1.3.3
 	 */
 	public function addQuery( $q ) { }
+	
 	
 	/**
 	 * Method to log an error message
@@ -200,6 +205,15 @@ class DunDebug extends DunObject
 	{
 		if (! self :: $isEnabled ) return;
 		self :: $instance->log( t( $msg ), $label, $options );
+	}
+	
+	
+	public function variable( $var, $msg = null )
+	{
+		if (! self :: $initialized ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		\Tracy\Debugger :: barDump( $var, $msg );
 	}
 	
 	

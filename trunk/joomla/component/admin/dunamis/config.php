@@ -79,7 +79,7 @@ class Com_dunamisDunConfig extends JoomlaDunConfig
 		
 		if (! is_object( $instance ) ) {
 			
-			$instance = new Com_integratorDunConfig( $options );
+			$instance = new Com_dunamisDunConfig( $options );
 		}
 	
 		return $instance;
@@ -163,7 +163,7 @@ class Com_dunamisDunConfig extends JoomlaDunConfig
 	public function save()
 	{
 		$table	=	JTable::getInstance( 'extension' );
-		$origin	=	$table->find( array( 'name' => 'com_dunamis', 'type' => 'component' ) );
+		$origin	=	$table->find( array( 'element' => 'com_dunamis', 'type' => 'component' ) );
 		
 		if (! $table->load( $origin ) ) {
 			return $table->getError();
