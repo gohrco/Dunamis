@@ -39,7 +39,7 @@ class DunDebug extends DunObject
 	 */
 	public function addApi( $data = array() )
 	{
-		if (! self :: $initialized ) $this->init();
+		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return;
 		if (! class_exists( '\Tracy\Debugger' ) ) return;
 		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\ApiBarPanel' )->addData( $data );
@@ -54,7 +54,13 @@ class DunDebug extends DunObject
 	 *
 	 * @since		1.3.3
 	 */
-	public function addQuery( $q ) { }
+	public function addQuery( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\QueriesBarPanel' )->data[] = array( 'dump' => $q );
+	}
 	
 	
 	/**
@@ -158,25 +164,48 @@ class DunDebug extends DunObject
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @param		string
+	 * @param		string
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init()
+	public static function init( $path = null, $logpath = null )
 	{
-		if (! is_object( self :: $instance ) ) {
-			$ds		=	DIRECTORY_SEPARATOR;
-			$path	=	dirname(__FILE__) . DIRECTORY_SEPARATOR
-					.	'firebug' . DIRECTORY_SEPARATOR
-					.	'FirePHP.class.php';
-			@require_once( $path );
-			
-			self :: $instance = FirePHP :: getInstance( true );
-		}
+		if ( $path == null ) return;
+		if ( $logpath == null ) return;
 		
-		self :: group( 'Dunamis Debugging Initialized' );
-		self :: log( 'Firebug Initialized' );
-		self :: log( 'Ensure if this is a production environment that the debugging is disabled when completed.' );
-		self :: groupEnd();
+		require_once $path . 'IBarPanel.php';
+		require_once $path . 'Bar.php';
+		require_once $path . 'BlueScreen.php';
+		require_once $path . 'DefaultBarPanel.php';
+		require_once $path . 'Dumper.php';
+		require_once $path . 'FireLogger.php';
+		require_once $path . 'Helpers.php';
+		require_once $path . 'Logger.php';
+		require_once $path . 'Debugger.php';
+		require_once $path . 'OutputDebugger.php';
+		require_once $path . 'shortcuts.php';
+		require_once $path . 'Queries.php';
+		require_once $path . 'Api.php';
+		
+		// Check to see if we are enabled or not
+		if (! self :: isEnabled() ) return;
+		if ( self :: isInitialized() ) return;
+		
+		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
+		$productionMode	=	php_sapi_name() === 'cli' || ( stripos($serverName, '.local' ) === false && stripos( $serverName, 'localhost' ) === false );
+		
+		$phpeval = <<< TXT
+\Tracy\Debugger :: \$strictMode = false;
+\Tracy\Debugger :: \$scream = false;
+\Tracy\Debugger :: \$onFatalError = "\UnknownException::setFatalErrorHandler";
+\Tracy\Debugger :: enable( \$productionMode, \$logpath );
+\Tracy\Debugger :: getBar()->addPanel( new \Tracy\QueriesBarPanel );
+\Tracy\Debugger :: getBar()->addPanel( new \Tracy\ApiBarPanel );
+TXT;
+		eval( $phpeval );
+		
+		self :: $initialized = true;
 	}
 	
 	
@@ -189,7 +218,30 @@ class DunDebug extends DunObject
 	 * @return		boolean
 	 * @since		1.0.11
 	 */
-	protected static function isEnabled() {}
+	protected static function isEnabled()
+	{
+		if ( self :: $isEnabled === null ) {
+			$fnxn	=	'get_errorsetting_' . strtolower( DUN_ENV );
+			$state	=	call_user_func( $fnxn );
+			self :: setEnabled( $state );
+		}
+		
+		return self :: $isEnabled;
+	}
+	
+	
+	/**
+	 * Method to determine if our debugger is initialized
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@
+	 * @return		boolean
+	 * @since		1.3.3
+	 */
+	protected static function isInitialized()
+	{
+		return self :: $initialized == true;
+	}
 	
 	
 	/**
@@ -208,9 +260,33 @@ class DunDebug extends DunObject
 	}
 	
 	
+	/**
+	 * Method to enable the debug
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@
+	 * @param		boolean
+	 *
+	 * @since		1.3.3
+	 */
+	public static function setEnabled( $state = false )
+	{
+		self :: $isEnabled = $state;
+	}
+	
+	
+	/**
+	 * Dumps a variable to our debug bar
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		mixed
+	 * @param		string
+	 * 
+	 * @since		1.3.3
+	 */
 	public function variable( $var, $msg = null )
 	{
-		if (! self :: $initialized ) $this->init();
+		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return;
 		if (! class_exists( '\Tracy\Debugger' ) ) return;
 		\Tracy\Debugger :: barDump( $var, $msg );

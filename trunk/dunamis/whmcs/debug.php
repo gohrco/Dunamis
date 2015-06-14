@@ -33,73 +33,27 @@ class WhmcsDunDebug extends DunDebug
 	
 	
 	/**
-	 * Method to add a database query to 
-	 * @access		public
-	 * @version		@fileVers@
-	 * @param unknown $q
-	 *
-	 * @return		void
-	 * @since		1.3.3
-	 */
-	public function addQuery( $q )
-	{
-		if (! self :: $initialized ) $this->init();
-		if (! self :: isEnabled() ) return;
-		if (! class_exists( '\Tracy\Debugger' ) ) return;
-		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\QueriesBarPanel' )->data[] = array( 'dump' => $q );
-	}
-	
-	
-	/**
 	 * Method to initialize the debug object
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
-	 * @param		string		- $name: the calling name
+	 * @param		string
+	 * @param		string
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init()
+	public static function init( $path = null, $logpath = null )
 	{
-		// Lets initialized
-		$tpath	=	dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
+		// Lets set our paths
+		if ( $path == null ) {
+			$path = dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
+		}
 		
-		require_once $tpath . 'IBarPanel.php';
-		require_once $tpath . 'Bar.php';
-		require_once $tpath . 'BlueScreen.php';
-		require_once $tpath . 'DefaultBarPanel.php';
-		require_once $tpath . 'Dumper.php';
-		require_once $tpath . 'FireLogger.php';
-		require_once $tpath . 'Helpers.php';
-		require_once $tpath . 'Logger.php';
-		require_once $tpath . 'Debugger.php';
-		require_once $tpath . 'OutputDebugger.php';
-		require_once $tpath . 'shortcuts.php';
-		require_once $tpath . 'Queries.php';
-		require_once $tpath . 'Api.php';
+		if ( $logpath == null ) {
+			$logpath = DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
+		}
 		
-		// Check to see if we are enabled or not
-		if (! self :: isEnabled() ) return;
-		if ( self :: $initialized ) return;
-		
-		
-		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
-		$productionMode	=	php_sapi_name() === 'cli' || ( stripos($serverName, '.local' ) === false && stripos( $serverName, 'localhost' ) === false );
-		
-		// Permit custom location of logs
-		$logpath = DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
-		
-		$phpeval = <<< TXT
-\Tracy\Debugger :: \$strictMode = false;
-\Tracy\Debugger :: \$scream = false;
-\Tracy\Debugger :: \$onFatalError = "\UnknownException::setFatalErrorHandler";
-\Tracy\Debugger :: enable( \$productionMode, \$logpath );
-\Tracy\Debugger :: getBar()->addPanel( new \Tracy\QueriesBarPanel );
-\Tracy\Debugger :: getBar()->addPanel( new \Tracy\ApiBarPanel );
-TXT;
-		eval( $phpeval );
-		
-		self :: $initialized = true;
+		parent :: init( $path, $logpath );
 	}
 	
 	
@@ -115,10 +69,11 @@ TXT;
 	protected static function isEnabled()
 	{
 		if ( self :: $isEnabled === null ) {
-			self :: $isEnabled = get_errorsetting_whmcs( 'DebugErrors' );
+			$state	=	get_errorsetting_whmcs( 'DebugErrors' );
+			self :: setEnabled( $state );
 		}
 		
-		return (bool) self :: $isEnabled;
+		return (bool) parent :: isEnabled();
 	}
 	
 	
@@ -132,7 +87,7 @@ TXT;
 	 */
 	public function renderforApi()
 	{
-		if (! self :: $initialized ) $this->init();
+		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return;
 		if (! class_exists( '\Tracy\Debugger' ) ) return;
 		return \Tracy\Debugger :: getBar()->renderforApi();
