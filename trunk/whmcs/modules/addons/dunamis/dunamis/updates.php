@@ -25,7 +25,6 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 	protected $_exceptions	=	array();
 	protected $_expires		=	86400; // TTL
 	protected $_installpath	=	null;
-	//protected $_url			=	'http://localhost/updates/belong.xml';
 	protected $_url			=	'https://www.gohigheris.com/updates/dunamis/whmcs-module';
 	protected $_version		=	'@fileVers@';
 	
@@ -101,7 +100,7 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 		$db	= dunloader( 'database', true );
 		
 		// Grab the store from the db
-		$db->setQuery( "SELECT `value` FROM `mod_belong_settings` WHERE `key` = 'updates'" );
+		$db->setQuery( "SELECT `value` FROM `mod_dunamis_settings` WHERE `key` = 'updates'" );
 		$data	= $db->loadResult();
 		
 		// If the store doesn't exist return false
@@ -129,7 +128,7 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 	 */
 	protected function _updateUrl()
 	{
-		$config	=	dunloader( 'config', 'belong' );
+		$config	=	dunloader( 'config', 'dunamis' );
 		$dlid	=	$config->get( 'dlid', null );
 		
 		$url	=	parent :: _updateUrl();
@@ -161,7 +160,7 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 		
 		$data	=	json_encode( $update );
 		
-		$db->setQuery( "UPDATE `mod_belong_settings` SET `value` = " . $db->Quote( $data, false ) . " WHERE `key` = 'updates'" );
+		$db->setQuery( "UPDATE `mod_dunamis_settings` SET `value` = " . $db->Quote( $data, false ) . " WHERE `key` = 'updates'" );
 		return (bool) $db->query();
 	}
 }
