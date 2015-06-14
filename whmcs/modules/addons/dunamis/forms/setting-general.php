@@ -12,4 +12,12 @@ $form	= array(
  				'label'			=> 'dunamis.admin.form.settings.label.debug',
  				'description'	=> 'dunamis.admin.form.settings.description.debug',
  		),
+		'dlid'	=> array(
+				'order'			=>	30,
+				'type'			=>	'text',
+				'value'			=>	null,
+				'validation'	=>	'',
+				'label'			=>	'dunamis.admin.form.settings.label.dlid',
+				'description'	=>	'dunamis.admin.form.settings.description.dlid',
+		),
 	);
