@@ -54,6 +54,12 @@ class WhmcsDunDebug extends DunDebug
 		}
 		
 		parent :: init( $path, $logpath );
+		
+		// If coming through API we dont want to break it
+		if ( is_api() ) {
+			$eval	=	"\Tracy\Debugger :: disable();";
+			eval( $eval );
+		}
 	}
 	
 	
