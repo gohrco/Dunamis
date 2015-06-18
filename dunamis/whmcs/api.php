@@ -270,13 +270,18 @@ class WhmcsDunApi extends DunObject
 	private function _translit( $data )
 	{
 		if ( $this->iconv ) {
-			foreach ( $data as $key => $value ) {
-				if ( is_array( $value ) ) {
-					$value = $this->_translit( $value );
+			if ( is_array( $data ) ) {
+				foreach ( $data as $key => $value ) {
+					if ( is_array( $value ) ) {
+						$value = $this->_translit( $value );
+					}
+					else {
+						$data[$key] = iconv( "{$this->charset}", "UTF-8//TRANSLIT", $value );
+					}
 				}
-				else {
-					$data[$key] = iconv( "{$this->charset}", "UTF-8//TRANSLIT", $value );
-				}
+			}
+			else {
+				$data	=	iconv( "{$this->charset}", "UTF-8//TRANSLIT", $data );
 			}
 		}
 		
