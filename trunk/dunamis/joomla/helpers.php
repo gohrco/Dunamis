@@ -98,6 +98,22 @@ if (! function_exists( 'is_admin' ) )
 
 
 /**
+ * Function for determining if we are using SSL on this page or not
+ * @version		@fileVers@
+ * @since		1.3.3
+ */
+if (! function_exists( 'is_ssl' ) ) {
+function is_ssl()
+{
+	$uri	=	DunUri  :: getInstance( 'SERVER', true );
+	$scheme	=	$uri->getScheme();
+
+	return $scheme == 'https';
+}
+}
+
+
+/**
  * Function for conveniently loading the bootstrap for modules
  * @version		@fileVers@
  * @since		1.1.0
