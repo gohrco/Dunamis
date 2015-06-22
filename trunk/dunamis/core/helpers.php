@@ -71,6 +71,19 @@ if (! function_exists( '_e' ) ) {
 
 
 /**
+ * Function for determining if we are in an ajax request or not (only known to catch jQuery ajax requests atm)
+ * @version		@fileVers@
+ * @since		1.3.0
+ */
+if (! function_exists( 'is_ajax' ) ) {
+	function is_ajax()
+	{
+		return ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) === 'xmlhttprequest' );
+	}
+}
+
+
+/**
  * Function to check a value for being an email address
  * @version		@fileVers@
  *
