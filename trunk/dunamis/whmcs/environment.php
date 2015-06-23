@@ -62,6 +62,8 @@ class WhmcsDunEnvironment extends DunEnvironment
 		if (! defined( 'DUN_ENV_VERSION' ) ) {
 			$config = dunloader( 'config', true, array( 'database' => false, 'session' => true ) );
 			$version	= $config->get( 'Version' );
+			$version	=	explode( '-', $version );
+			$version	=	array_shift( $version );
 			define( 'DUN_ENV_VERSION', $version );
 		}
 	}
