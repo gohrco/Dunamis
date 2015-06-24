@@ -7,7 +7,7 @@
  * @license    @buildLicense@
  * @version    @fileVers@ ( $Id$ )
  * @author     @buildAuthor@
- * @since      1.3.3
+ * @since      1.4.0
  * 
  * @desc       This file renders the default view to the admin user
  *  

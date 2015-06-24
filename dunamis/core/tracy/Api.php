@@ -36,7 +36,7 @@ class ApiBarPanel implements IBarPanel
 	 * @param		array
 	 *
 	 * @author		Steven Mueller
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function addData( $data = array() )
 	{

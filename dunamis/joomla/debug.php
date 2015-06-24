@@ -77,7 +77,7 @@ class JoomlaDunDebug extends DunDebug
 	 * @version		@fileVers@
 	 *
 	 * @return		string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function renderforApi()
 	{

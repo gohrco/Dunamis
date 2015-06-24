@@ -20,7 +20,7 @@
  * @version		@fileVers@
  *
  * @author		Steven
- * @since		1.3.3
+ * @since		1.4.0
  */
 class DunamisDunConfig extends WhmcsDunConfig
 {

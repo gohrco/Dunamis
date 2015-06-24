@@ -35,7 +35,7 @@ class DunDebug extends DunObject
 	 * @param unknown $q
 	 *
 	 * @return		void
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function addApi( $data = array() )
 	{
@@ -52,7 +52,7 @@ class DunDebug extends DunObject
 	 * @version		@fileVers@
 	 * @param		string
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function addQuery( $q )
 	{
@@ -87,7 +87,7 @@ class DunDebug extends DunObject
 	 * @param		array		- $options: contains an array of arguments
 	 *
 	 * @return		object
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public static function getInstance( $options = array() )
 	{
@@ -236,7 +236,7 @@ TXT;
 	 * @static
 	 * @version		@fileVers@
 	 * @return		boolean
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected static function isInitialized()
 	{
@@ -267,7 +267,7 @@ TXT;
 	 * @version		@fileVers@
 	 * @param		boolean
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public static function setEnabled( $state = false )
 	{
@@ -282,7 +282,7 @@ TXT;
 	 * @param		mixed
 	 * @param		string
 	 * 
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function variable( $var, $msg = null )
 	{

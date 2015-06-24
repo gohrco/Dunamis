@@ -74,7 +74,7 @@ class WhmcsDunEnvironment extends DunEnvironment
  * Function to get a steting from WHMCS database table
  * @access		public
  * @version		@fileVers@ ( $id$ )
- * @version		1.3.3		- Moved debug settings from WHMCS table to our own table
+ * @version		1.4.0		- Moved debug settings from WHMCS table to our own table
  * @version		1.1.5		- August 2013: must rely on WHMCS database function as our DB handler breaks quote use (DUN-4)
  * @param		string		- $checkfor: what we are checking for
  *

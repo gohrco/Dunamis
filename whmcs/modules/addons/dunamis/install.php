@@ -8,7 +8,7 @@
  * @license    @buildLicense@
  * @version    @fileVers@ ( $Id$ )
  * @author     @buildAuthor@
- * @since      1.3.3
+ * @since      1.4.0
  *
  * @desc       This file is the install controller
  *
@@ -19,7 +19,7 @@
  * @version		@fileVers@
  *
  * @author		Steven
- * @since		1.3.3
+ * @since		1.4.0
  */
 class DunamisInstallDunModule extends WhmcsDunModule
 {
@@ -32,7 +32,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function activate()
 	{
@@ -61,7 +61,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @version		@fileVers@ ( $id$ )
 	 *
 	 * @return		array of objects
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function checkFiles( $tpl = null )
 	{
@@ -143,7 +143,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @access		public
 	 * @version		@fileVers@ ( $id$ )
 	 * 
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function deactivate()
 	{
@@ -183,7 +183,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		string		- $file: subpath of the file / filename to handle
 	 *
 	 * @return		boolean
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function fixFile( $file )
 	{
@@ -220,7 +220,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		string		- $table: the table to get
 	 *
 	 * @return		array
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function getConfiguration( $table = 'settings' )
 	{
@@ -233,7 +233,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function initialise()
 	{
@@ -252,7 +252,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @access		public
 	 * @version		@fileVers@ ( $id$ )
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function legacy()
 	{
@@ -291,7 +291,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		boolean		- $sendDirs: if we want the directories back
 	 * 
 	 * @return		array
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	private function _getLegacyfiles( $sendDirs = false )
 	{
@@ -306,7 +306,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		string		- $config: which table to get for
 	 * 
 	 * @return		array
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	private function _getTablevalues( $config = 'settings' )
 	{
@@ -336,7 +336,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		string		- $type: indicates what we are looking for [tpl|bak]
 	 *
 	 * @return		array
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	private function _getTemplatefiles( $subdir = null, $type = 'tpl' )
 	{
@@ -368,7 +368,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	 * @param		string		- $file: relative path to file
 	 *
 	 * @return		bool
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	private function _isFilesizesame( $file = null )
 	{

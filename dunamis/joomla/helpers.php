@@ -100,7 +100,7 @@ if (! function_exists( 'is_admin' ) )
 /**
  * Function for determining if we are using SSL on this page or not
  * @version		@fileVers@
- * @since		1.3.3
+ * @since		1.4.0
  */
 if (! function_exists( 'is_ssl' ) ) {
 function is_ssl()

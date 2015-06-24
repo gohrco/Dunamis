@@ -27,7 +27,7 @@ class WhmcsDunDebug extends DunDebug
 	 * Variable to indicate we have initialized already
 	 * @static
 	 * @var			boolean
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	static $initialized = false;
 	
@@ -89,7 +89,7 @@ class WhmcsDunDebug extends DunDebug
 	 * @version		@fileVers@
 	 *
 	 * @return		string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function renderforApi()
 	{

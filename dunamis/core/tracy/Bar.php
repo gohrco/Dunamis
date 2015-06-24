@@ -108,7 +108,7 @@ class Bar
 	 * @version		@fileVers@
 	 *
 	 * @return		void
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function renderforApi()
 	{

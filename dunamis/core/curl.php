@@ -99,7 +99,7 @@ class DunCurl extends DunObject
 	 * The headers we sent stored for debugging purposes
 	 * @access		public
 	 * @var			array
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public $debugheaders	=	array();
 	
