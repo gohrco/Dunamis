@@ -15,7 +15,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * Stores what the task is for this page
 	 * @access		protected
 	 * @var			string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected $task	= 'default';
 	
@@ -33,7 +33,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		string containing html formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildAlerts()
 	{
@@ -57,7 +57,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		html formatted string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildModals()
 	{
@@ -92,7 +92,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		string containing html formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildNavigation()
 	{
@@ -128,7 +128,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		string containing html formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildTitle()
 	{
@@ -200,7 +200,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @param		string		- $data: contains compiled data from the sub-view
 	 *
 	 * @return		html formatted string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function render( $data = null )
 	{
@@ -274,7 +274,7 @@ class DunamisAdminDunModule extends WhmcsDunModule
 	 * @param		array		- $fields: contains an array of Field objects
 	 *
 	 * @return		string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected function renderForm( $fields = array(), $options = array() )
 	{
@@ -309,7 +309,7 @@ HTML;
 	 * @version		@fileVers@
 	 * @param		string		- $action: the action to set
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function setAction( $action = 'default' )
 	{
@@ -325,7 +325,7 @@ HTML;
 	 * @param		string		- $type: indicates which type of alert to set to
 	 * @param		boolean		- $trans: indicates if we should translate (true default)
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected function setAlert( $msg = array(), $type = 'success', $trans = true )
 	{
@@ -360,7 +360,7 @@ HTML;
 	 * @param		string		- $btnlbl: the label to use for the affirming action button
 	 * @param		string		- $type: the style of button to use (success|danger|etc)
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected function setModal( $id, $title, $header, $body, $href, $btnlbl, $type = 'danger' )
 	{

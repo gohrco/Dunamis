@@ -122,7 +122,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @version		@fileVers@
 	 *
 	 * @return		string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function getBase()
 	{
@@ -138,7 +138,7 @@ class JoomlaDunDocument extends DunDocument
 	 * @param		string
 	 * 
 	 * @return		boolean
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function setBase( $base )
 	{

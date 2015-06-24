@@ -8,7 +8,7 @@
  * @license    @buildLicense@
  * @version    @fileVers@ ( $Id$ )
  * @author     @buildAuthor@
- * @since      1.3.3
+ * @since      1.4.0
  *
  * @desc       This file is the default controller
  *
@@ -20,7 +20,7 @@
  * @version		@fileVers@
  *
  * @author		Steven
- * @since		1.3.3
+ * @since		1.4.0
  */
 class DunamisDefaultDunModule extends DunamisAdminDunModule
 {
@@ -28,7 +28,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * Provide means to check for file integrity
 	 * @access		protected
 	 * @var			string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected $checkstring	=	"@checkString@";
 	
@@ -38,7 +38,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 * @see			IntegratorAdminDunModule :: initialise()
 	 */
 	public function initialise()
@@ -53,7 +53,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * @version		@fileVers@
 	 * @param		string		- $task: if we are passing a specific task to do
 	 * 
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function execute()
 	{
@@ -67,7 +67,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * @version		@fileVers@
 	 * 
 	 * @return		string containing formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function render( $data = null )
 	{
@@ -87,7 +87,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * @version		@fileVers@
 	 *
 	 * @return		string containing html formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildBody()
 	{
@@ -122,7 +122,7 @@ class DunamisDefaultDunModule extends DunamisAdminDunModule
 	 * @param		string		- $widget: contains the widget to retrieve
 	 *
 	 * @return		html formatted string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	private function _getWidgets( $widget = 'all' )
 	{

@@ -92,7 +92,7 @@ function dunamis_upgrade($vars)
 	}
 	
 	// We must handle legacy upgrades now
-	if ( version_compare( $version, '1.3.3', 'l' ) ) {
+	if ( version_compare( $version, '1.4.0', 'l' ) ) {
 		$install = dunmodule( 'dunamis.install' );
 		$install->legacy();
 		return;

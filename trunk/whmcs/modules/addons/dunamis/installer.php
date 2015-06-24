@@ -7,7 +7,7 @@
  * @license    @buildLicense@
  * @version    @fileVers@ ( $Id$ )
  * @author     @buildAuthor@
- * @since      1.3.3
+ * @since      1.4.0
  *
  * @desc       This file handles the updates for the product
  *
@@ -19,7 +19,7 @@
  * @version		@fileVers@
  *
  * @author		Steven
- * @since		1.3.3
+ * @since		1.4.0
  */
 class DunamisInstallerDunModule extends DunamisAdminDunModule
 {
@@ -27,7 +27,7 @@ class DunamisInstallerDunModule extends DunamisAdminDunModule
 	 * Provide means to check for file integrity
 	 * @access		protected
 	 * @var			string
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	protected $checkstring	=	"@checkString@";
 	
@@ -37,7 +37,7 @@ class DunamisInstallerDunModule extends DunamisAdminDunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 *
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 * @see			IntegratorAdminDunModule :: initialise()
 	 */
 	public function initialise()
@@ -51,7 +51,7 @@ class DunamisInstallerDunModule extends DunamisAdminDunModule
 	 * @access		public
 	 * @version		@fileVers@
 	 * 
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function execute() { }
 	
@@ -62,7 +62,7 @@ class DunamisInstallerDunModule extends DunamisAdminDunModule
 	 * @version		@fileVers@
 	 * 
 	 * @return		string containing formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function render( $data = null )
 	{
@@ -80,7 +80,7 @@ class DunamisInstallerDunModule extends DunamisAdminDunModule
 	 * @version		@fileVers@
 	 * 
 	 * @return		string containing html formatted output
-	 * @since		1.3.3
+	 * @since		1.4.0
 	 */
 	public function buildBody()
 	{
