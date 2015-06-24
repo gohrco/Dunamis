@@ -238,9 +238,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 	public function initialise()
 	{
 		// Template time
-		$this->sourcepath		=	dirname( __FILE__ ) . DIRECTORY_SEPARATOR
-								.	'templates' . DIRECTORY_SEPARATOR
-								.	get_version() . DIRECTORY_SEPARATOR;
+		$thos->sourcepath		=	null;
 		$this->destinationpath	=	DUN_ENV_PATH
 								.	'templates'	. DIRECTORY_SEPARATOR;
 		
