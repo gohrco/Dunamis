@@ -14,6 +14,26 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
 
 
 /**
+ * Function for checking compatibility with applications
+ * @version		@fileVers@ ( $id )
+ * @param		string		- $app: the application we are testing - for future expansion
+ *
+ * @return		boolean
+ * @since		1.4.0
+ */
+if (! function_exists( 'check_compatible' ) ) {
+function check_compatible( $app = 'dunamis' )
+{
+	switch ( $app ) :
+
+	case 'dunamis'		:	return true;
+
+	endswitch;
+}
+}
+
+
+/**
  * Function for retrieving the base url
  * @version		@fileVers@
  * @since		1.0.0
