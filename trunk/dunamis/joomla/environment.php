@@ -78,7 +78,6 @@ class JoomlaDunEnvironment extends DunEnvironment
 
 /**
  * Function to set error reporting based on configuration
- * @TODO:  Implementation of errorsetting checking for Joomla
  * @access		public
  * @version		@fileVers@
  * @param		string		- $checkfor: what we are looking for
@@ -90,7 +89,7 @@ function get_errorsetting_joomla( $checkfor = 'ErrorLevel' )
 {
 	$params	=	(object) JComponentHelper :: getParams( 'com_dunamis' )->toArray();
 	
-	return $params->debug == 'Yes';
+	return ( isset( $params->debug ) ? $params->debug == 'Yes' : false );
 }
 
 
