@@ -221,8 +221,18 @@ class DunFields extends DunObject
 	public function getValue()
 	{
 		$value	= $this->value;
-		$value	= htmlspecialchars( $value );
-		$value	= str_replace( array( "'", '"' ), array( "&#39;", "&quot;" ), $value );
+		
+		if ( is_array( $value ) ) {
+			foreach ( $value as $k => $v ) {
+				$value[$k]	=	htmlspecialchars( $v );
+				$value[$k]	=	str_replace( array( "'", '"' ), array( "&#39;", "&quot;" ), $v );
+			}
+		}
+		else {
+			$value	= htmlspecialchars( $value );
+			$value	= str_replace( array( "'", '"' ), array( "&#39;", "&quot;" ), $value );
+		}
+		
 		return $value;
 	}
 	
