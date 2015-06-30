@@ -193,7 +193,7 @@ class DunDebug extends DunObject
 		if ( self :: isInitialized() ) return;
 		
 		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
-		$productionMode	=	php_sapi_name() === 'cli' || ( stripos($serverName, '.local' ) === false && stripos( $serverName, 'localhost' ) === false );
+		$productionMode =	php_sapi_name() === 'cli';
 		
 		$phpeval = <<< TXT
 \Tracy\Debugger :: \$strictMode = false;
