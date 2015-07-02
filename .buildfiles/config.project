@@ -4,11 +4,11 @@ AUTHOR=Go Higher Information Services, LLC
 EMAIL=development@gohigheris.com
 URL=https://www.gohigheris.com
 LICENSE=GNU General Public License version 2, or later
-COPYRIGHT=2009 - 2013 Go Higher Information Services.  All rights reserved.
+COPYRIGHT=2009 - 2015 Go Higher Information Services.  All rights reserved.
 ##
-SERIES=1.3
-SHORT=133
-VERSION=1.3.3
+SERIES=1.4
+SHORT=141
+VERSION=1.4.1
 #
 MATURITY=stable
 ACCESS=Public
