@@ -156,7 +156,7 @@ class TogglebtnDunFields extends DunFields
 		
 		$id		= $this->getId();
 		$value	= $this->get( 'value' );
-		$value	= empty( $value ) ? array('1') : $value;
+		$value	= $value === null ? array('1') : $value;
 		$doc->addScriptDeclaration( 'jQuery("document").ready( function () { togglebtns(\'' . $id . '\', \'' . $value[0] . '\' ); });' );
 	}
 }
