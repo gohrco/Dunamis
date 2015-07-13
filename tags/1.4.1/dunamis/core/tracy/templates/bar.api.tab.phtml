@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * Debug Bar: tab "dumps" template.
+ *
+ * This file is part of the Tracy (http://tracy.nette.org)
+ * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
+ */
+
+namespace Tracy;
+
+use Tracy;
+
+if (empty($this->data)) {
+	return;
+}
+?>
+<img src="data:image/gif;base64,R0lGODlhEAAQALMAAB5jxQ9YwO/z+y5syd7m987b802B0q3D6r3O74ys4l2L1p245nyh3j13zf///wBPvCH5BAAAAAAALAAAAAAQABAAAARY0MmJlEIzS5HA+w+QCFkFnuDlHGgLHsvRuWECN8+wmCmyDI8G7hNgFBKJAiMAErYWi5YTxWBIh6fqtaVFTbNWr4EbPhlW2Ef30zhkCAqmNqAgaCYc6EgTAQA7" /> 
+<?php echo count( $this->data ) . ' api call' . ( count( $this->data ) > 1 ? 's' : '' ) ?>
