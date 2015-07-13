@@ -6,6 +6,8 @@
 	
 	<target name="dunamis_deploy_to_whmcs" depends="dunamis_properties" if="deploy.whmcs">
 		
+	</target>
+	<target name="dunamistoi3location">
 			<echo message=" " />
 			<echo message="Begin Deploying Dunamis" />
 			<echo message="-----------------------------------------------------" />
