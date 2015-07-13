@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Packaging - Joomla" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_package_joomla" depends="dunamis_properties" if="package.joomla">
+		
+		<!-- Library Build First -->
+		<fileset dir="${dunamis.src.build}/" id="corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/joomla/library/" id="joomlafiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message="[1]  Creating Package Temporary Directory" />
+		<mkdir dir="${dunamis.dst.package}/Joomla/dunamis" />
+		
+		<echo message=" " />
+		<echo message="[2]  Copying Build to Temporary Directory" />
+		<copy todir="${dunamis.dst.package}/Joomla/dunamis">
+			<fileset refid="corefiles" />
+		</copy>
+		<copy todir="${dunamis.dst.package}/Joomla">
+			<fileset refid="joomlafiles" />
+		</copy>
+		
+		<fileset dir="${dunamis.dst.package}/Joomla" id="packagefiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message=" " />
+		<echo message="[3]  Creating Package" />
+		<dunamis.zipr_file srcid="packagefiles" dest="/" file="dunamis_joomla_v${dunamis.project.VERSION}.zip" />
+		
+		<delete dir="${dunamis.dst.package}/Joomla" />
+		<mkdir dir="${dunamis.dst.package}/Joomla" />
+		<echo message=" " />
+		<echo message="[4]  Copying Component portions over" />
+		<copy todir="${dunamis.dst.package}/Joomla">
+			<fileset dir="${dunamis.src.build}/joomla/">
+				<include name="**/*.*" />
+			</fileset>
+		</copy>
+		
+		<!-- This is the Component for Dunamis -->
+			<fileset dir="${dunamis.dst.package}/Joomla/component/" id="componentfiles">
+				<include name="**/*.*" />
+			</fileset>
+			
+			<echo message=" " />
+			<echo message="[5]  Creating Package" />
+			<dunamis.zipr_file srcid="componentfiles" dest="/" file="com_dunamis_v${dunamis.project.VERSION}.zip" />
+		<!-- This is the Component for Belong -->
+		
+		<echo message=" " />
+		<echo message="[6]  Delete Temporary Directory" />
+		<delete dir="${dunamis.dst.package}/Joomla" />
+		
+	</target>
+	
+</project>
