@@ -35,11 +35,20 @@
 			<echo message="=====================================================" />
 	</target>
 	
-	<target name="deploy_dunamis" depends="build_dunamis">
+	<target name="deploy_dunamis" depends="build_dunamis,package_dunamis">
 			<echo message="=====================================================" />
 			<echo message="Begin Deployment of Dunamis" />
 			<echo message="=====================================================" />
+		
+		<!-- Deploy our files after building and packaging -->
 		<antcall target="dunamis_deploy_all" />
+		
+		<!-- Tag our source in the repo -->
+		<antcall target="dunamis_tag" />
+		
+		<!-- Add this version to our JIRA Issues site -->
+		<antcall target="issues_dunamis_addversion" />
+		
 			<echo message="=====================================================" />
 			<echo message="Completed Deployment of Dunamis" />
 			<echo message="=====================================================" />
