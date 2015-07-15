@@ -485,6 +485,11 @@ function dunloader( $request = null, $environment = false, $options = array() )
 				if ( class_exists( $class ) ) {
 					$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
 				}
+				// In the event we already are searching the core and we dont have a class name (ie helpers)
+				// to avoid recursive looping and white screen of death
+				else if (! class_exists( $class ) && ! $environment ) {
+					$instances['environment'][$request][$serialize] = $myf;
+				}
 				else {
 					$instances['environment'][$request][$serialize] = dunloader( $request, false );
 				}
