@@ -99,7 +99,7 @@ class WhmcsDunUpdates extends DunUpdates
 		$archive->setExceptions( $this->getExceptions() );
 		$archive->extract( $this->_updateTarget(), $this->getInstallpath() );
 	
-		return ( $archive->hasError() !== false ? true : false );
+		return ( $archive->hasError() ? false : true );
 	}
 	
 	
