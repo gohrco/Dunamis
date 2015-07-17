@@ -282,7 +282,7 @@ class JoomlaDunUpdates extends DunUpdates
 			}
 			
 			$this
-				->setLastrun( ( (int) $this->getLastrun() + (int) $this->getExpires() ) )
+				->setLastrun( ( (int) time() + (int) $this->getExpires() ) )
 				->setUpdate( $version )
 				->_updateWrite();
 		}
