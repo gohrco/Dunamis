@@ -137,6 +137,9 @@ class JoomlaDunModule extends DunModule
 		return array(
 				'component'		=> DUN_ENV_PATH . 'administrator' . $ds . 'components' . $ds,
 				'module'		=> DUN_ENV_PATH . 'modules' . $ds,
+				'authplugin'	=> DUN_ENV_PATH . 'plugins' . $ds . 'authentication' . $ds,
+				'contentplugin'	=> DUN_ENV_PATH . 'plugins' . $ds . 'content' . $ds,
+				'searchplugin'	=> DUN_ENV_PATH . 'plugins' . $ds . 'search' . $ds,
 				'systemplugin'	=> DUN_ENV_PATH . 'plugins' . $ds . 'system' . $ds,
 				'userplugin'	=> DUN_ENV_PATH . 'plugins' . $ds . 'user' . $ds
 		);
@@ -198,6 +201,9 @@ class JoomlaDunModule extends DunModule
 		switch( $type ) {
 			case 'component' :
 			case 'module' :
+			case 'authplugin' :
+			case 'contentplugin' :
+			case 'searchplugin' :
 			case 'systemplugin' :
 			case 'userplugin' :
 				$classname	=	null;
@@ -228,6 +234,9 @@ class JoomlaDunModule extends DunModule
 				$filename	=	( strpos( $module, 'com_' ) !== false ? str_replace( 'com_', '', $module ) : $module ) . '.dunamis.php';
 				break;
 			case 'module' :
+			case 'authplugin' :
+			case 'contentplugin' :
+			case 'searchplugin' :
 			case 'systemplugin' :
 			case 'userplugin' :
 				$filename	=	$module . '.dunamis.php';
