@@ -7,8 +7,8 @@ LICENSE=GNU General Public License version 2, or later
 COPYRIGHT=2009 - 2015 Go Higher Information Services.  All rights reserved.
 ##
 SERIES=1.4
-SHORT=142
-VERSION=1.4.2
+SHORT=143
+VERSION=1.4.3
 #
 MATURITY=stable
 ACCESS=Public
