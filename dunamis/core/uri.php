@@ -777,6 +777,7 @@ class DunUri
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@
+	 * @version		1.4.3		- Correction to the way this method determines internal state
 	 * 
 	 * @return		boolean
 	 * @since		1.0.0
@@ -784,12 +785,13 @@ class DunUri
 	public static function isInternal($url)
 	{
 		$uri	=	DunUri :: getInstance( $url );
-		$base	=   $uri->toString(array('scheme', 'host', 'port', 'path'));
-		$host	=   $uri->toString(array('scheme', 'host', 'port'));
-		if(stripos($base, DunUri::base()) !== 0 && !empty($host)) {
-			return false;
+		$host	=	$uri->toString( array( 'host' ) );
+		
+		if ( empty( $host ) ) {
+			return true;
 		}
-		return true;
+		
+		return false;
 	}
 	
 	
