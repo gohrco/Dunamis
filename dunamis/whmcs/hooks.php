@@ -65,9 +65,14 @@ class WhmcsDunHooks extends DunHooks
 			$content = ob_get_contents();
 			ob_end_clean();
 			
-			// Nothing sent back via display, lets check response variable
-			if ( empty( $content ) && isset( $response ) ) {
+			// Check response variable
+			if ( isset( $response ) && ! empty( $response ) ) {
 				$contarray += $response;
+				
+				// If we passed back a variable AND we have content to display, go ahead and display it
+				if (! empty( $content ) ) {
+					echo $content;
+				}
 			}
 			else {
 				$contents .= $content;
