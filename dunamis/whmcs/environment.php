@@ -62,6 +62,8 @@ class WhmcsDunEnvironment extends DunEnvironment
 		if (! defined( 'DUN_ENV_VERSION' ) ) {
 			$config = dunloader( 'config', true, array( 'database' => false, 'session' => true ) );
 			$version	= $config->get( 'Version' );
+			$version	=	explode( '-', $version );
+			$version	=	array_shift( $version );
 			define( 'DUN_ENV_VERSION', $version );
 		}
 	}
@@ -72,6 +74,7 @@ class WhmcsDunEnvironment extends DunEnvironment
  * Function to get a steting from WHMCS database table
  * @access		public
  * @version		@fileVers@ ( $id$ )
+ * @version		1.4.0		- Moved debug settings from WHMCS table to our own table
  * @version		1.1.5		- August 2013: must rely on WHMCS database function as our DB handler breaks quote use (DUN-4)
  * @param		string		- $checkfor: what we are checking for
  *
@@ -82,26 +85,13 @@ function get_errorsetting_whmcs( $checkfor = 'ErrorLevel' )
 {
 	switch( $checkfor ) :
 	case 'ErrorLevel' :
-		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'ErrorLevel' ) );
-		$data	=	mysql_fetch_object( $result );
-		
-		if (! $data ) return 'ERROR';
-		else return strtoupper( $data->value );
-		break;
 	case 'DebugErrors' :
-		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'DebugErrors' ) );
+		$result	=	select_query( 'mod_dunamis_settings', 'value', array( 'key' => 'debug' ) );
 		$data	=	mysql_fetch_object( $result );
-		
 		if (! $data ) return false;
-		else if ( $data->value == 'Yes' ) return true;
-		else return false;
-		
+		return $data->value == '1';
 		break;
 	endswitch;
-	
-	
-	
-	
 }
 
 

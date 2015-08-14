@@ -91,7 +91,7 @@ class DunamisAjaxDunModule extends DunamisAdminDunModule
 	 * @since		2.0.0
 	 * @see			DunamisAdminDunModule :: render()
 	 */
-	public function render()
+	public function render( $data = null )
 	{
 		$data	=	array();
 		

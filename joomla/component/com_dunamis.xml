@@ -28,6 +28,13 @@
 		
 		<!-- Back-end files -->
 		<files folder="admin">
+			<folder>controllers</folder>
+			<folder>dunamis</folder>
+			<folder>views</folder>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>dunamis.dunamis.php</filename>
+			<filename>dunamis.legacy.php</filename>
 			<filename>dunamis.php</filename>
 		</files>
 		

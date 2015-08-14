@@ -38,7 +38,7 @@ class WhmcsDunError extends DunError
 	{
 		// See if we have error reporting enabled
 		if (! get_errorsetting_whmcs( 'DebugErrors' ) ) return null;
-		
+		return null;
 		$stack	= self :: $_stack;
 		$check	= self :: checkLevels( $level );
 		

@@ -24,7 +24,7 @@
 			</not>
 			<then>
 				<!-- Ask where we should copy to -->
-				<input addproperty="copy.destination" validargs="All,mods,2.5,3.0" defaultvalue="mods">${line.separator}${line.separator}Where do you want to copy Dunamis to?${line.separator}${line.separator}</input>
+				<input addproperty="copy.destination" validargs="All,mods,2.5,3.0,3.1" defaultvalue="mods">${line.separator}${line.separator}Where do you want to copy Dunamis to?${line.separator}${line.separator}</input>
 			</then>
 		</if>
 		
@@ -43,7 +43,7 @@
 		<elseif>
 			<equals arg1="${copy.destination}" arg2="All" trim="true"/>
 			<then>
-				<for list="mods,2.5,3.0" param="item">
+				<for list="mods,2.5,3.0,3.1" param="item">
 					<sequential>
 						<var name="dest" value="@{item}" />
 						<antcall target="dunamis_copy_to_destination" />

@@ -15,6 +15,9 @@
 		<fileset dir="${dunamis.src.build}/joomla/component/admin/" id="dunamis.joomlacomadminfiles"	includes="**/*.*" />
 		<fileset dir="${dunamis.src.build}/joomla/component/media/" id="dunamis.joomlamediafiles"		includes="**/*.*" />
 		
+		<fileset dir="${dunamis.src.build}/joomla/component/translations/admin/en-GB"	id="dunamis.joomlalangadmin"	includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/joomla/component/translations/site/en-GB"	id="dunamis.joomlalangsite"		includes="**/*.*" />
+		
 		<echo message="[1]  Copying Core Files" />
 		<copy todir="${server.root}${dest}/${server.joomla2}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
 		<copy todir="${server.root}${dest}/${server.joomla3}libraries/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
@@ -30,6 +33,12 @@
 		<echo message="[4]  Copying Joomla Media Files" />
 		<copy todir="${server.root}${dest}/${server.joomla2}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
 		<copy todir="${server.root}${dest}/${server.joomla3}media/com_dunamis/"><fileset refid="dunamis.joomlamediafiles" /></copy>
+		
+		<echo message="[5]  Copying Joomla Language Files" />
+		<copy todir="${server.root}${dest}/${server.joomla2}administrator/language/en-GB"><fileset refid="dunamis.joomlalangadmin" /></copy>
+		<copy todir="${server.root}${dest}/${server.joomla3}administrator/language/en-GB"><fileset refid="dunamis.joomlalangadmin" /></copy>
+		<!-- <copy todir="${server.root}${dest}/{server.joomla2}language/en-GB"><fileset refid="dunamis.joomlalangsite" /></copy> -->
+		<!--  <copy todir="${server.root}${dest}/{server.joomla3}language/en-GB"><fileset refid="dunamis.joomlalangsite" /></copy> -->
 		
 	</target>
 	
