@@ -23,25 +23,43 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
  */
 class WhmcsDunDebug extends DunDebug
 {
+	/**
+	 * Variable to indicate we have initialized already
+	 * @static
+	 * @var			boolean
+	 * @since		1.4.0
+	 */
+	static $initialized = false;
+	
 	
 	/**
 	 * Method to initialize the debug object
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
-	 * @param		string		- $name: the calling name
+	 * @param		string
+	 * @param		string
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init()
+	public static function init( $path = null, $logpath = null )
 	{
-		// Check to see if we are enabled or not
-		if (! self :: isEnabled() ) {
-			return;
+		// Lets set our paths
+		if ( $path == null ) {
+			$path = dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
 		}
 		
-		// Lets initialized
-		parent :: init();
+		if ( $logpath == null ) {
+			$logpath = DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
+		}
+		
+		parent :: init( $path, $logpath );
+		
+		// If coming through API we dont want to break it
+		if ( is_api() || is_ajax() ) {
+			$eval	=	"\Tracy\Debugger :: disable();";
+			eval( $eval );
+		}
 	}
 	
 	
@@ -57,10 +75,28 @@ class WhmcsDunDebug extends DunDebug
 	protected static function isEnabled()
 	{
 		if ( self :: $isEnabled === null ) {
-			self :: $isEnabled = get_errorsetting_whmcs( 'DebugErrors' );
+			$state	=	get_errorsetting_whmcs( 'DebugErrors' );
+			self :: setEnabled( $state );
 		}
 		
-		return (bool) self :: $isEnabled;
+		return (bool) parent :: isEnabled();
+	}
+	
+	
+	/**
+	 * Method for returning a debug response via the API
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		1.4.0
+	 */
+	public function renderforApi()
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		return \Tracy\Debugger :: getBar()->renderforApi();
 	}
 }
 

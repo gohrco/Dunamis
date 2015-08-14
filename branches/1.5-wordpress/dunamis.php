@@ -281,15 +281,17 @@ class Dunamis
 	 * Sets an error into place
 	 * @access		public
 	 * @version		@fileVers@
-	 * @param		int			- $level: contains 1: notice, 2: warning, 4: error
-	 * @param		string		- $msg: error message being sent
+	 * @version		1.4.1		-	$error variable not declared in the event debug_backtrace fails
+	 * @param		int			-	$level: contains 1: notice, 2: warning, 4: error
+	 * @param		string		-	$msg: error message being sent
 	 * 
 	 * @since		1.0.2
 	 */
 	public function setError( $level, $msg )
 	{
 		// Build an error array
-		$back = debug_backtrace(false);
+		$back	=	debug_backtrace(false);
+		$error	=	array( 'code' => $level, 'msg' => $msg, 'path' => null, 'line' => null );
 		
 		foreach ( $back as $b ) {
 			if (! array_key_exists( 'class', $b ) || ! array_key_exists( 'function', $b ) ) continue;
@@ -483,8 +485,13 @@ function dunloader( $request = null, $environment = false, $options = array() )
 				if ( class_exists( $class ) ) {
 					$instances['environment'][$request][$serialize] = call_user_func_array( "{$class}::getInstance", array( $options ) );
 				}
+				// In the event we already are searching the core and we dont have a class name (ie helpers)
+				// to avoid recursive looping and white screen of death
+				else if (! class_exists( $class ) && ! $environment ) {
+					$instances['environment'][$request][$serialize] = $myf;
+				}
 				else {
-					$instances['environment'][$request][$serialize] = true;
+					$instances['environment'][$request][$serialize] = dunloader( $request, false );
 				}
 			}
 		}

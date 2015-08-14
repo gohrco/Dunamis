@@ -259,10 +259,16 @@ class DunUpdates extends DunObject
 		// Execute the Curl Call
 		$response	=	$curl->execute();
 		
-// 		$restcall	=	'simple_' . $method;
-// 		$response	=	$curl->$restcall( $url, $post, $options );
+		// Debug handling
+		dunloader( 'debug', true )->addApi( array(
+			'call'		=>	$url,
+			'method'	=>	$method,
+			'post'		=>	$post,
+			'optns'		=>	$options,
+			'result'	=>	$response,
+			'curlinfo'	=>	$curl->info
+		) );
 		
-		//$this->setResponse( $response );
 		$this->setInfo( $curl->info );
 		
 		if ( ( $error = $curl->has_errors() ) ) {

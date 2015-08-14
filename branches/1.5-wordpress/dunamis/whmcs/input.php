@@ -86,4 +86,71 @@ class WhmcsDunInput extends DunInput
 		
 		parent :: load( $data );
 	}
+	
+	
+	/**
+	 * Method for setting a variable to the input handler
+	 * @TODO:		Implement variable setting for Dunamis Input Handler [WHMCS]
+	 * @access		public
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string		- $name: the name of the variable to set
+	 * @param		mixed		- $value: the value to set
+	 * @param		string		- $hash: the request method to use
+	 * @param		boolean		- $overwrite: indicates we should overwrite existing
+	 *
+	 * @return		mixed previous variable
+	 * @since		1.1.0
+	 */
+	public function setVar( $name, $value, $hash = 'request', $overwrite = true )
+	{
+		// First lets load it into our Dunamis object
+		$src	=	$this->src;
+		
+		if ( isset( $src[$hash] ) ) {
+			$src[$hash][$name]	=	$value;
+		}
+		
+		$src['request'][$name]	=	$value;
+		
+		parent :: load( $src );
+		
+		
+		
+		return true;
+		
+		// Set it to our object first
+		$data	=	array( $hash => array( $name => $value ) );
+		
+		if ( $hash != 'request' ) {
+			$data['request']	=	array( 'request' => array( $name, $value ) );
+		}
+		
+		parent :: load( $data );
+		
+		
+		// Grab our global WHMCS object
+		global $whmcs;
+		
+		// Set the user data into the input handler for WHMCS
+		if ( version_compare( DUN_ENV_VERSION, '6.0', 'ge' ) ) {
+			if ( is_a( $whmcs, 'WHMCS\Application' ) ) {
+				$whmcs->replace_input( $data );
+			}
+		}
+		// They changed it for 5.3
+		else if ( version_compare( DUN_ENV_VERSION, '5.3', 'ge' ) ) {
+			if ( is_a( $whmcs, 'WHMCS_Application' ) ) {
+				$whmcs->replace_input( $data );
+			}
+		}
+		// They finally used an object to handle input
+		else if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+			if ( is_a( $whmcs, 'WHMCS_Init' ) ) {
+				$whmcs->replace_input( $data );
+			}
+		}
+		else {
+				
+		}
+	}
 }

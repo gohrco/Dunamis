@@ -128,7 +128,7 @@ class DunArchive extends DunObject
 		}
 		
 		$file	=	preg_replace( '#[/\\\\]+#', DIRECTORY_SEPARATOR, $file );
-		$path	=	trim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
+		$path	=	rtrim( $path, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR;
 		
 		$dirs	=	explode( DIRECTORY_SEPARATOR, dirname( $file ) );
 		$dpath	=	$path;

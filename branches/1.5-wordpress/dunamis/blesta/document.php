@@ -149,7 +149,7 @@ class BlestaDunDocument extends DunDocument
 		
 		// Include our jQuery library first
 		$base	=	get_baseurl( 'client' );
-		$buffer	=	$tab . '<script src="' . $base . 'plugins/dunamis/framework/dunamis/core/assets/js/jquery.1-10-2.js" type="text/javascript"></script>';
+		//$buffer	=	$tab . '<script src="' . $base . 'plugins/dunamis/framework/dunamis/core/assets/js/jquery.1-10-2.js" type="text/javascript"></script>';
 		
 		// Generate script file links
 		foreach ( $this->_scripts as $strSrc => $strAttr ) {
@@ -182,7 +182,7 @@ class BlestaDunDocument extends DunDocument
 		}
 		
 		// Now we have to revert the jQuery back to Blesta
-		$buffer .= $tab . '<script type="text/javascript">jqdun = $.noConflict( true );</script>';
+		//$buffer .= $tab . '<script type="text/javascript">jqdun = $.noConflict( true );</script>';
 		
 		return $buffer;
 	}

@@ -114,4 +114,36 @@ class JoomlaDunDocument extends DunDocument
 		
 		return $this;
 	}
+	
+	
+	/**
+	 * Method for getting the base set in the document handler
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		1.4.0
+	 */
+	public function getBase()
+	{
+		$document	=	JFactory::getDocument();
+		return $document->getBase();
+	}
+	
+	
+	/**
+	 * Method for setting the base in the document handler
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 * 
+	 * @return		boolean
+	 * @since		1.4.0
+	 */
+	public function setBase( $base )
+	{
+		$document	=	JFactory::getDocument();
+		$document->setBase( $base );
+		return true;
+	}
 }

@@ -23,9 +23,18 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
 */
 class TextareaDunFields extends DunFields
 {
+	protected $cols			=	'40';
+	protected $default		=	null;
+	protected $rows			=	'5';
 	
 	public function __construct( $settings = array() )
 	{
+		foreach( array( 'default', 'cols', 'rows' ) as $item ) {
+			if ( $settings[$item] == null ) continue;
+			$this->$item	=	$settings[$item];
+			unset( $settings[$item] );
+		}
+		
 		parent :: __construct( $settings );
 		
 		foreach ( $settings as $key => $value ) {
@@ -44,6 +53,8 @@ class TextareaDunFields extends DunFields
 		
 		$attr		= array_to_string( array_merge( $this->attributes, $options ) );
 		
-		return '<textarea id="' . $id . '" name="' . $name .'" ' . $attr . '>' . $value . '</textarea>';
+		if (! $value ) $value = $this->getDefault();
+		
+		return '<textarea cols="' . $this->getCols() . '" rows="' . $this->getRows() . '" id="' . $id . '" name="' . $name .'" ' . $attr . '>' . $value . '</textarea>';
 	}
 }

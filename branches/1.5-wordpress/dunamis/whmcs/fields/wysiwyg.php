@@ -103,13 +103,23 @@ class WhmcsWysiwygDunFields extends TextareaDunFields
 			$baseuri	= DunUri :: getInstance( $base, true );
 			$baseuri->delVars();
 			
-			if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
+			if ( version_compare( DUN_ENV_VERSION, '6.0', 'ge' ) ) {
+				$doc->addStyleDeclaration( '#intouch .mceEditor table td { padding: 0; }' );
+					
+				$base	=	get_baseurl( 'client' );
+				$baseuri	=	DunUri :: getInstance( $base, true );
+				$baseuri->delVars();
+				$baseuri->setPath( rtrim( $baseuri->getPath(), '/' ) . '/assets/js/tiny_mce/jquery.tinymce.js' );
+				$scripturl	=	'/assets/js/tiny_mce/tiny_mce.js';
+			}
+			else if ( version_compare( DUN_ENV_VERSION, '5.2', 'ge' ) ) {
 				$doc->addStyleDeclaration( '#intouch .mceEditor table td { padding: 0; }' );
 				
 				$base	= get_baseurl( 'client' );
 				$baseuri	= DunUri :: getInstance( $base, true );
 				$baseuri->delVars();
 				$baseuri->setPath( rtrim( $baseuri->getPath(), '/' ) . '/includes/jscript/tiny_mce/jquery.tinymce.js' );
+				$scripturl	=	'/includes/jscript/tiny_mce/tiny_mce.js';
 			}
 			else if ( version_compare( DUN_ENV_VERSION, '5.1', 'ge' ) ) {
 				$baseuri->setPath( rtrim( $baseuri->getPath(), '/' ) . '/includes/jscript/editor.js' );
@@ -138,7 +148,7 @@ class WhmcsWysiwygDunFields extends TextareaDunFields
 jQuery().ready(function() {
 	jQuery('#{$id}').tinymce({
 		// Location of TinyMCE script
-		script_url : "{$base}/includes/jscript/tiny_mce/tiny_mce.js",
+		script_url : "{$base}{$scripturl}",
 
 		// General options
 		theme : "advanced",

@@ -12,6 +12,7 @@
 		<tstamp>
 			<format property="dunamis.TODAY" pattern="yyyy MMMM d" />
 			<format property="dunamis.RELDATE" pattern="yyyy-MM-dd" />
+			<format property="dunamis.JIRADATE"	pattern="d/MMMM/yyyy" />
 		</tstamp>
 		
 		<!-- We are adding server.root to permit destination selection -->
