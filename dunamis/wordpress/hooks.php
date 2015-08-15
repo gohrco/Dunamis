@@ -94,13 +94,18 @@ class WordpressDunHooks extends DunHooks
 		static 	$priority	= 500;
 		static	$attached	= array();
 		
+		if ( is_null( $extension ) ) $extension = 'core';
+		
 		if ( isset( $attached[$extension] ) ) return;
 		else $attached[$extension] = true;
 		
-		$paths		= array(
-						'base' => DUN_PATH . DIRECTORY_SEPARATOR . strtolower( DUN_ENV ) . DIRECTORY_SEPARATOR . 'hooks' . DIRECTORY_SEPARATOR,
-						'extension' => get_dunamis( $extension )->getModulePath( $extension, 'hooks' )
-					);
+		$paths	=	array( 'base' => rtrim( DUN_PATH, DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . trim( strtolower( DUN_ENV ), DIRECTORY_SEPARATOR ) . DIRECTORY_SEPARATOR . 'hooks' . DIRECTORY_SEPARATOR );
+		
+		if ( $extension != 'core' ) {
+			if (! isset( $paths['extension'] ) ) {
+				$paths['extension'] = get_dunamis( $extension )->getModulePath( $extension, 'hooks' );
+			}
+		}
 		
 		foreach ( $paths as $type => $path ) {
 			$dh	=	opendir( $path );

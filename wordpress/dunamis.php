@@ -34,11 +34,5 @@ function dunamis_init()
 		return;
 	}
 	
-	// Lets attach hooks
-	dunloader( 'hooks', true )->attachHooks( 'dunamis' );
-	
-	// We are enabled, so lets go ahead and load up
-	//echo '<pre>'.print_r($dunamis,1);die();
-	//list_hooked_functions();
-	//die();
+	dunmodule( 'dunamis' );
 }

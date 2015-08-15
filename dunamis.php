@@ -345,6 +345,10 @@ class Dunamis
 		
 		while( ( $dirname = readdir( $d ) ) !== false ) {
 			if ( in_array( $dirname, $excludes ) ) continue;
+			
+			// In the event we have files in our framework folder (Wordpress)
+			if (! is_dir( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . $dirname ) ) continue;
+			
 			dunimport( $dirname . '.environment' );
 			
 			// Test to see if this is the environment

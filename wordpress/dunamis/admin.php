@@ -14,7 +14,6 @@
  *
  */
 
-
 /**
  * Define the Dunamis Framework version here
  */
@@ -72,28 +71,16 @@ class DunamisAdminDunModule extends WordpressDunModule
 	
 	
 	/**
-	 * Function to render the options page back to user
+	 * Method to add our menu items to our Wordpress system
 	 * @access		public
 	 * @version		@fileVers@
 	 *
 	 * @since		1.5.0
 	 */
-	public function admin_options()
+	public function admin_menu()
 	{
-		// Permission check
-		if (! current_user_can( 'manage_options' ) )  {
-			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-		}
-		
-		// In case we are saving...
-		$this->execute();
-		
-		// Grab our option from our database
-		$debug = get_option( 'dunamis_debug' );
-		
-		// Pull in our view
-		include __DIR__ . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'admin_options.php';
-		
+		add_menu_page( t( 'dunamis.title.main' ), t( 'dunamis.menu.main' ), 'manage_options', 'dunamis-default', array( dunmodule( 'dunamis.default' ), 'render' ), get_baseurl( 'dunamis' ) . 'dunamis/core/assets/img/dunamis-16-invert.png', 40 );
+		add_submenu_page( 'dunamis-default', t( 'dunamis.title.settings' ), t( 'dunamis.menu.settings' ), 'manage_options', 'dunamis-settings', array( dunmodule( 'dunamis.settings' ), 'render' ) );
 	}
 	
 	
@@ -166,28 +153,20 @@ class DunamisAdminDunModule extends WordpressDunModule
 	 */
 	public function buildNavigation()
 	{
-		$uri	=	DunUri :: getInstance( 'SERVER', true );
-		$uri->delVars();
-		$uri->setVar( 'module', 'integrator' );
-	
-		$data		=	'<ul class="nav nav-pills">';
-		$actions	=	array( 'default', 'syscheck', 'settings', 'updates' );
+		$uri	=	DunUri :: getInstance( get_baseurl( 'admin' ), true );
+		$uri->setPath( rtrim( $uri->getPath(), '/' ) . '/admin.php' );
 		
-		// See if we can test the API
-		$config		=	dunloader( 'config', 'integrator' );
-		$apiurl		=	$config->get( 'integratorurl', null );
-		$token		=	$config->get( 'apitoken', null );
-		$activeapi	=	( $apiurl && $token ? true : false ); 
+		$data		=	'<ul class="nav nav-pills">';
+		$actions	=	array( 'default', 'settings' );
 		
 		foreach( $actions as $item ) {
-			$state	=	( $item != 'apicnxn' ? '' : ( $activeapi ? '' : ' disabled' ) );
 			
 			if ( $item == $this->action && in_array( $this->task, array( 'default', 'save' ) ) ) {
-				$data .= '<li class="active' . $state . '"><a href="#">' . t( 'integrator.admin.navbar.' . $item ) . '</a></li>';
+				$data .= '<li class="active"><a href="#">' . t( 'dunamis.admin.navbar.' . $item ) . '</a></li>';
 			}
 			else {
-				$uri->setVar( 'action', $item );
-				$data .= '<li class="' . $state . '"><a href="' . $uri->toString() . '">' . t( 'integrator.admin.navbar.' . $item ) . '</a></li>';
+				$uri->setVar( 'page', 'dunamis-' . $item );
+				$data .= '<li><a href="' . $uri->toString() . '">' . t( 'dunamis.admin.navbar.' . $item ) . '</a></li>';
 			}
 		}
 	
@@ -206,12 +185,12 @@ class DunamisAdminDunModule extends WordpressDunModule
 	 */
 	public function buildTitle()
 	{
-		$base	=	get_baseurl( 'integrator' );
+		$base	=	get_baseurl( 'dunamis' );
 		$doc	=	dunloader( 'document', true );
 	
-		$doc->addStyleDeclaration( 'h1#integratortitle { padding-left: 60px; background: url(' . $base . '/assets/integrator-48.png) no-repeat scroll 6px 50% transparent; height: 52px; line-height: 52px; }' );	// Wipes out WHMCS' h1
+		$doc->addStyleDeclaration( 'h1#dunamistitle { padding-left: 60px; background: url(' . $base . '/assets/dunamis-48.png) no-repeat scroll 6px 50% transparent; height: 52px; line-height: 52px; }' );	// Wipes out WHMCS' h1
 	
-		$data	= '<h1 id="integratortitle">' . t( 'integrator.admin.title', t( 'integrator.admin.subtitle.' . $this->action . '.' . $this->task ) ) . '</h1>';
+		$data	= '<h1 id="dunamistitle">' . t( 'dunamis.admin.title', t( 'dunamis.admin.subtitle.' . $this->action . '.' . $this->task ) ) . '</h1>';
 		return $data;
 	}
 	
@@ -225,13 +204,7 @@ class DunamisAdminDunModule extends WordpressDunModule
 	 */
 	public function execute()
 	{
-		switch( $this->task ) :
-		case 'save' :
-			
-			$debug	= ( isset( $_POST['debug'] ) ? $_POST['debug'] : false );
-			update_option( 'dunamis_debug', $debug );
-			break;
-		endswitch;
+		
 	}
 	
 	/**
@@ -246,14 +219,9 @@ class DunamisAdminDunModule extends WordpressDunModule
 		static $instance = false;
 	
 		if (! $instance ) {
-			//dunloader( 'language', true )->loadLanguage( 'integrator' );
-			//dunloader( 'hooks', true )->attachHooks( 'integrator' );
-			//dunloader( 'helpers', 'integrator' );
-			
-			// Perform checkstring
-			//if ( $this->checkstring != "@checkString@" ) {
-			//	return false;
-			//}
+			dunloader( 'language', true )->loadLanguage( 'dunamis' );
+			dunloader( 'hooks', true )->attachHooks( 'dunamis' );
+			//dunloader( 'helpers', 'dunamis' );
 			
 			$instance	= true;
 		}
@@ -278,26 +246,20 @@ class DunamisAdminDunModule extends WordpressDunModule
 	 */
 	public function render( $data = null )
 	{
-		load_bootstrap( 'integrator' );
-		
-		// Compatibility check
-		if (! check_compatible( 'dunamis' ) ) $this->setAlert( 'alert.dunamis.compatible', 'error' );
+		load_bootstrap( 'dunamis' );
 		
 		$title	= $this->buildTitle();
 		$navbar	= $this->buildNavigation();
 		$alerts	= $this->buildAlerts();
 		$modals	= $this->buildModals();
 		
-		$baseurl = get_baseurl( 'integrator' );
+		$baseurl = get_baseurl( 'dunamis' );
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleDeclaration( '#contentarea > div > h1, #content > h1 { display: none; }' );	// Wipes out WHMCS' h1
-		$doc->addStyleDeclaration( '.contentarea > h1 { display: none; }' );	// Wipes out WHMCS' h1 in 5.0.3
-		$doc->addStyleDeclaration( '#contentarea #integrator input { height: auto; }' );						// Cleanup Input Height issue in WHMCS v6
 		$doc->addStylesheet( $baseurl . 'assets/css/admin.css' );
 		
 		return 		'<div style="float:left;width:100%;">'
-					.	'<div id="integrator">'
+					.	'<div id="dunamis">'
 					.	'	' . $title
 					.	'	' . $navbar
 					.	'	' . $alerts
@@ -305,39 +267,6 @@ class DunamisAdminDunModule extends WordpressDunModule
 					.	'	' . $modals
 					.	'</div>'
 					.	'</div>';
-	}
-	
-	
-	/**
-	 * Renders the output for the admin area of the site (WHMCS > Addons > Module name)
-	 * @access		public
-	 * @version		@fileVers@
-	 *
-	 * @return		string containing formatted output
-	 * @since		1.5.0
-	 */
-	public function renderAdminOutput()
-	{
-		$action	= dunloader( 'input', true )->getVar( 'action', 'default' );
-	
-		$controller = dunmodule( 'integrator.' . $action );
-		$controller->execute();
-	
-		return $controller->render();
-	}
-	
-	
-	/**
-	 * Renders the sidebar for the admin area
-	 * @access		public
-	 * @version		@fileVers@
-	 *
-	 * @return		string
-	 * @since		1.5.0
-	 */
-	public function renderAdminSidebar()
-	{
-		return;
 	}
 	
 	
