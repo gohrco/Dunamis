@@ -695,47 +695,50 @@ class DunInput extends DunObject
 	 return $newSet;
 	 }
 	
-	 /**
-	 * Try to convert to plaintext
-	 *
-	 * @param   string  $source  The source string.
-	 *
-	 * @return  string  Plaintext string
-	 *
-	 * @since   11.1
+	/**
+	 * Try to convert to plain text
+	 * @access		protected
+	 * @version	@fileVers@
+	 * @param		string
+	 * 
+	 * @return		string
+	 * @since		1.0.0
 	 */
-	 protected function _decode($source)
-	 {
-	 static $ttr;
-	
-	 if (!is_array($ttr))
-	 {
-	 // Entity decode
-	 	$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-	 	foreach ($trans_tbl as $k => $v)
-	 	{
-	 	$ttr[$v] = utf8_encode($k);
+	protected function _decode($source)
+	{
+		static $ttr;
+		
+ 		if (! is_array( $ttr ) ) {
+ 			// Entity decode
+			$trans_tbl	=	get_html_translation_table( HTML_ENTITIES );
+			foreach( $trans_tbl as $k => $v ) {
+				$ttr[$v]	=	utf8_encode( $k );
+			}
+		}
+		
+		$source = strtr($source, $ttr);
+		
+		// Convert decimal
+		$source	=	preg_replace_callback('/&#(\d+);/m', create_function( '$matches', 'return utf8_encode( chr( $matches[1]) );'), $source );
+		
+		// Convert hex
+		$source	=	preg_replace_callback( '/&#x([a-f0-9]+);/mi', create_function( '$matches', 'return utf8_encode( chr("0x" . $matches[1] ) );'), $source );
+		
+		return $source;
 	}
-	}
-	$source = strtr($source, $ttr);
-	// Convert decimal
-	 	$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
-	 			// Convert hex
-	 	$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
-	 	return $source;
-	 	}
 	
-	 	/**
-	 	* Escape < > and " inside attribute values
-	 	*
-	 	* @param   string  $source  The source string.
-	 	*
-	 	* @return  string  Filtered string
-	 	*
-	 	* @since    11.1
-	 	*/
-	 	protected function _escapeAttributeValues($source)
-	 	{
+	
+	/**
+ 	 * Escape < > and " inside attribute values
+ 	 *
+ 	 * @param   string  $source  The source string.
+ 	 *
+ 	 * @return  string  Filtered string
+ 	 *
+ 	 * @since    11.1
+ 	 */
+ 	protected function _escapeAttributeValues($source)
+ 	{
 	 	$alreadyFiltered = '';
 	 	$remainder = $source;
 	 	$badChars = array('<', '"', '>');
@@ -775,19 +778,19 @@ class DunInput extends DunObject
 	
 	 	// At this point, we just have to return the $alreadyFiltered and the $remainder
 	 	return $alreadyFiltered . $remainder;
-	 	}
+ 	}
 	
-	 	/**
-	 	* Remove CSS Expressions in the form of <property>:expression(...)
-	 	*
-	 	* @param   string  $source  The source string.
-	 	*
-	 	* @return  string  Filtered string
-	 	*
-	 	* @since   11.1
-	 	*/
-	 	protected function _stripCSSExpressions($source)
-	 	{
+ 	/**
+ 	* Remove CSS Expressions in the form of <property>:expression(...)
+ 	*
+ 	* @param   string  $source  The source string.
+ 	*
+ 	* @return  string  Filtered string
+ 	*
+ 	* @since   11.1
+ 	*/
+ 	protected function _stripCSSExpressions($source)
+ 	{
 	 	// Strip any comments out (in the form of /*...*/)
 	 	$test = preg_replace('#\/\*.*\*\/#U', '', $source);
 	 	// Test for :expression
@@ -796,17 +799,17 @@ class DunInput extends DunObject
 	 		// Not found, so we are done
 	 		$return = $source;
 	 	}
-	 		else
-	 		{
-	 		// At this point, we have stripped out the comments and have found :expression
-	 		// Test stripped string for :expression followed by a '('
-	 				if (preg_match_all('#:expression\s*\(#', $test, $matches))
-	 				{
-					// If found, remove :expression
-					$test = str_ireplace(':expression', '', $test);
-					$return = $test;
-				}
+ 		else
+ 		{
+ 		// At this point, we have stripped out the comments and have found :expression
+ 		// Test stripped string for :expression followed by a '('
+ 				if (preg_match_all('#:expression\s*\(#', $test, $matches))
+ 				{
+				// If found, remove :expression
+				$test = str_ireplace(':expression', '', $test);
+				$return = $test;
 			}
-			return $return;
 		}
+		return $return;
+	}
 }

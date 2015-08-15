@@ -88,16 +88,10 @@ class WordpressDunModule extends DunModule
 	{
 		switch( $type ) {
 			case 'plugin' :
-				return '/plugin/';
+				return '/wp-content/plugins/';
 				break;
-			case 'module' :
-				return '/components/modules/';
-				break;
-			case 'gatewaymerchant' :
-				return '/components/gateways/merchant/';
-				break;
-			case 'gatewaynonmerchant' :
-				return '/components/gateways/nonmerchant/';
+			case 'theme' :
+				return '/wp-content/themes/';
 				break;
 		}
 	}
@@ -134,10 +128,8 @@ class WordpressDunModule extends DunModule
 	{
 		$ds	=	DIRECTORY_SEPARATOR;
 		return array(
-				'plugin'				=> DUN_ENV_PATH . 'plugins' . $ds,
-				'module'				=> DUN_ENV_PATH . 'components' . $ds . 'modules' . $ds,
-				'gatewaymerchant'		=> DUN_ENV_PATH . 'components' . $ds . 'gateways' . $ds . 'merchant' . $ds,
-				'gatewaynonmerchant'	=> DUN_ENV_PATH . 'components' . $ds . 'gateways' . $ds . 'nonmerchant' . $ds
+				'plugin'			=> DUN_ENV_PATH . 'wp-content' . $ds . 'plugins' . $ds,
+				'theme'				=> DUN_ENV_PATH . 'wp-content' . $ds . 'themes' . $ds,
 		);
 	}
 	
@@ -196,9 +188,7 @@ class WordpressDunModule extends DunModule
 	
 		switch( $type ) {
 			case 'plugin' :
-			case 'module' :
-			case 'gatewaymerchant' :
-			case 'gatewaynonmerchant' :
+			case 'theme' :
 				
 				if ( is_api() ) {
 					return 'api';
@@ -232,9 +222,7 @@ class WordpressDunModule extends DunModule
 		
 		switch( $type ) {
 			case 'plugin' :
-			case 'module' :
-			case 'gatewaymerchant' :
-			case 'gatewaynonmerchant' :
+			case 'theme' :
 				
 				if ( is_api() ) {
 					return 'api.php';

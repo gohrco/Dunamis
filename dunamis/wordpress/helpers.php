@@ -1,7 +1,7 @@
 <?php
 /**
  * @package         @packageName@
- * @subpackage		Blesta
+ * @subpackage		Wordpress
  * @version         @fileVers@
  *
  * @author          @buildAuthor@
@@ -11,6 +11,39 @@
  */
 
 // Do not include the script access check - blesta installer needs access to this file before dunamis does
+
+/**
+ * Function for determining if we are in the admin area or not
+ * @version		@fileVers@
+ * @since		1.0.0
+ */
+if (! function_exists( 'is_admin' ) )
+{
+	function is_admin()
+	{
+		return ( defined( "WP_ADMIN" ) == true ? false : true );
+	}
+}
+
+
+/**
+ * Function for determining if we are in the api area or not
+ * @version		@fileVers@
+ * @since		1.0.0
+ */
+if (! function_exists( 'is_api' ) )
+{
+	function is_api()
+	{
+		// See if we are calling up the Dunamis API first
+		if ( defined( "APIAREA" ) == true ) {
+			return true;
+		}
+		
+		return false;
+	}
+}
+
 
 /**
  * Used for sending output straight to screen wrapped in <pre> tags or a var dump of a string

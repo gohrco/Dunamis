@@ -107,6 +107,14 @@ class Dunamis
 	
 	
 	/**
+	 * If we determine we are enabled then set this to true
+	 * @access		private
+	 * @var			boolean
+	 * @since		1.5.0
+	 */
+	private $_isenabled	=	false;
+	
+	/**
 	 * Constructor method
 	 * @access		public
 	 * @version		@fileVers@
@@ -177,6 +185,8 @@ class Dunamis
 		$is_enabled = call_user_func( 'is_enabled_on_' . $this->_environmentname );
 		if (! $is_enabled ) return;
 		
+		$this->_isenabled	=	true;
+		
 		// Set error handler
 		if ( class_exists( ucfirst( strtolower( DUN_ENV ) ) . 'DunError' ) ) {
 			$this->_errorhandler = ucfirst( strtolower( DUN_ENV ) ) . 'DunError';
@@ -189,6 +199,12 @@ class Dunamis
 		if ( class_exists( $classname ) ) {
 			call_user_func( "{$classname}::init" );
 		}
+	}
+	
+	
+	public function isenabled()
+	{
+		return $this->_isenabled;
 	}
 	
 	
@@ -249,6 +265,8 @@ class Dunamis
 		$classname	= ucfirst( $this->_environmentname ) . 'DunModule';
 		$path		= call_user_func_array( "{$classname}::locateModule", array( $module ) );
 		
+		dunloader( 'debug', true )->variable( array( 'module' => $module, 'subclass' => $subclass, 'classname'=>$classname,'path'=>$path), 'Load Module: ' . $modulename );
+		
 		// Catch empty paths
 		if (! $path ) {
 			$this->setError( DUN_WARNING, 'Unable to locate the module ' . $module );
@@ -259,14 +277,18 @@ class Dunamis
 		$filename	= ( $subclass != null ? $subclass . '.php' : call_user_func_array( "{$classname}::locateModuleFilename", array( $module ) ) );
 		$subclass	= ( $subclass != null ? $subclass : call_user_func_array( "{$classname}::locateModuleClassname", array( $module ) ) );
 		
+		dunloader( 'debug', true )->variable( array('filename' => $filename, 'subclass' => $subclass ), 'File Load Module: ' . $modulename );
+		
+		
 		if (! @include_once( $path . $filename ) ) {
-			
+			dunloader( 'debug', true )->error( 'File not found: ' . $path . $filename );
 		}
 		
 		$classname				= ucfirst( $module ) . ucfirst( $subclass ) . 'DunModule';
 		$this->modules[$modulename]	= false;
 		
 		if (! class_exists( $classname ) ) {
+			dunloader( 'debug', true )->error( 'Class not found: ' . $classname );
 			return false;
 		}
 		

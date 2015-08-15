@@ -12,7 +12,7 @@
 defined('DUNAMIS') OR exit('No direct script access allowed');
 
 /**
- * Dunamis Environment class for Blesta
+ * Dunamis Environment class for Wordpress
  * @desc		This is the environment file for determining if we are in the Wordpress environment
  * @package		Dunamis
  * @subpackage	Wordpress
@@ -29,7 +29,7 @@ class WordpressDunEnvironment extends DunEnvironment
 	 * @access		public
 	 * @version		@fileVers@
 	 * 
-	 * @since		1.3.0
+	 * @since		1.5.0
 	 * @see			DunEnvironment :: defines()
 	 */
 	public function defines()
@@ -58,60 +58,47 @@ class WordpressDunEnvironment extends DunEnvironment
 
 
 /**
- * Function to get a steting from WHMCS database table
+ * Function to get a steting from Wordpress database table
  * @access		public
  * @version		@fileVers@ ( $Id$ )
- * @param		string		- $checkfor: what we are checking for
+ * @param		string		- $checkfor: what we are checking for (deprecated / unusued)
  *
  * @return		boolean
- * @since		1.3.0
+ * @since		1.5.0
  */
 function get_errorsetting_wordpress( $checkfor = 'ErrorLevel' )
 {
-	/*switch( $checkfor ) :
-	case 'ErrorLevel' :
-		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'ErrorLevel' ) );
-		$data	=	mysql_fetch_object( $result );
-		
-		if (! $data ) return 'ERROR';
-		else return strtoupper( $data->value );
-		break;
-	case 'DebugErrors' :
-		$result	=	select_query( 'tbladdonmodules', 'value', array( 'module' => 'dunamis', 'setting' => 'DebugErrors' ) );
-		$data	=	mysql_fetch_object( $result );
-		
-		if (! $data ) return false;
-		else if ( $data->value == 'Yes' ) return true;
-		else return false;
-		
-		break;
-	endswitch;
-	*/
-	
-	
-	
+	$debug	=	get_option( 'dunamis_debug' );
+	return (bool) $debug;
 }
 
 
 /**
- * Function to see if the Dunamis framework is enabled on Blesta
+ * Function to see if the Dunamis framework is enabled on Wordpress
  * @version		@fileVers@
  * 
  * @return		boolean
- * @since		1.3.0
+ * @since		1.5.0
  */
 function is_enabled_on_wordpress()
 {
-	return true;
+	$var	=	get_option( 'active_plugins' );
+	if (! is_array( $var ) ) return false;
+	
+	foreach ( $var as $v ) {
+		if ( $v == 'dunamis.php' ) return true;
+	}
+	
+	return false;
 }
 
 
 /**
- * Function to see if the environment matches that of WHMCS
+ * Function to see if the environment matches that of Wordpress
  * @version		@fileVers@
  * 
  * @return		boolean
- * @since		1.3.0
+ * @since		1.5.0
  */
 function is_this_wordpress()
 {

@@ -28,7 +28,32 @@ class DefaultBarPanel implements IBarPanel
 		$this->id = $id;
 	}
 
-
+	
+	/**
+	 * Method to add data to our object easily and consistantly
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 * @param		string
+	 * @param		string
+	 * 
+	 * @since		1.5.0
+	 */
+	public function addData( $file, $line, $message )
+	{
+		if (! \Tracy\Debugger :: isEnabled() ) return;
+		
+		$key	=	"{$file}|{$line}|{$message}";
+		
+		if (! isset( $this->data[$key] ) ) $count = 0;
+		else $count = $this->data[$key];
+		
+		$count++;
+		
+		$this->data[$key]	=	$count;
+	}
+	
+	
 	/**
 	 * Renders HTML code for custom tab.
 	 * @return string
