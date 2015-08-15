@@ -82,7 +82,7 @@ class DunForm extends DunObject
 		$form	=	implode( '.', $parts );
 		
 		$class = dunimport( 'fields.' . $field->type, $module );
-			
+		
 		if (! $class ) return false;
 			
 		switch ( $class ) {

@@ -1,0 +1,17 @@
+
+#dunamis textarea,
+#dunamis input[type="text"],
+#dunamis input[type="password"],
+#dunamis input[type="datetime"],
+#dunamis input[type="datetime-local"],
+#dunamis input[type="date"],
+#dunamis input[type="month"],
+#dunamis input[type="time"],
+#dunamis input[type="week"],
+#dunamis input[type="number"],
+#dunamis input[type="email"],
+#dunamis input[type="url"],
+#dunamis input[type="search"],
+#dunamis input[type="tel"],
+#dunamis input[type="color"],
+#dunamis .uneditable-input { height: inherit; }
