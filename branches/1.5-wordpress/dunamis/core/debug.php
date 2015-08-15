@@ -68,14 +68,21 @@ class DunDebug extends DunObject
 	 * @access		protected
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @version		1.5.0		- Revamp for Tracy
 	 * @param		string		- $msg: what we want to log
 	 *
 	 * @since		1.0.11
 	 */
-	public static function error( $msg, $label = null, $options = array() )
+	public static function error( $msg )
 	{
-		if (! self :: $isEnabled ) return;
-		self :: $instance->error( t( $msg ), $label, $options  );
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return;
+		if (! class_exists( '\Tracy\Debugger' ) ) return;
+		
+		$calledby	=	debug_backtrace(0);
+		$calledby	=	(object) array_shift( $calledby );
+		
+		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\Debugger:errors' )->addData( $calledby->file, $calledby->line, $msg );
 	}
 	
 	

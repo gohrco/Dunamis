@@ -34,9 +34,6 @@ class WordpressDunDocument extends DunDocument
 	public function __construct( $options = array() )
 	{
 		parent :: __construct( $options );
-		
-		wp_enqueue_style( 'dunamis', plugins_url() . '/dunamis/dunamis.css' );
-		add_action( 'wp_footer', array( &$this, 'renderScripts' ) );
 	}
 	
 	
@@ -88,7 +85,9 @@ class WordpressDunDocument extends DunDocument
 	 */
 	public function addStyleSheet( $url, $type = 'text/css', $media = null, $attribs = array() )
 	{
-		wp_enqueue_style( 'dunamis', $url );
+		return parent :: addStyleSheet( $url, $type, $media, $attribs );
+// 		wp_enqueue_style( 'dunamis', $url );
+// 		return $this;
 	}
 	
 	
@@ -104,7 +103,9 @@ class WordpressDunDocument extends DunDocument
 	 */
 	public function addStyleDeclaration( $content, $type = 'text/css' )
 	{
-		wp_add_inline_style( 'dunamis', $content );
+		return parent :: addStyleDeclaration( $content, $type );
+// 		wp_add_inline_style( 'dunamis', $content );
+// 		return $this;
 	}
 	
 	
@@ -115,6 +116,46 @@ class WordpressDunDocument extends DunDocument
 	 *
 	 * @return		string
 	 * @since		1.0.0
+	 */
+	public function renderHeadData()
+	{
+		$lnEnd	= "\12";
+		$tab	= "\11";
+		$buffer	= null;
+	
+		// Generate stylesheet links
+		foreach ( $this->_stylesheets as $strSrc => $strAttr) {
+			$buffer .= $tab . '<link rel="stylesheet" href="' . $strSrc . '" type="' . $strAttr['mime'] . '"';
+				
+			if (! is_null( $strAttr['media'] ) ) {
+				$buffer .= ' media="' . $strAttr['media'] . '" ';
+			}
+				
+			if ( $temp = array_to_string( $strAttr['attribs'] ) ) {
+				$buffer .= ' ' . $temp;
+			}
+				
+			$buffer .= " />" . $lnEnd;
+		}
+	
+		// Generate stylesheet declarations
+		foreach ( $this->_style as $type => $content ) {
+			$buffer .= $tab . '<style type="' . $type . '">' . $lnEnd;
+			$buffer .= $content . $lnEnd;
+			$buffer .= $tab . '</style>' . $lnEnd;
+		}
+	
+		return $buffer;
+	}
+	
+	
+	/**
+	 * Renders the head data
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		1.5.0
 	 */
 	public function renderScripts()
 	{

@@ -23,10 +23,22 @@ function dunamis_init()
 		include_once $path;
 	}
 	
-	if ( function_exists( 'get_dunamis' ) ) {
-		$dunamis	=	get_dunamis();
+	if (! function_exists( 'get_dunamis' ) ) {
+		return;
 	}
 	
-	//list_hooked_functions();
+	$dunamis	=	get_dunamis();
 	
+	// Ensure we are enabled before proceeding
+	if (! $dunamis->isenabled() ) {
+		return;
+	}
+	
+	// Lets attach hooks
+	dunloader( 'hooks', true )->attachHooks( 'dunamis' );
+	
+	// We are enabled, so lets go ahead and load up
+	//echo '<pre>'.print_r($dunamis,1);die();
+	//list_hooked_functions();
+	//die();
 }
