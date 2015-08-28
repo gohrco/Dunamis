@@ -108,6 +108,9 @@ $lang['admin.settings.subnav.general']				=	'<i class="icon-off"> </i> <strong>G
 $lang['admin.form.settings.label.debug']			=	'Debug';
 $lang['admin.form.settings.description.debug']		=	'Use this setting to enable or disable debugging for the module.';
 
+$lang['admin.form.settings.label.token']			=	'Token';
+$lang['admin.form.settings.description.token']		=	'<br />Enter a unique token to permit other applications to communicate through Dunamis.  Note that this token only applies to the Dunamis module itself and any other modules utilizing the Dunamis framework will need to establish their own token for connecting to their module\'s API handler';
+
 $lang['admin.form.settings.label.dlid']				=	'Download ID';
 $lang['admin.form.settings.description.dlid']		=	'This is the Download ID available from our web site.  Simply retrieve it and enter it here for the update feature to work.';
 
