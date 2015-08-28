@@ -73,7 +73,7 @@ class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function error( $msg )
+	public function error( $msg )
 	{
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return;
