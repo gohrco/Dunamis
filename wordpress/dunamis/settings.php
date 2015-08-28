@@ -82,11 +82,31 @@ class DunamisSettingsDunModule extends DunamisAdminDunModule
 	{
 		switch( $this->task ) :
 		case 'save' :
-				
-			$debug	= ( isset( $_POST['debug'] ) ? $_POST['debug'] : false );
-			update_option( 'dunamis_debug', $debug );
+			
+			foreach ( $this->getFields() as $k ) {
+				$$k	=	( isset( $_POST[$k] ) ? $_POST[$k] : false );
+				update_option( 'dunamis_' . $k, $$k );
+			}
+			
 		break;
 		endswitch;
+	}
+	
+	
+	/**
+	 * Method to get an array of settings we use in our application
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		array
+	 * @since		1.5.0
+	 */
+	public function getFields()
+	{
+		return array(
+				'debug',
+				'token',
+		);
 	}
 	
 	
@@ -132,9 +152,10 @@ class DunamisSettingsDunModule extends DunamisAdminDunModule
 		$this->execute();
 		
 		// Grab our option from our database
-		$values	=	array(
-				'debug'	=>	get_option( 'dunamis_debug' ),
-		);
+		$values	=	array();
+		foreach ( $this->getFields() as $k ) {
+			$values[$k]	=	get_option( 'dunamis_' . $k );
+		}
 		
 		// Build our form
 		$form	=	dunloader( 'form', true );

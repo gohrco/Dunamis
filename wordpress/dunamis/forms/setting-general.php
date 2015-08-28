@@ -12,6 +12,14 @@ $form	= array(
  				'label'			=> 'dunamis.admin.form.settings.label.debug',
  				'description'	=> 'dunamis.admin.form.settings.description.debug',
  		),
+		'token'		=> array(
+				'order'			=> 30,
+				'type'			=> 'password',
+				'value'			=> true,
+				'validation'	=> '',
+				'label'			=> 'dunamis.admin.form.settings.label.token',
+				'description'	=> 'dunamis.admin.form.settings.description.token',
+		),
 		/*'dlid'	=> array(
 				'order'			=>	30,
 				'type'			=>	'text',
