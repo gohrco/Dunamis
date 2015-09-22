@@ -140,7 +140,7 @@ class TogglebtnDunFields extends DunFields
 	 * 
 	 * @since		1.0.0
 	 */
-	private function _addJavascript()
+	protected function _addJavascript()
 	{
 		static $data = false;
 		
