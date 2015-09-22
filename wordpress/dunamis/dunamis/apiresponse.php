@@ -54,9 +54,31 @@ class DunamisDunApiresponse extends WordpressDunApiresponse
 	}
 	
 	
+	/**
+	 * Method to get the class name we are using
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @return		string
+	 * @since		1.5.0
+	 */
 	public function getClass()
 	{
 		return 'DunamisDunApidispatch';
+	}
+	
+	
+	/**
+	 * Method to get the filename of the task we are seeking
+	 * @access		public
+	 * @version		@fileVers@
+	 * 
+	 * @return		string
+	 * @since		1.5.0
+	 */
+	public function getFilename()
+	{
+		return strtolower( $this->getTask() ) . '.php';
 	}
 	
 	
@@ -95,5 +117,20 @@ class DunamisDunApiresponse extends WordpressDunApiresponse
 	public function getPath()
 	{
 		return dirname( __DIR__ ) . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR;
+	}
+	
+	
+	/**
+	 * Method to get the task from our handler for modular capability
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		1.5.0
+	 */
+	public function getTask()
+	{
+		$input	=	dunloader( 'input', true );
+		return $input->getVar( 'task', null );
 	}
 }

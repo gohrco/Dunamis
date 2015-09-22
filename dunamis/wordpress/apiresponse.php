@@ -185,13 +185,13 @@ class WordpressDunApiresponse extends DunObject
 	 */
 	public function respond( $data = array( 'result' => 'error', 'message' => 'Nothing passed to response handler' ) )
 	{
-		$input	=	dunloader( 'input', true );
-		$task	=	$input->getVar( 'task', null );
+		// Seek out our task
+		$task		=	$this->getTask();
 		
 		if (! $task ) $this->error( 'No task was sent to the Dunamis module to handle' );
 		
 		$path		=	$this->getPath();
-		$filename	=	strtolower( $task ) . '.php';
+		$filename	=	$this->getFilename();
 		
 		if (! file_exists( $path . $filename ) ) {
 			dunloader( 'debug', true )->variable( $path . $filename, 'Path to API' );
