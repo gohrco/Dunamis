@@ -704,26 +704,35 @@ class DunInput extends DunObject
 	 *
 	 * @since   11.1
 	 */
-	 protected function _decode($source)
-	 {
-	 static $ttr;
+	protected function _decode($source)
+	{
+		static $ttr;
+		
+		if (!is_array($ttr)) {
+			// Entity decode
+	 		$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+	 		foreach ($trans_tbl as $k => $v) {
+	 			$ttr[$v] = utf8_encode($k);
+			}
+		}
+		
+		$source = strtr($source, $ttr);
+		
+		// Convert decimal
+		$source	=	preg_replace_callback('/&#(\d+);/m', function($m) {
+						return utf8_encode(chr($m[1]));
+					}, $source
+		);
+		
+		// Convert hex
+		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m) {
+						return utf8_encode(chr('0x' . $m[1]));
+					}, $source
+		);
+		
+		return $source;
+	}
 	
-	 if (!is_array($ttr))
-	 {
-	 // Entity decode
-	 	$trans_tbl = get_html_translation_table(HTML_ENTITIES);
-	 	foreach ($trans_tbl as $k => $v)
-	 	{
-	 	$ttr[$v] = utf8_encode($k);
-	}
-	}
-	$source = strtr($source, $ttr);
-	// Convert decimal
-	 	$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
-	 			// Convert hex
-	 	$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
-	 	return $source;
-	 	}
 	
 	 	/**
 	 	* Escape < > and " inside attribute values
