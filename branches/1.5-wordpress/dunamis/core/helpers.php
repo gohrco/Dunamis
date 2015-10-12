@@ -200,6 +200,10 @@ if (! function_exists( 'simpleXMLToArray' ) ) {
 		}
 
 		$return	= array();
+		
+		// Catch just in case there is a problem with the XML content
+		if (! is_object( $xml ) ) return $return;
+		
 		$name	= $xml->getName();
 		$_value	= trim((string)$xml);
 
