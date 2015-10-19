@@ -79,7 +79,7 @@ class WordpressDunApiresponse extends DunObject
 		
 		// Next lets generate a signature
 		$gensig		=	$this->_generateSignature();
-		$usesig		=	(string) ( rand( 0, 1 ) == '1' ? $hdrsig : $qrysig );
+		$usesig		=	(string) urldecode( rand( 0, 1 ) == '1' ? $hdrsig : $qrysig );
 		
 		if ( $this->_compareSignatures( $gensig, $usesig ) !== true ) {
 			$errors[]	=	'The signature passed to the application and the one generated do not match one another - aborting connection';
