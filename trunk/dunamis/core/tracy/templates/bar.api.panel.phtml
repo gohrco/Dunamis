@@ -74,14 +74,14 @@ $cnt	=	1;
 		<td width="25"><?php echo $item['method'] ?></td>
 		<td><?php echo $item['call'] ?></td>
 		<td>
-			<a href="#post<?php echo $i?>" class="tracy-toggle-collapsed">Variables</a>
-			<a href="#optn<?php echo $i?>" class="tracy-toggle-collapsed">Curl Options</a>
+			<a href="#post<?php echo $cnt?>" class="tracy-toggle-collapsed">Variables</a>
+			<a href="#optn<?php echo $cnt?>" class="tracy-toggle-collapsed">Curl Options</a>
 		</td>
 		<td>
-			<a href="#result<?php echo $i?>" class="tracy-toggle-collapsed">Response</a>
+			<a href="#result<?php echo $cnt?>" class="tracy-toggle-collapsed">Response</a>
 		</td>
 		<td>
-			<a href="#curl<?php echo $i?>" class="tracy-toggle-collapsed">Curl Info</a>
+			<a href="#curl<?php echo $cnt?>" class="tracy-toggle-collapsed">Curl Info</a>
 		</td>
 		<td class="remote-api">
 			<?php if ( $item['debug'] ) : ?>
@@ -99,10 +99,10 @@ $cnt	=	1;
 	<tr class="<?php echo $class ?>">
 		<td width="15">&nbsp;</td>
 		<td colspan="7">
-			<div style="display: none; max-width: 500px; " id="post<?php echo $i ?>"><pre><?php echo print_r($item['post'],1) ?></pre></div>
-			<div style="display: none; max-width: 500px; " id="optn<?php echo $i ?>"><pre><?php echo print_r($item['optns'],1) ?></pre></div>
-			<div style="display: none; max-width: 500px; " id="result<?php echo $i ?>"><?php echo ( is_bool( $item['result'] ) ? var_dump( $item['result'] ) : $item['result'] ) ?></div>
-			<div style="display: none; max-width: 500px; " id="curl<?php echo $i ?>"><pre><?php echo print_r($item['curlinfo'],1) ?></pre></div>
+			<div style="display: none; max-width: 500px; " id="post<?php echo $cnt ?>"><pre><?php echo print_r($item['post'],1) ?></pre></div>
+			<div style="display: none; max-width: 500px; " id="optn<?php echo $cnt ?>"><pre><?php echo print_r($item['optns'],1) ?></pre></div>
+			<div style="display: none; max-width: 500px; " id="result<?php echo $cnt ?>"><?php echo ( is_bool( $item['result'] ) ? var_dump( $item['result'] ) : $item['result'] ) ?></div>
+			<div style="display: none; max-width: 500px; " id="curl<?php echo $cnt ?>"><pre><?php echo print_r($item['curlinfo'],1) ?></pre></div>
 			
 			<?php if ( $item['debug'] ) : ?>
 			<?php foreach ( $item['debug'] as $k => &$ri ) : ?>
