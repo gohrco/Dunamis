@@ -112,17 +112,22 @@ class WordpressDunHooks extends DunHooks
 			
 			while( false !== ( $file = readdir( $dh ) ) ) {
 				if ( in_array( $file, array( '.', '..', 'index.html' ) ) ) continue;
-				$hookname	=	str_replace( '.php', '', $file );
+				$hookfile	=	str_replace( '.php', '', $file );
+				$hookparts	=	array_pad( array_pad( explode( '.', $hookfile ), 2, 10 ), 3, 3 );
+				$hookname	=	array_shift( $hookparts );
+				$hookorder	=	(int) array_shift( $hookparts );
+				$hookpty	=	(int) array_shift( $hookparts );
 				
 				$functionname	=	"dunamis_{$extension}_{$type}_{$hookname}";
 				$newfunction	=	<<< CODE
 				
 				function {$functionname}() {
-					return dunloader( 'hooks', true )->execute( '{$hookname}', '{$extension}', '{$type}' );
+					\$vars = func_get_args();
+					return dunloader( 'hooks', true )->execute( '{$hookfile}', '{$extension}', '{$type}', \$vars );
 				}
 CODE;
 				eval( $newfunction );
-				add_action( $hookname, $functionname );
+				add_action( $hookname, $functionname, $hookorder, $hookpty  );
 			}
 		}
 		
