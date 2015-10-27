@@ -115,18 +115,22 @@ class WordpressDunFilters extends DunFilters
 			
 			while( false !== ( $file = readdir( $dh ) ) ) {
 				if ( in_array( $file, array( '.', '..', 'index.html' ) ) ) continue;
-				$hookname	=	str_replace( '.php', '', $file );
+				$hookfile	=	str_replace( '.php', '', $file );
+				$hookparts	=	array_pad( array_pad( explode( '.', $hookfile ), 2, 10 ), 3, 3 );
+				$hookname	=	array_shift( $hookparts );
+				$hookorder	=	(int) array_shift( $hookparts );
+				$hookpty	=	(int) array_shift( $hookparts );
 				
 				$functionname	=	"dunamis_filters_{$extension}_{$type}_{$hookname}";
 				$newfunction	=	<<< CODE
 				
 				function {$functionname}() {
 					\$vars = func_get_args();
-					return dunloader( 'filters', true )->execute( '{$hookname}', '{$extension}', '{$type}', \$vars );
+					return dunloader( 'filters', true )->execute( '{$hookfile}', '{$extension}', '{$type}', \$vars );
 				}
 CODE;
 				eval( $newfunction );
-				add_filter( $hookname, $functionname );
+				add_filter( $hookname, $functionname, $hookorder, $hookpty );
 			}
 		}
 		
