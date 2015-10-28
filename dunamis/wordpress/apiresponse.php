@@ -291,19 +291,49 @@ class WordpressDunApiresponse extends DunObject
 		
 		$uri->delVar( 'apisignature' );
 		
-		if ( $method == 'post' ) {
-			$post	=	$_POST;
+		if ( $method != 'get' ) {
+			$usepost	=	array();
+			$post		=	$_POST;
 			ksort( $post );
-		
+			
 			foreach ( $post as $k => $v ) {
-				if ( $k == 'apisignature' ) continue;
-				$append	.=	$k . $input->getVar( $k, null, 'post', 'string' );
+				if (! in_array( $k, array( 'apisignature', '_c' ) ) ) {
+					$usepost[$k] = $v;
+				}
 			}
+			
+			$append	=	$this->_generateString( $usepost );
 		}
 		else if ( $method == 'get' || $method == 'put' ) {
 			$uri->delVar( 'apisignature' );
 		}
 		
 		return base64_encode( hash_hmac( 'sha256', rawurldecode( $uri->toString() ) . $append, $token, true ) );
+	}
+	
+	
+	/**
+	 * Method to generate string
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		array
+	 * @param		array
+	 *
+	 * @return		string
+	 * @since		3.1.10
+	 */
+	private function _generateString( $data = array() )
+	{
+		$string	=	null;
+		foreach ( $data as $k => $v ) {
+			if ( is_array( $v ) ) {
+				$string		.=	$this->_generateString( $v );
+			}
+			else {
+				$v		=	( is_bool( $v ) ? $v == true ? '1' : '0' : $v );
+				$string	.=	$k . $v;
+			}
+		}
+		return $string;
 	}
 }
