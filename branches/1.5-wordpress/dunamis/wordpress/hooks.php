@@ -118,7 +118,7 @@ class WordpressDunHooks extends DunHooks
 				$hookorder	=	(int) array_shift( $hookparts );
 				$hookpty	=	(int) array_shift( $hookparts );
 				
-				$functionname	=	"dunamis_{$extension}_{$type}_{$hookname}";
+				$functionname	=	str_replace( '-', '_', "dunamis_{$extension}_{$type}_{$hookname}" );
 				$newfunction	=	<<< CODE
 				
 				function {$functionname}() {

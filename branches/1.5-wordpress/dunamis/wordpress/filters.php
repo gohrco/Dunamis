@@ -121,7 +121,7 @@ class WordpressDunFilters extends DunFilters
 				$hookorder	=	(int) array_shift( $hookparts );
 				$hookpty	=	(int) array_shift( $hookparts );
 				
-				$functionname	=	"dunamis_filters_{$extension}_{$type}_{$hookname}";
+				$functionname	=	str_replace( '-', '_', "dunamis_filters_{$extension}_{$type}_{$hookname}" );
 				$newfunction	=	<<< CODE
 				
 				function {$functionname}() {
