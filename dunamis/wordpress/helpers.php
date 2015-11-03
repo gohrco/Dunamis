@@ -180,12 +180,12 @@ if (! function_exists( 'load_bootstrap' ) )
 		
 		$doc = dunloader( 'document', true );
 		
-		$doc->addStyleSheet( $base . '/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
-		$doc->addStyleSheet( $base . '/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
-		$doc->addStyleSheet( $base . '/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
+		$doc->addStyleSheet( $base . '/framework/dunamis/core/bootstrap/css/reset.php?m=' . urlencode( $module ) );			// Reset CSS
+		$doc->addStyleSheet( $base . '/framework/dunamis/core/bootstrap/css/bootstrap.2.3.1.php?m=' . urlencode( $module ) );	// Our bootstrap
+		$doc->addStyleSheet( $base . '/framework/dunamis/core/assets/css/bootstrapSwitch.php?m=' . urlencode( $module ) );
 		
-		$doc->addScript( $base . '/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
-		$doc->addScript( $base . '/dunamis/core/assets/js/bootstrapSwitch.js' );
+		$doc->addScript( $base . '/framework/dunamis/core/bootstrap/js/bootstrap.min.js' );								// Our javascript
+		$doc->addScript( $base . '/framework/dunamis/core/assets/js/bootstrapSwitch.js' );
 		
 	}
 }

@@ -79,7 +79,7 @@ class DunamisAdminDunModule extends WordpressDunModule
 	 */
 	public function admin_menu()
 	{
-		add_menu_page( t( 'dunamis.title.main' ), t( 'dunamis.menu.main' ), 'manage_options', 'dunamis-default', array( dunmodule( 'dunamis.default' ), 'render' ), get_baseurl( 'dunamis' ) . 'dunamis/core/assets/img/dunamis-16-invert.png', 40 );
+		add_menu_page( t( 'dunamis.title.main' ), t( 'dunamis.menu.main' ), 'manage_options', 'dunamis-default', array( dunmodule( 'dunamis.default' ), 'render' ), get_baseurl( 'dunamis' ) . 'framework/dunamis/core/assets/img/dunamis-16-invert.png', 40 );
 		add_submenu_page( 'dunamis-default', t( 'dunamis.title.settings' ), t( 'dunamis.menu.settings' ), 'manage_options', 'dunamis-settings', array( dunmodule( 'dunamis.settings' ), 'render' ) );
 	}
 	
