@@ -17,7 +17,7 @@ add_action( 'init', 'dunamis_init' );
 
 function dunamis_init()
 {
-	$path	=	__DIR__ . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'dunamis.php';
+	$path	=	__DIR__ . DIRECTORY_SEPARATOR . 'framework' . DIRECTORY_SEPARATOR . 'dunamis.php';
 	
 	if ( file_exists( $path ) ) {
 		include_once $path;
