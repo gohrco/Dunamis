@@ -6,18 +6,23 @@
 	
 	<target name="dunamis_copy_to_wordpress" depends="dunamis_properties" if="copy.wordpress">
 		
+		<delete dir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/" />
+		<mkdir dir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/" />
+		
 		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">
 			<include name="dunamis/**/*.*" />
 			<include name="*.*" />
 		</fileset>
 		
-		<fileset dir="${dunamis.src.build}/wordpress/"				id="dunamis.wordpressfiles"			includes="**/*.*" />
+		<fileset dir="${dunamis.src.build}/wordpress/" id="dunamis.wordpressfiles">
+			<include name="**/*.*" />
+		</fileset>
 		
 		<echo message="[1]  Copying Wordpress Specific Files" />
-		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/"><fileset refid="dunamis.wordpressfiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/"><fileset refid="dunamis.wordpressfiles" /></copy>
 		
 		<echo message="[2]  Copying Core Files" />
-		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/"><fileset refid="dunamis.corefiles" /></copy>
+		<copy todir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/framework/"><fileset refid="dunamis.corefiles" /></copy>
 		
 	</target>
 	
