@@ -98,6 +98,8 @@ function is_enabled_on_wordpress()
 	
 	foreach ( $var as $v ) {
 		if ( $v == 'dunamis.php' ) return true;
+		if ( $v == 'dunamis/dunamis.php' ) return true;
+		if ( $v == 'dunamis' . DIRECTORY_SEPARATOR . 'dunamis.php' ) return true;
 	}
 	
 	return false;
