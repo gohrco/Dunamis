@@ -59,10 +59,18 @@ class WordpressDunFilters extends DunFilters
 			// Obviously if the file doesn't exist that would be bad
 			if (! file_exists( $path . $hookpoint . '.php' ) ) continue;
 			
+			// Capture results
 			ob_start();
 			include( $path . $hookpoint . '.php' );
 			$result = ob_get_contents();
 			ob_end_clean();
+			
+			// If we dont echo anything, assume we passed back $vars
+			if (! $result ) {
+				return $vars;
+			}
+			
+			// Else return our echo
 			return $result;
 		}
 	}
