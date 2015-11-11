@@ -54,14 +54,16 @@ class WordpressDunEnvironment extends DunEnvironment
 			define( 'DUN_ENV_VERSION', $version );
 		}
 		
-		// Include our rewrite rules for the Wordpress environment for API Response handling
-		add_rewrite_rule( '^/?$','index.php?dun_module=/','top' );
-		add_rewrite_rule( '^(.*)?','index.php?dun_module=$matches[1]','top' );
-		
-		global $wp;
-		$wp->add_query_var( 'dun_module' );
-		$wp->add_query_var( 'apisignature' );
-		$wp->add_query_var( 'apitimestamp' );
+		if ( isset( $_REQUEST['dun_module'] ) ) {
+			// Include our rewrite rules for the Wordpress environment for API Response handling
+			add_rewrite_rule( '^/?$','index.php?dun_module=/','top' );
+			add_rewrite_rule( '^(.*)?','index.php?dun_module=$matches[1]','top' );
+			
+			global $wp;
+			$wp->add_query_var( 'dun_module' );
+			$wp->add_query_var( 'apisignature' );
+			$wp->add_query_var( 'apitimestamp' );
+		}
 		
 		dunloader( 'hooks', true )->attachHooks( 'dunamis' );
 	}
