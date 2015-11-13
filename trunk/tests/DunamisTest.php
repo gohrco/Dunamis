@@ -9,7 +9,7 @@ class DunamisTest extends PHPUnit_Framework_TestCase
 	
 	public function setUp()
 	{
-		$this->dunamis	=	get_dunamis();
+		$this->dunamis	=	get_dunamis( 'dunamis' );
 	}
 	
 	
@@ -21,10 +21,14 @@ class DunamisTest extends PHPUnit_Framework_TestCase
 	
 	public function testDunamisLoads()
 	{
-		$this->assertTrue($this->dunamis !== null );
+		$this->assertTrue( $this->dunamis !== null );
+		$this->assertTrue( $this->dunamis !== false );
 	}
 	
 	
+	/**
+	 * @depends testDunamisLoads
+	 */
 	public function testDunmodule()
 	{
 		$module	=	dunmodule( 'dunamis' );
@@ -32,6 +36,9 @@ class DunamisTest extends PHPUnit_Framework_TestCase
 	}
 	
 	
+	/**
+	 * @depends testDunamisLoads
+	 */
 	public function testDunloader()
 	{
 		$admin	=	dunloader( 'updates', 'dunamis' );

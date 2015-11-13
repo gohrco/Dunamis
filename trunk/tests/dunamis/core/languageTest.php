@@ -74,7 +74,8 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 	{
 		get_dunamis();
 		$language	=	dunloader( 'language', false );
-		$this->assertTrue( $language->translate( 'dunamis.config.title' ) == 'Dunamis Framework' );
+		$this->assertTrue(! is_bool( $language ) ); 
+		$this->assertTrue( $language->translate( 'dunamis.addon.title' ) == 'Dunamis Framework' );
 	}
 	
 	
@@ -95,7 +96,7 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTranslate( $language )
 	{
-		$this->assertTrue( $language->translate( 'dunamis.config.title' ) == 'Dunamis Framework' );
+		$this->assertTrue( $language->translate( 'dunamis.addon.title' ) == 'Dunamis Framework' );
 	}
 }
 

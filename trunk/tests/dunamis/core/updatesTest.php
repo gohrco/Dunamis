@@ -89,41 +89,6 @@ class DunUpdatesTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $value == 'test' );
 		return $update;
 	}
-
-
-
-    /**
-     * @covers DunUpdates::downloadAndReturn
-     */
-	public function testDownloadAndReturn()
-	{
-		$update	=	dunloader( 'updates' );
-		$update->setUrl( 'https://www.gohigheris.com/customer-downloads/dunamis-framework/v1.1.5/dunamiswhmcsv1-1-5-zip' );
-		$value	=	$update->downloadAndReturn( $update->getUrl(), array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
-		$this->assertTrue( $update->getError() === null );
-	}
-	
-	
-	/**
-	 * @covers DunUpdates::downloadAndStore
-	 */
-	public function testDownloadAndStore()
-	{
-		$update	=	dunloader( 'updates' );
-		$update->setUrl( 'https://www.gohigheris.com/customer-downloads/dunamis-framework/v1.1.5/dunamiswhmcsv1-1-5-zip' );
-		
-		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-			$target	=	'/home/jwhmcsco/public_html/tmp/updatetest.tmp';
-			$update->setTarget( '/home/jwhmcsco/public_html/hosting/tmp/updatetest.tmp' );
-		}
-		else {
-			$target	=	'c:\xampp\tmp\update.tmp';
-			$update->setTarget( 'c:\xampp\tmp\update.tmp' );
-		}
-		
-		$value	=	$update->downloadAndStore( $update->getUrl(), $target, array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
-		$this->assertTrue( $value !== false, $update->getError() );
-	}
 	
 	
     /**
@@ -135,6 +100,66 @@ class DunUpdatesTest extends PHPUnit_Framework_TestCase
 		$adapters = $update->getAdapters();
 		$this->assertTrue( is_array( $adapters ) );
 		$this->assertContains( 'curl', $adapters );
+		
+		return $adapters;
+	}
+
+
+
+    /**
+     * @covers DunUpdates::downloadAndReturn
+     * @depends testGetAdapters
+     */
+	public function testDownloadAndReturn( array $adapters )
+	{
+		$update	=	dunloader( 'updates' );
+		$this->assertTrue(! is_bool( $update ) );
+		$update->setUrl( 'https://www.gohigheris.com/downloads/dunamis-framework/v144/dunamis_whmcs_v1-4-4-zip?format=raw' );
+		//$value	=	$update->downloadAndReturn( $update->getUrl(), array( 'username' => 'Steven', 'password' => 'J4VuMUaKnvwo9agtO3dx' ) ) ;
+		$value	=	$update->downloadAndReturn( $update->getUrl(), array( 'dlid' => '7b340bd787b667127874dcf8e060a026' ) );
+		$this->assertTrue( $update->getError() === null );
+	}
+	
+	
+	/**
+	 * @covers DunUpdates::downloadAndStore
+     * @depends testGetAdapters
+	 */
+	public function testDownloadAndStore( array $adapters )
+	{
+		$update	=	dunloader( 'updates' );
+		$update->setUrl( 'https://www.gohigheris.com/downloads/dunamis-framework/v144/dunamis_whmcs_v1-4-4-zip?format=raw' );
+		
+		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
+			$target	=	'/home/jwhmcsco/public_html/tmp/updatetest.tmp';
+			$update->setTarget( '/home/jwhmcsco/public_html/hosting/tmp/updatetest.tmp' );
+		}
+		else {
+			$target	=	'c:\xampp\tmp\update.tmp';
+			$update->setTarget( 'c:\xampp\tmp\update.tmp' );
+		}
+		
+		$value	=	$update->downloadAndStore( $update->getUrl(), $target, array( 'dlid' => '7b340bd787b667127874dcf8e060a026' ) ) ;
+		$this->assertTrue( $value !== false, $update->getError() );
+	}
+	
+	
+	/**
+	 * Call protected/private method of a class.
+	 *
+	 * @param object &$object    Instantiated object that we will run method on.
+	 * @param string $methodName Method name to call
+	 * @param array  $parameters Array of parameters to pass into method.
+	 *
+	 * @return mixed Method return.
+	 */
+	public function invokeMethod(&$object, $methodName, array $parameters = array())
+	{
+		$reflection = new \ReflectionClass(get_class($object));
+		$method = $reflection->getMethod($methodName);
+		$method->setAccessible(true);
+	
+		return $method->invokeArgs($object, $parameters);
 	}
 }
 ?>
