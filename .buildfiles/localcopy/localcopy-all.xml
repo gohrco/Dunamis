@@ -113,6 +113,8 @@
 			<echo message="-----------------------------------------------------" />
 			<echo message=" " />
 			<echo message=" " />
+		<antcall target="dunamis_debug_all" />
+		
 	</target>
 	
 	<target name="dunamis_copy_to_all" depends="dunamis_properties" if="copy.all">
@@ -150,6 +152,11 @@
 			<echo message="-----------------------------------------------------" />
 			<echo message=" " />
 			<echo message=" " />
+	</target>
+	
+	
+	<target name="dunamis_debug_all" if="copy.all">
+		<dunamis.debugger check="${dunamis.local.DEBUG_WHMCS}" output="debug/whmcs.html"/>
 	</target>
 	
 </project>

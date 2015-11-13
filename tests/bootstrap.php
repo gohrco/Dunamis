@@ -1,6 +1,6 @@
 <?php
 
-//defined( 'WHMCS' ) or define( 'WHMCS', true );
+defined( 'WHMCS' ) or define( 'WHMCS', true );
 global $rootpath;
 $ds	=	 DIRECTORY_SEPARATOR;
 
@@ -15,7 +15,7 @@ if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
 }
 else {
 	defined( 'BAMBOO' ) or define( 'BAMBOO', false );
-	require_once 'C:\xampp\www\mods\whmcs\includes\classes\class.init.php';
+// 	require_once 'C:\xampp\www\mods\whmcs\includes\classes\WHMCS\Init.php';
 	require_once 'C:\xampp\www\mods\whmcs\includes\dunamis.php';
 	require_once 'C:\xampp\www\mods\whmcs\includes\dbfunctions.php';
 	require_once 'C:\xampp\www\mods\whmcs\configuration.php';
@@ -28,7 +28,7 @@ else {
 
 error_reporting(0);
 global $whmcsmysql;
-$whmcsmysql = mysql_connect( $db_name, $db_username, $db_password );
+$whmcsmysql = mysql_connect( $db_host, $db_username, $db_password );
 mysql_select_db( $db_name );
 error_reporting(E_ALL);
 
@@ -51,9 +51,9 @@ else {
 /* Initialize WHMCS */
 /* ---------------- */
 
-global $whmcs;
-$whmcs	=	new WHMCS_Init();
-$whmcs	=	$whmcs->init();
+//global $whmcs;
+//$whmcs	=	new WHMCS_Init();
+//$whmcs	=	$whmcs->init();
 
 
 /* ---------------------- */
@@ -65,7 +65,7 @@ spl_autoload_register( function ( $class )  {
 	global $rootpath;
 	$ds	=	 DIRECTORY_SEPARATOR;
 	
-	require_once $rootpath . 'includes' . $ds . 'dunamis' . $ds . 'core' . $ds . 'object.php';
+	//require_once $rootpath . 'includes' . $ds . 'dunamis' . $ds . 'core' . $ds . 'object.php';
 	
 	$base	=	$rootpath . 'includes' . $ds . 'dunamis' . $ds . 'core' . $ds . strtolower( str_replace( 'Dun', '', $class ) ) . '.php';
 	if ( strpos( $class, 'Dun' ) !== false && strpos( $class, 'Dun' ) === 0 ) {

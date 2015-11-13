@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * Dunamis Inclusion File
  * This is the core of the Dunamis Framework
