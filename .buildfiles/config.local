@@ -13,3 +13,7 @@ LOCATION_DOCUMENTATION=C:/Extensions/Dunamis/Documentation/
 <!-- Location of local server root directory (not including subdirectories of specific applications -->
 LOCATION_LOCALHOME=C:/xampp/www/
 LOCATION_LOCALHOME25=C:/xampp/htdocs/2.5/
+
+<!-- DEBUG LOCATIONS -->
+DEBUG_PHPEXE=C:/xampp/bin/php/php5.6.2/php.exe
+DEBUG_WHMCS=C:/xampp/www/mods/whmcs/debug.php

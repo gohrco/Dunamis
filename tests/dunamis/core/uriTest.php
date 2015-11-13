@@ -180,8 +180,11 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
     		$this->assertTrue( DunUri :: current() == 'http://jwhmcs.com/hosting/index.php', sprintf( 'Test returned %s', DunUri :: current() ) );
     	}
+    	else if (! isset( $_SERVER['REQUEST_SCHEME'] ) || ! isset( $_SERVER['REQUEST_URI'] ) ) {
+    		$this->assertTrue( DunUri :: current() == 'http://localhost.com/mods/whmcs/index.php' );
+    	}
     	else {
-	    	$this->assertTrue( DunUri :: current() == 'http://localhost.com/mods/whmcs/index.php' );
+    		$this->assertTrue( DunUri :: current() == $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
     	}
     }
 
