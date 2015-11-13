@@ -38,8 +38,9 @@ class DunFormTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInstance()
 	{
-		get_dunamis( 'dunamis' );
-		$form	=	dunloader( 'form' );
+		$dunamis	=	get_dunamis( 'dunamis' );
+		$form		=	dunloader( 'form' );
+		$this->assertTrue( $dunamis !== null && $dunamis !== false );
 		$this->assertTrue( $form !== null, 'Loader did not return an object' );
 		$this->assertTrue( is_object( $form ) );
 		$this->assertInstanceOf( 'DunForm', $form );
@@ -121,6 +122,7 @@ class DunFormTest extends PHPUnit_Framework_TestCase
 	{
 		$form->setGroup( 'test', 'dunamis.testform' );
 		$field	=	$form->getField( 'gid', 'dunamis.testform' );
+		$this->assertTrue(! is_bool( $field ) );
 		$this->assertTrue( $field->get( 'group' ) == 'test' );
 	}
 	
@@ -133,6 +135,7 @@ class DunFormTest extends PHPUnit_Framework_TestCase
 	{
 		$form->setItem( 'gid', 'This is a test item description', 'dunamis.testform', 'name' );
 		$field	=	$form->getField( 'gid', 'dunamis.testform' );
+		$this->assertTrue(! is_bool( $field ) );
 		$this->assertTrue( $field->getName() == 'This is a test item description' );
 	}
 	
