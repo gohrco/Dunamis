@@ -48,8 +48,8 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     		$this->assertContains( 'jwhmcs.com', $uri->getHost() );
     	}
     	else {
-	    	$this->assertContains( 'mods/whmcs', $uri->getPath() );
-	    	$this->assertContains( 'localhost.com', $uri->getHost() );
+	    	$this->assertContains( 'whmcs', $uri->getPath() );
+	    	$this->assertContains( 'localhost', $uri->getHost() );
     	}
     	
     	$this->assertFalse( $uri->getScheme() == 'https' );
@@ -108,8 +108,8 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( BAMBOO ) {
     		$this->assertTrue( DunUri :: base() == 'http://jwhmcs.com/hosting', DunUri :: base() );
     	}
-    	else {
-	    	$this->assertTrue( DunUri :: base() == 'http://localhost.com/mods/whmcs' );
+    	else if ( PHP_SAPI != 'cli' ) {
+    		$this->assertTrue( DunUri :: base() == $_SERVER['DEBUG_URIBASE'], DunUri :: base() . ' <> ' . $_SERVER['DEBUG_URIBASE'] );
     	}
     }
     
@@ -122,8 +122,8 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( BAMBOO ) {
     		$this->assertTrue( DunUri :: base( true ) == '/hosting' );
     	}
-    	else {
-	    	$this->assertTrue( DunUri :: base( true ) == '/mods/whmcs' );
+    	else if ( PHP_SAPI != 'cli' ) {
+	    	$this->assertTrue( DunUri :: base( true ) == $_SERVER['DEBUG_URIBASEPATH'] );
     	}
     }
 
@@ -146,8 +146,8 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( BAMBOO ) {
     		$this->assertTrue( DunUri :: root( false, false ) == 'http://jwhmcs.com/', DunUri :: root( false, false ) );
     	}
-    	else {
-	    	$this->assertTrue( DunUri :: root( false, false ) == 'http://localhost.com/' );
+    	else if ( PHP_SAPI != 'cli' ) {
+	    	$this->assertTrue( DunUri :: root( false, false ) == 'http://localhost/' );
     	}
     }
     
@@ -159,8 +159,8 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( BAMBOO ) {
     		$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://jwhmcs.com/mycustompath/test', DunUri :: root( false, '/mycustompath/test' ) );
     	}
-    	else {
-	    	$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://localhost.com/mycustompath/test', DunUri :: root( false, '/mycustompath/test' ) );
+    	else if ( PHP_SAPI != 'cli' ) {
+	    	$this->assertTrue( DunUri :: root( false, '/mycustompath/test' ) == 'http://localhost/mycustompath/test', DunUri :: root( false, '/mycustompath/test' ) );
     	}
     }
     
@@ -169,7 +169,9 @@ class DunUriTest extends PHPUnit_Framework_TestCase
      */
     public function testRootPathOnly()
     {
-    	$this->assertTrue( DunUri :: root( true ) == '/mycustompath/test', DunUri :: root( true ) );
+    	if ( PHP_SAPI != 'cli' ) {
+    		$this->assertTrue( DunUri :: root( true ) == '/mycustompath/test', DunUri :: root( true ) );
+    	}
     }
     
     /**
@@ -180,10 +182,10 @@ class DunUriTest extends PHPUnit_Framework_TestCase
     	if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
     		$this->assertTrue( DunUri :: current() == 'http://jwhmcs.com/hosting/index.php', sprintf( 'Test returned %s', DunUri :: current() ) );
     	}
-    	else if (! isset( $_SERVER['REQUEST_SCHEME'] ) || ! isset( $_SERVER['REQUEST_URI'] ) ) {
+    	else if (( ! isset( $_SERVER['REQUEST_SCHEME'] ) || ! isset( $_SERVER['REQUEST_URI'] ) ) && PHP_SAPI != 'cli' ) {
     		$this->assertTrue( DunUri :: current() == 'http://localhost.com/mods/whmcs/index.php' );
     	}
-    	else {
+    	else if ( PHP_SAPI != 'cli' ) {
     		$this->assertTrue( DunUri :: current() == $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
     	}
     }

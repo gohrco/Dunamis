@@ -156,7 +156,7 @@
 	
 	
 	<target name="dunamis_debug_all" if="copy.all">
-		<dunamis.debugger check="${dunamis.local.DEBUG_WHMCS}" output="debug/whmcs.html"/>
+		<dunamis.debugger dest="${copy.destination}" check="${dunamis.local.DEBUG_WHMCS}" output="debug/whmcs.html"/>
 	</target>
 	
 </project>

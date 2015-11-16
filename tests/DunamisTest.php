@@ -1,7 +1,7 @@
 <?php
 
 
-require 'bootstrap.php';
+//require 'bootstrap.php';
 
 class DunamisTest extends PHPUnit_Framework_TestCase
 {

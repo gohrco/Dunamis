@@ -45,7 +45,7 @@ class DunEnvironmentTest extends PHPUnit_Framework_TestCase
     		$this->assertFalse( DUN_OS_ISWIN );
     	}
     	else {
-	    	$this->assertTrue( DUN_PATH == "C:\\xampp\\www\\mods\\whmcs\\includes\\dunamis\\" );
+    		$this->assertTrue( DUN_PATH == ROOTDIR . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR );
 	        $this->assertTrue( DUN_OS_ISWIN );
     	}
     }

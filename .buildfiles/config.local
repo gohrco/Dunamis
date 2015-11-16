@@ -16,4 +16,5 @@ LOCATION_LOCALHOME25=C:/xampp/htdocs/2.5/
 
 <!-- DEBUG LOCATIONS -->
 DEBUG_PHPEXE=C:/xampp/bin/php/php5.6.2/php.exe
-DEBUG_WHMCS=C:/xampp/www/mods/whmcs/debug.php
+DEBUG_ROOT=C:/xampp/www/
+DEBUG_WHMCS=/whmcs/debug.php

@@ -3,6 +3,8 @@
 	<macrodef name="dunamis.debugger">
 		
 		<attribute name="phpexe" default="C:/xampp/bin/php/php5.6.2/php.exe" />
+		<attribute name="root" default="${dunamis.local.DEBUG_ROOT}" />
+		<attribute name="dest" default="mods" />
 		<attribute name="check" default="${dunamis.local.DEBUG_WHMCS}" />
 		<attribute name="output" default="debug/results.html" />
 		
@@ -11,7 +13,7 @@
 			<exec executable="cmd" outputproperty="debugoutput">
 				<arg value="/c" />
 				<arg value="@{phpexe}" />
-				<arg value="&quot;@{check}&quot;" />
+				<arg value="&quot;@{root}@{dest}@{check}&quot;" />
 			</exec>
 			
 			<echo message="${debugoutput}" file="@{output}" />
