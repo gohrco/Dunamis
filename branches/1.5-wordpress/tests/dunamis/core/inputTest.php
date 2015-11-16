@@ -38,7 +38,7 @@ class DunInputTest extends PHPUnit_Framework_TestCase
 	public function testGetInstance()
 	{
 		get_dunamis( 'dunamis' );
-		$input	=	dunloader( 'input' );
+		$input	=	dunloader( 'input', false, array() );
 		$this->assertTrue( $input !== null, 'Loader did not return an object' );
 		$this->assertTrue( is_object( $input ) );
 		$this->assertInstanceOf( 'DunInput', $input );
@@ -62,12 +62,12 @@ class DunInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetVarString( $input )
 	{
-		$this->assertTrue( is_a( $input, 'WhmcsDunInput' ) );
+		$this->assertTrue( is_a( $input, 'DunInput' ) );
 		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
 			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'jwhmcs.com' );
 		}
-		else { 
-			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost' );
+		else {
+			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost.com' || $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost' );
 		}
 	}
 	
