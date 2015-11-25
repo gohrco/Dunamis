@@ -8,11 +8,12 @@
 	<import file="blesta.xml" />
 	<import file="joomla.xml" />
 	<import file="whmcs.xml" />
+	<import file="wordpress.xml" />
 	
 	<target name="dunamis_packaging_all" depends="dunamis_properties">
 		
 		<!-- Ask what we should copy -->
-		<input addproperty="package.select" validargs="All,Blesta,WHMCS,Joomla" defaultvalue="All">
+		<input addproperty="package.select" validargs="All,Blesta,WHMCS,Joomla,Wordpress" defaultvalue="All">
 
 Please select which packages we want to make
 
@@ -45,14 +46,22 @@ Please select which packages we want to make
 		      <equals arg1="${package.select}" arg2="Joomla" trim="true" />
 		   </and>
 		</condition>
-	     
+	    
+	    <condition property="package.wordpress">
+		   <and>
+		      <isset property="package.select" />
+		      <equals arg1="${package.select}" arg2="Wordpress" trim="true" />
+		   </and>
+		</condition>
+		
 	    	<echo message=" " />
 			<echo message="Begin Packaging Dunamis" />
 			<echo message="-----------------------------------------------------" />
 		<antcall target="dunamis_package_all" />
 		<antcall target="dunamis_package_blesta" />
 		<antcall target="dunamis_package_whmcs" />
-		<antcall target="dunamis_package_joomla" />	
+		<antcall target="dunamis_package_joomla" />
+		<antcall target="dunamis_package_wordpress" />	
 			<echo message=" " />
 			<echo message="Completed Packagin Dunamis" />
 			<echo message="-----------------------------------------------------" />
@@ -67,15 +76,16 @@ Please select which packages we want to make
 		<property name="package.blesta" value="true" />
 		<property name="package.whmcs" value="true" />
 		<property name="package.joomla" value="true" />
+		<property name="package.wordpress" value="true" />
 		<antcall target="dunamis_package_blesta" />
 		<antcall target="dunamis_package_whmcs" />
 		<antcall target="dunamis_package_joomla" />
+		<antcall target="dunamis_package_wordpress" />
 		
 		<dunamis.clean_changelog />
 		<dunamis.create_release />
 		
 	</target>
-	
 	
 	
 </project>

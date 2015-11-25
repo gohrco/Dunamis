@@ -7,26 +7,35 @@
 		dunamis_properties_system" />
 	
 	<!-- Function Import -->
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/build_changelog.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/create_release.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/debugger.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/document.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/repl_dir.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/repl_file.xml" />
-	<import file="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/functions/zipr_file.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/build_changelog.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/create_release.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/debugger.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/document.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/repl_dir.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/repl_file.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/zipr_file.xml" />
 	
 	<!-- Properties Import -->
-	<import file="system.xml" />
+	<import file="${dunamis.path}.buildfiles/system.xml" />
 	
 	<!-- File Import -->
 	<target name="dunamis_property_files">
 		
+		<!-- Set the Correct Dunamis Path Here -->
+		<condition property="setpath">
+			<and>
+				<isset property="dunamis.path" />
+			</and>
+		</condition>
+		
+		<antcall target="setdunamispath" />
+		
 		<!-- <property name="dunamis.config.local" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.local" /> -->
-		<property name="dunamis.config.local" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.local" />
+		<property name="dunamis.config.local" location="${dunamis.path}.buildfiles/config.local" />
 		<property file="${dunamis.config.local}" prefix="dunamis.local" />
 		
 		<!-- <property name="dunamis.config.project" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.project" /> -->
-		<property name="dunamis.config.project" location="c:/Users/Steven/workspace/Dunamis Framework/.buildfiles/config.project" />
+		<property name="dunamis.config.project" location="${dunamis.path}.buildfiles/config.project" />
 		<property file="${dunamis.config.project}" prefix="dunamis.project" />
 		
 	</target>
@@ -42,5 +51,9 @@
 	
 	<!-- Import Packaging Files -->
 	<import file="deploy/deploy-all.xml" />
+	
+	<target name="setdunamispath" unless="setpath">
+		<property name="dunamis.path" value="c:/Users/Steven/workspace/Dunamis Framework/" />
+	</target>
 	
 </project>
