@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis:  Import Functions" basedir=".">
+	
+	<!-- Include individual files now -->
+	<import file="build_changelog.xml" />
+	<import file="create_release.xml" />
+	<import file="debugger.xml" />
+	<import file="document.xml" />
+	<import file="ioncube_dir.xml" />
+	<import file="ioncube_file.xml" />
+	<import file="repl_dir.xml" />
+	<import file="repl_file.xml" />
+	<import file="zipr_file.xml" />
+	
+</project>

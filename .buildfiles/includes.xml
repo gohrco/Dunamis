@@ -7,13 +7,7 @@
 		dunamis_properties_system" />
 	
 	<!-- Function Import -->
-	<import file="${dunamis.path}.buildfiles/functions/build_changelog.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/create_release.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/debugger.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/document.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/repl_dir.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/repl_file.xml" />
-	<import file="${dunamis.path}.buildfiles/functions/zipr_file.xml" />
+	<import file="${dunamis.path}.buildfiles/functions/functions-all.xml" />
 	
 	<!-- Properties Import -->
 	<import file="${dunamis.path}.buildfiles/system.xml" />
