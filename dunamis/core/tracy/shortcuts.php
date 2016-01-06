@@ -11,6 +11,7 @@ use Tracy\Debugger;
 /**
  * Tracy\Debugger::dump() shortcut.
  */
+if (! function_exists( 'dump' ) ) {
 function dump($var)
 {
 	foreach (func_get_args() as $arg) {
@@ -18,11 +19,13 @@ function dump($var)
 	}
 	return $var;
 }
+}
 
 
 /**
  * Tracy\Debugger::log() shortcut.
  */
+if (! function_exists( 'dlog' ) ) {
 function dlog($var = NULL)
 {
 	if (func_num_args() === 0) {
@@ -32,4 +35,5 @@ function dlog($var = NULL)
 		Debugger::log($arg, 'dlog');
 	}
 	return $var;
+}
 }
