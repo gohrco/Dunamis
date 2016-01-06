@@ -198,6 +198,7 @@ class DunLanguage extends DunObject
 	public function translate( $string = null, $args = array(), $module = null )
 	{
 		if ( $string == null ) return $string;
+		if (! is_string( $string ) ) return null;
 		
 		// Extract the module first
 		if ( $module == null ) {
