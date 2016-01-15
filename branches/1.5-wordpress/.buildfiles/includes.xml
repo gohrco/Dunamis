@@ -6,9 +6,6 @@
 	<target name="dunamis_properties" depends="dunamis_property_files,
 		dunamis_properties_system" />
 	
-	<!-- Function Import -->
-	<import file="${dunamis.path}.buildfiles/functions/functions-all.xml" />
-	
 	<!-- Properties Import -->
 	<import file="${dunamis.path}.buildfiles/system.xml" />
 	

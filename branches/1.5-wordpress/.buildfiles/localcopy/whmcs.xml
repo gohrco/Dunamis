@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Copy - WHMCS" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_copy_to_whmcs" depends="dunamis_properties" if="copy.whmcs">
 		
 		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">

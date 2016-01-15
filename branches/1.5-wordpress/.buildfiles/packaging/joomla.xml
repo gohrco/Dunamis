@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Packaging - Joomla" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_package_joomla" depends="dunamis_properties" if="package.joomla">
 		
 		<!-- Library Build First -->

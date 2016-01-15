@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Packaging" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<!-- Include individual files now -->
 	<import file="blesta.xml" />
 	<import file="joomla.xml" />

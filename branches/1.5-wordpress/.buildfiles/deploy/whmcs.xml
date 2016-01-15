@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Deploy - WHMCS" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_deploy_to_whmcs" depends="dunamis_properties" if="deploy.whmcs">
 		
 	</target>
