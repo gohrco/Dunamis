@@ -2,8 +2,6 @@
 
 <project name="SVN" default="create_changelog" basedir=".">
 	
-	<import file="includes.xml" />
-	
 	<target name="create_changelog" depends="properties,clean_changelog">
 		<echo message="-----------------------------------------------------" />
 		<echo message="       SVN Changelog Created for Archive ${v.VERSION_REVLONG}" />

@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Copy - Blesta" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_copy_to_blesta" depends="dunamis_properties" if="copy.blesta">
 		
 		<fileset dir="${dunamis.src.build}/" id="dunamis.corefiles">

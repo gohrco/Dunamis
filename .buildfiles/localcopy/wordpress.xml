@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Copy - Wordpress" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_copy_to_wordpress" depends="dunamis_properties" if="copy.wordpress">
 		
 		<delete dir="${server.root}${dest}/${server.wordpress}wp-content/plugins/dunamis/" />

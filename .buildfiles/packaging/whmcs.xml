@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Packaging - WHMCS" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_package_whmcs" depends="dunamis_properties" if="package.whmcs">
 		
 		<fileset dir="${dunamis.src.build}/" id="corefiles">

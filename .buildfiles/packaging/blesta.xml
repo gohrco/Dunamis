@@ -2,8 +2,6 @@
 
 <project name="Dunamis: Packaging - Blesta" basedir=".">
 	
-	<import file="../includes.xml" />
-	
 	<target name="dunamis_package_blesta" depends="dunamis_properties" if="package.blesta">
 		
 		<fileset dir="${dunamis.src.build}/" id="corefiles">
