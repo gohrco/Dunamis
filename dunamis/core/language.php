@@ -209,7 +209,7 @@ class DunLanguage extends DunObject
 		}
 		
 		// Now check for the string
-		if ( is_string( $string) && is_string( $module ) && ! isset( $this->_trans[$module][$string] ) ) return $module . '.' . $string;
+		if ( is_string( $string) && is_string( $module ) && (! isset( $this->_trans[$module] ) || ! isset( $this->_trans[$module][$string] ) ) ) return $module . '.' . $string;
 		if ( empty( $args ) ) return $this->_trans[$module][$string];
 		array_unshift( $args, $this->_trans[$module][$string] );
 		return call_user_func_array( 'sprintf', $args );
