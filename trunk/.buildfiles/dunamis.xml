@@ -14,16 +14,6 @@
 			<echo message="=====================================================" />
 	</target>
 	
-	<target name="copy_dunamis" depends="build_dunamis">
-			<echo message="=====================================================" />
-			<echo message="Begin Copying Project" />
-			<echo message="=====================================================" />
-		<antcall target="dunamis_copy_all" />
-			<echo message="=====================================================" />
-			<echo message="Completed Copying Project" />
-			<echo message="=====================================================" />
-	</target>
-	
 	<target name="package_dunamis" depends="build_dunamis">
 			<echo message="=====================================================" />
 			<echo message="Begin Packaging Project" />
