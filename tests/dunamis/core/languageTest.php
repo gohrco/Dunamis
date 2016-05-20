@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -21,7 +19,7 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-    	
+    	get_dunamis( 'dunamis' );
     }
 
     /**
@@ -35,13 +33,33 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
     /**
      * @covers DunLanguage::getInstance
      */
+    public function testGetInstanceReturnsAnObject()
+    {
+    	$language	=	dunloader( 'language' );
+    	$this->assertTrue( is_object( $language ), 'Loader did not return an object' );
+    }
+    
+    
+    /**
+     * @covers DunLanguage::getInstance
+     */
     public function testGetInstance()
     {
-    	get_dunamis( 'dunamis' );
     	$language	=	dunloader( 'language' );
-    	$this->assertTrue( $language !== null, 'Loader did not return an object' );
-    	$this->assertTrue( is_object( $language ) );
     	$this->assertInstanceOf( 'DunLanguage', $language );
+    	return $language;
+    }
+    
+    
+    /**
+     * @covers DunLanguage::setIdiom
+     * @depends testGetInstance
+     */
+    public function testSetIdiom( $language )
+    {
+    	$language->setIdiom( 'Spanish' );
+    	$this->assertAttributeContains( 'spanish', '_idiom', $language );
+    	$language->setIdiom( 'English' );
     	return $language;
     }
     
@@ -59,7 +77,7 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers DunLanguage::getIdiom
-	 * @depends testGetInstance
+	 * @depends testSetIdiom
 	 */
 	public function testGetIdiom( $language )
 	{
@@ -72,27 +90,16 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadLanguage()
 	{
-		get_dunamis();
-		$language	=	dunloader( 'language', false );
-		$this->assertTrue(! is_bool( $language ) ); 
-		$this->assertTrue( $language->translate( 'dunamis.addon.title' ) == 'Dunamis Framework' );
-	}
-	
-	
-	/**
-	 * @covers DunLanguage::setIdiom
-	 * @depends testGetInstance
-	 */
-	public function testSetIdiom( $language )
-	{
-		$language->setIdiom( 'Spanish' );
-		$this->assertAttributeContains( 'spanish', '_idiom', $language );
+		get_dunamis( 'dunamis' );
+		$language	=	dunloader( 'language', true )->loadLanguage( 'dunamis' );
+		$this->assertTrue( is_a( $language, 'DunLanguage' ) );
+		return $language;
 	}
 	
 	
 	/**
 	 * @covers DunLanguage::translate
-	 * @depends testGetInstance
+	 * @depends testLoadLanguage
 	 */
 	public function testTranslate( $language )
 	{
@@ -100,4 +107,3 @@ class DunLanguageTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-?>

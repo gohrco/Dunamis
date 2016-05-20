@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -22,6 +20,7 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
     	get_dunamis( 'dunamis' );
+    	dunloader( 'curl', true );
         $this->object = new DunCurl;
     }
 
@@ -276,4 +275,4 @@ class DunCurlTest extends PHPUnit_Framework_TestCase
 		$this->assertArrayHasKey( 'url', $debug );
 	}
 }
-?>
+

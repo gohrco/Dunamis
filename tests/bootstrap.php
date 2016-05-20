@@ -1,5 +1,5 @@
 <?php
-
+return;
 defined( 'WHMCS' ) or define( 'WHMCS', true );
 global $rootpath;
 $ds	=	 DIRECTORY_SEPARATOR;

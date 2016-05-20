@@ -27,4 +27,31 @@
 			<echo message="=====================================================" />
 	</target>
 	
+	
+	<target name="devlopment_copy_dunamis" depends="build_dunamis">
+		<echo message="=====================================================" />
+			<echo message="Begin Copying Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_copy_all" />
+		
+		<dunamis.scp
+			user="root"
+			password="cruiser"
+			host="192.168.56.120"
+			remotepath="/var/www/jwhmcs.local/dunamis/"
+			sourcepath="${dunamis.src.build}"
+			/>
+		
+		<sshexec
+			host="192.168.56.120"
+			username="root"
+			password="cruiser"
+			trust="true"
+			command="php /var/www/phpci/console phpci:create-build 1" />
+		
+		<echo message="=====================================================" />
+			<echo message="Completed Copying Project" />
+			<echo message="=====================================================" />
+	</target>
+	
 </project> 

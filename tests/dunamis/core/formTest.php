@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -189,4 +187,4 @@ class DunFormTest extends PHPUnit_Framework_TestCase
 		
 	}
 }
-?>
+

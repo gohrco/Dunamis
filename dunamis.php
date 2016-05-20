@@ -133,6 +133,49 @@ class Dunamis
 	
 	
 	/**
+	 * Method to find which environment we are in
+	 * @access		public
+	 * @version		@fileVers@
+	 * @version		2.0.0		- Converted to public method
+	 *
+	 * @return		boolean
+	 * @since		1.0.0
+	 */
+	public function findEnvironment()
+	{
+		// If we already know then don't do this again
+		if ( $this->_environmentname != null ) return true;
+	
+		$excludes	= array( '.', '..', 'core' );
+		$d	= opendir( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dunamis' );
+	
+		while( ( $dirname = readdir( $d ) ) !== false ) {
+			if ( in_array( $dirname, $excludes ) ) continue;
+			dunimport( $dirname . '.environment' );
+				
+			// Test to see if this is the environment
+			if ( call_user_func( 'is_this_' . $dirname ) ) {
+				$this->_environmentname = $dirname;
+				break;
+			}
+		}
+		
+		// One last ditch effort to load core as environment (v2.0)
+		if ( $this->_environmentname == null ) {
+			dunimport( 'core.environment' );
+			
+			// Test to see if this is the environment
+			if ( call_user_func( 'is_this_core' ) ) {
+				$this->_environmentname = 'core';
+			}
+		}
+		
+		// Return true if we have an environment set false otherwise
+		return $this->_environmentname != null;
+	}
+	
+	
+	/**
 	 * Method to get a module path
 	 * @access		public
 	 * @version		@fileVers@
@@ -155,18 +198,25 @@ class Dunamis
 	 * @access		public
 	 * @version		@fileVers@
 	 * 
+	 * @return		boolean
 	 * @since		1.0.0
 	 */
 	public function initialise()
 	{
 		// Initialize the base
-		$this->_load_base();
+		$files	= array( 'object', 'environment' );
+		
+		foreach ( $files as $file ) {
+			dunimport( 'core.' . $file );
+		}
 		
 		// Find the environment
-		$this->_find_environment();
+		if (! $this->findEnvironment() ) {
+			return false;
+		}
 		
-		// Test for environment
-		if (! defined( 'DUN_ENV' ) ) {
+		// Load our environment up
+		if (! $this->loadEnvironment() ) {
 			return false;
 		}
 		
@@ -189,6 +239,8 @@ class Dunamis
 		if ( class_exists( $classname ) ) {
 			call_user_func( "{$classname}::init" );
 		}
+		
+		return true;
 	}
 	
 	
@@ -198,7 +250,7 @@ class Dunamis
 	 * @version		@fileVers@
 	 * @param		string		- $override: if we want to load an environment object of another type we can
 	 * 
-	 * @return		boolean or object
+	 * @return		boolean
 	 * @since		1.0.0
 	 */
 	public function loadEnvironment( $override = null )
@@ -215,13 +267,17 @@ class Dunamis
 		
 		$classname	= ucfirst( $this->_environmentname ) . 'DunEnvironment';
 		if ( class_exists( $classname ) ) {
-			$this->_environment = new $classname();
 			
-			// Be sure to set the defines
-			$this->_environment->defines();
+			// Only do this once
+			if (! is_object( $this->_environment ) ) {
+				$this->_environment = new $classname();
+			
+				// Be sure to set the defines
+				$this->_environment->defines();
+			}
 		}
 		
-		return $this->_environment;
+		return is_object( $this->_environment );
 	}
 	
 	
@@ -305,54 +361,9 @@ class Dunamis
 	}
 	
 	
-	/**
-	 * Method to find which environment we are in
-	 * @access		private
-	 * @version		@fileVers@
-	 * 
-	 * @return		boolean
-	 * @since		1.0.0
-	 */
-	private function _find_environment()
-	{
-		// If we already know then don't do this again
-		if ( $this->_environmentname != null ) return true;
-		
-		$excludes	= array( '.', '..', 'core' );
-		$d	= opendir( dirname(__FILE__) . DIRECTORY_SEPARATOR . 'dunamis' );
-		
-		while( ( $dirname = readdir( $d ) ) !== false ) {
-			if ( in_array( $dirname, $excludes ) ) continue;
-			dunimport( $dirname . '.environment' );
-			
-			// Test to see if this is the environment
-			if ( call_user_func( 'is_this_' . $dirname ) ) {
-				$this->_environmentname = $dirname;
-				break;
-			}
-		}
-		
-		$this->loadEnvironment();
-		
-		return true;
-	}
 	
 	
-	/**
-	 * Method to initialise the base environment
-	 * @access		@private
-	 * @version		@fileVers@
-	 * 
-	 * @since		1.0.0
-	 */
-	private function _load_base()
-	{
-		$files	= array( 'object', 'environment' );
-		
-		foreach ( $files as $file ) {
-			dunimport( 'core.' . $file );
-		}
-	}
+	
 }
 
 
@@ -395,7 +406,11 @@ function dunimport( $request = null, $environment = false, $reverse = false )
 	else if ( $environment ) {
 		
 		$paths['core']	= DUN_CORE;
-		$paths['env']	= DUN_PATH . strtolower( DUN_ENV ) . DIRECTORY_SEPARATOR;
+		
+		// Catch in case our environment is now core
+		if ( DUN_ENV != 'CORE' ) {
+			$paths['env']	= DUN_PATH . strtolower( DUN_ENV ) . DIRECTORY_SEPARATOR;
+		}
 		
 		if ( $reverse === true ) {
 			$paths	= array_reverse( $paths );

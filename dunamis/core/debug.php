@@ -64,6 +64,96 @@ class DunDebug extends DunObject
 	
 	
 	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		2.0.0
+	 */
+	public function addCritical( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return false;
+		if (! class_exists( '\Tracy\Debugger' ) ) return false;
+		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: CRITICAL );
+		return true;
+	}
+	
+	
+	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		2.0.0
+	 */
+	public function addDebug( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return false;
+		if (! class_exists( '\Tracy\Debugger' ) ) return false;
+		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: DEBUG );
+		return true;
+	}
+	
+	
+	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		2.0.0
+	 */
+	public function addError( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return false;
+		if (! class_exists( '\Tracy\Debugger' ) ) return false;
+		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: ERROR );
+		return true;
+	}
+	
+	
+	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		2.0.0
+	 */
+	public function addInfo( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return false;
+		if (! class_exists( '\Tracy\Debugger' ) ) return false;
+		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: INFO );
+		return true;
+	}
+	
+	
+	/**
+	 * Method to add a database query to our stack
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param		string
+	 *
+	 * @since		2.0.0
+	 */
+	public function addWarning( $q )
+	{
+		if (! self :: isInitialized() ) $this->init();
+		if (! self :: isEnabled() ) return false;
+		if (! class_exists( '\Tracy\Debugger' ) ) return false;
+		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: WARNING );
+		return true;
+	}
+	
+	
+	/**
 	 * Method to log an error message
 	 * @access		protected
 	 * @static
@@ -306,5 +396,34 @@ TXT;
 	{
 		if (! self :: $isEnabled ) return;
 		self :: $instance->warn( t( $msg ), $label, $options  );
+	}
+}
+
+
+class CoreDunDebug extends DunDebug
+{
+	/**
+	 * Method to initialize the debug object
+	 * @access		public
+	 * @static
+	 * @version		@fileVers@ ( $id$ )
+	 * @param		string
+	 * @param		string
+	 *
+	 * @since		1.0.11
+	 */
+	public static function init( $path = null, $logpath = null )
+	{
+		// Lets set our paths
+		if ( $path == null ) {
+			$path = dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'tracy' . DIRECTORY_SEPARATOR;
+		}
+	
+		if ( $logpath == null ) {
+			$logpath = DUN_ENV_PATH . 'core' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
+		}
+	
+		parent :: init( $path, $logpath );
+		
 	}
 }
