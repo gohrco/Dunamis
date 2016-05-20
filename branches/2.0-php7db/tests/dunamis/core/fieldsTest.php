@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -33,6 +31,9 @@ class DunFieldsTest extends PHPUnit_Framework_TestCase
     				'validation' => 'testvalidation',
     				'junkitem'	=> 'junk'
 				);
+    	
+    	dunimport( 'core.fields' );
+    	//$field = dunloader( 'fields.text' );
     	
         $this->object = new DunFields( $field );
     }
@@ -95,11 +96,16 @@ class DunFieldsTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers DunFields::getDescription
-     * @depends testSetVariable
      */
     public function testGetDescription( $update )
     {
-    	$value	=	$update->getDescription();
+    	get_dunamis( 'dunamis' );
+    	dunloader( 'language', true )->loadLanguage( 'dunamis' );
+    	$form	=	dunloader( 'form', true );
+    	$form	=	$form->loadForm( 'testform', 'dunamis' );
+    	$name	=	$form['name'];
+    	
+    	$value	=	$name->getDescription();
     	$this->assertContains( 'Dunamis Framework', $value );
     	$this->assertContains( '<div', $value );
     }

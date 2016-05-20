@@ -24,6 +24,14 @@ defined('DUNAMIS') OR exit('No direct script access allowed');
 class DunDatabase extends DunObject
 {
 	/**
+	 * Contains arguments passed by setQuery for executing PDO statements
+	 * @access		private
+	 * @version		@fileVers@
+	 * @var			array
+	 */
+	private $_arguments = array();
+	
+	/**
 	 * Contains the resulting database cursor
 	 * @access		private
 	 * @version		@fileVers@
@@ -46,6 +54,14 @@ class DunDatabase extends DunObject
 	 * @var			integer
 	 */
 	private $_offset	= 0;
+	
+	/**
+	 * Stores our connection options so we can reconnect
+	 * @access		protected
+	 * @var			array
+	 * @since		2.0.0
+	 */
+	private $_options	=	array();
 	
 	/**
 	 * Stores the database resource when connected
@@ -76,6 +92,7 @@ class DunDatabase extends DunObject
 	 * Constructor method
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Updated for PHP7
 	 * @version		1.0.8		- March 2013: Object construction moved here for environment
 	 * @param		array		- $options: contains an array of arguments
 	 * 
@@ -83,15 +100,7 @@ class DunDatabase extends DunObject
 	 */
 	public function __construct( $options = array() )
 	{
-		// Lets use friendlier names (why not?)
-		$hostname	=	$options['hostname'];
-		$username	=	$options['username'];
-		$password	=	$options['password'];
-		$database	=	$options['database'];
-		
-		// Create the resource and connect
-		$this->_resource = @mysql_connect( $hostname, $username, $password, true );
-		mysql_select_db( $database, $this->_resource );
+		$this->init( $options );
 	}
 	
 	
@@ -105,12 +114,13 @@ class DunDatabase extends DunObject
 	 */
 	public function getAffectedRows()
 	{
-		return mysql_affected_rows( $this->_resource );
+		return $this->getNumRows();
 	}
 	
 	
 	/**
 	 * Escapes a field value
+	 * @deprecated
 	 * @access		public
 	 * @version		@fileVers@
 	 * @param		string		- $text: contains the string to escape
@@ -121,6 +131,8 @@ class DunDatabase extends DunObject
 	 */
 	public function getEscaped( $text, $extra = false )
 	{
+		dunloader( 'debug', true )->addInfo( 'Database :: getEscaped is deprecated' );
+		return $result;
 		$result = mysql_real_escape_string( $text, $this->_resource );
 		if ( $extra ) {
 			$result = addcslashes( $result, '%_' );
@@ -133,13 +145,14 @@ class DunDatabase extends DunObject
 	 * Returns the id of the last insert query
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 *
 	 * @return		integer of last inserted row
-	 * @since		3.0.0
+	 * @since		1.0.0
 	 */
 	public function getInsertid()
 	{
-		return mysql_insert_id( $this->_resource );
+		return $this->_resource->lastInsertId();
 	}
 	
 	
@@ -193,14 +206,55 @@ class DunDatabase extends DunObject
 	 * Gets the number of rows queried
 	 * @access		public
 	 * @version		@fileVers@
-	 * @param		resource		- $cur: If provided contains a database resource
+	 * @version		2.0.0		- May 2016: Convert to PDO
+	 * @param		resource	- $cur: If provided contains a database resource
 	 *
 	 * @return		integer of rows selected
 	 * @since		3.0.0
 	 */
 	public function getNumRows( $cur = null )
 	{
-		return mysql_num_rows( $cur ? $cur : $this->_cursor );
+		if (! $this->_cursor ) {
+			$this->setError( 'Database :: getNumRows: No query has been executed' );
+			return 0;
+		}
+		
+		return $this->_cursor->rowCount();
+	}
+	
+	
+	/**
+	 * Method to initialize our object
+	 * @access		public
+	 * @version		@fileVers@
+	 * @param unknown $options
+	 *
+	 * @return		void
+	 * @since		1.0.0
+	 */
+	public function init( $options = array() )
+	{
+		if ( empty( $options ) ) {
+			$options	=	$this->_options;
+		}
+		else {
+			$this->_options	=	$options;
+		}
+		
+		// Lets use friendlier names (why not?)
+		$hostname	=	$options['hostname'];
+		$username	=	$options['username'];
+		$password	=	$options['password'];
+		$database	=	$options['database'];
+		
+		// Create the resource and connect
+		try {
+			$this->_resource	=	new PDO( "mysql:host=$hostname;dbname=$database", $username, $password);
+			return true;
+		}
+		catch(PDOException $e) {
+			return $e->getMessage();
+		}
 	}
 	
 	
@@ -214,59 +268,65 @@ class DunDatabase extends DunObject
 	 */
 	public function isConnected()
 	{
-		if ( is_resource( $this->_resource ) ) {
-			return mysql_ping( $this->_resource );
+		if ( is_a( $this->_resource, 'PDO' ) ) {
+			
+			try {
+				$this->_resource->query( 'SELECT 1' );
+			}
+			catch ( PDOException $e ) {
+				return false;
+			}
+			return true;
 		}
+		
 		return false;
 	}
 	
 	
 	/**
-	 * Loads a single row of values from a result
+	 * Loads a single row from the database result
 	 * @access		public
 	 * @version		@fileVers@
-	 * 
-	 * @return		array of key => value pairs from the database
-	 * @since		3.0.0
+	 * @version		2.0.0		- May 2016: Convert to PDO
+	 *
+	 * @return		array of values from the database
+	 * @since		1.0.0
 	 */
 	public function loadAssoc()
 	{
-		if (! ( $cur = $this->query() ) ) return null;
-		
-		$ret = null;
-		if ( $array = mysql_fetch_assoc( $cur ) )
-			$ret = $array;
-		
-		mysql_free_result( $cur );
-		
-		return $ret;
+		if (! $this->query() ) return array();
+	
+		$row	=	$this->_cursor->fetch( \PDO :: FETCH_ASSOC );
+	
+		if ( $row ) {
+			return $row;
+		}
+	
+		return array();
 	}
 	
 	
 	/**
-	 * Loads the rows of values from a result
+	 * Loads the rows from the database result
 	 * @access		public
 	 * @version		@fileVers@
-	 * @param		string		- $key: if set will bind each row to the value of the key provided
-	 * 
-	 * @return		array of arrays containing key => value pairs from the database
-	 * @since		3.0.0
+	 * @version		2.0.0		- May 2016: Convert to PDO
+	 * @param		string		- $key: if set will bind each result to the value of the key provided
+	 *
+	 * @return		array of values from the database
+	 * @since		1.0.0
 	 */
 	public function loadAssocList( $key = null )
 	{
-		if (!( $cur = $this->query() ) ) return null;
-		
-		$array = array();
-		while ( $row = mysql_fetch_assoc( $cur ) ) {
-			if ($key)
-				$array[$row[$key]] = $row;
-			else
-				$array[] = $row;
+		if (! $this->query() ) return array();
+	
+		$rows	=	$this->_cursor->fetchAll( \PDO :: FETCH_ASSOC );
+	
+		if ( $rows ) {
+			return $rows;
 		}
-		
-		mysql_free_result( $cur );
-		
-		return $array;
+	
+		return array();
 	}
 	
 	
@@ -274,21 +334,22 @@ class DunDatabase extends DunObject
 	 * Loads a single object of values from the first row of a result
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Update to PDO
 	 * 
 	 * @return		object containing key => value pairings from the database
 	 * @since		3.0.0
 	 */
 	public function loadObject( )
 	{
-		if (! ( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$ret = null;
-		if ( $object = mysql_fetch_object( $cur ) )
-			$ret = $object;
+		$row	=	$this->_cursor->fetch( \PDO :: FETCH_OBJ );
 		
-		mysql_free_result( $cur );
+		if ( $row ) {
+			return $row;
+		}
 		
-		return $ret;
+		return array();
 	}
 	
 	
@@ -296,6 +357,7 @@ class DunDatabase extends DunObject
 	 * Loads the rows of values into an array of objects from a result
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Update to PDO
 	 * @param		string		- $key: if set will bind each row of objects to the value of the key provided
 	 * 
 	 * @return		array of objects containing key->value pairs from the database
@@ -303,19 +365,15 @@ class DunDatabase extends DunObject
 	 */
 	public function loadObjectList( $key='' )
 	{
-		if (!( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$array = array();
-		while ( $row = mysql_fetch_object( $cur ) ) {
-			if ( $key )
-				$array[$row->$key] = $row;
-			else
-				$array[] = $row;
+		$rows	=	$this->_cursor->fetchAll( \PDO :: FETCH_OBJ );
+		
+		if ( $rows ) {
+			return $rows;
 		}
 		
-		mysql_free_result( $cur );
-		
-		return $array;
+		return array();
 	}
 	
 	
@@ -323,22 +381,23 @@ class DunDatabase extends DunObject
 	 * Loads a single column of the first row of a result, regardless of number of columns
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 * 
 	 * @return		string containing the result value
-	 * @since		3.0.0
+	 * @since		1.0.0
 	 */
 	public function loadResult()
 	{
-		// Execute the query
-		if (! ( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$ret = null;
-		if ( $row = mysql_fetch_row( $cur ) )
-			$ret = $row[0];
+		$row	=	$this->loadRow();
+		$data	=	null;
 		
-		mysql_free_result( $cur );
+		if ( $row ) {
+			$data	=	$row[0];
+		}
 		
-		return $ret;
+		return $data;
 	}
 	
 	
@@ -346,6 +405,7 @@ class DunDatabase extends DunObject
 	 * Loads a single column of values of a result, regardless of number of rows or columns returned
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 * @param		integer		- $numinarray: if provided will return the offset values from the row (defaults to first column)
 	 * 
 	 * @return		array containing values from the database
@@ -353,15 +413,14 @@ class DunDatabase extends DunObject
 	 */
 	public function loadResultArray( $numinarray = 0 )
 	{
-		if (! ( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$array = array();
-		while ( $row = mysql_fetch_row( $cur ) )
-			$array[] = $row[$numinarray];
+		$data	=	array();
+		while ( $item = $this->_cursor->fetchColumn( $numinarray ) ) {
+			$data[]	=	$item;
+		}
 		
-		mysql_free_result( $cur );
-		
-		return $array;
+		return $data;
 	}
 	
 	
@@ -384,21 +443,22 @@ class DunDatabase extends DunObject
 	 * Loads a single row from the database result
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 * 
 	 * @return		array of values from the database
-	 * @since		3.0.0
+	 * @since		1.0.0
 	 */
 	public function loadRow()
 	{
-		if (!( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$ret = null;
-		if ( $row = mysql_fetch_row( $cur ) )
-			$ret = $row;
+		$row	=	$this->_cursor->fetch( \PDO :: FETCH_BOTH );
 		
-		mysql_free_result( $cur );
+		if ( $row ) {
+			return $row;
+		}
 		
-		return $ret;
+		return array();
 	}
 	
 	
@@ -406,31 +466,29 @@ class DunDatabase extends DunObject
 	 * Loads the rows from the database result
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 * @param		string		- $key: if set will bind each result to the value of the key provided
 	 * 
 	 * @return		array of values from the database
-	 * @since		3.0.0
+	 * @since		1.0.0
 	 */
 	public function loadRowList( $key = null )
 	{
-		if (!( $cur = $this->query() ) ) return null;
+		if (! $this->query() ) return array();
 		
-		$array = array();
-		while ( $row = mysql_fetch_row( $cur ) ) {
-			if ($key !== null)
-				$array[$row[$key]] = $row;
-			else
-				$array[] = $row;
+		$rows	=	$this->_cursor->fetchAll( \PDO :: FETCH_BOTH );
+		
+		if ( $rows ) {
+			return $rows;
 		}
 		
-		mysql_free_result( $cur );
-		
-		return $array;
+		return array();
 	}
 	
 	
 	/**
 	 * Ensures a name is properly quoted for querying
+	 * @deprecated
 	 * @access		public
 	 * @version		@fileVers@
 	 * @param		string		- $s: contains the table field name to quote
@@ -440,6 +498,8 @@ class DunDatabase extends DunObject
 	 */
 	public function nameQuote( $s )
 	{
+		dunloader( 'debug', true )->addInfo( 'Database :: nameQuote is deprecated' );
+		return $s;
 		// Only quote if the name is not using dot-notation
 		if ( strpos( $s, '.' ) === false ) {
 			return "`{$s}`";
@@ -485,38 +545,44 @@ class DunDatabase extends DunObject
 	 * Executes a query set in the database object
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Convert to PDO
 	 *
-	 * @return		resource object or false on failure
+	 * @return		boolean
 	 * @since		1.0.0
 	 */
 	public function query()
 	{
 		// If not even a resource then end
-		if (! is_resource( $this->_resource ) ) return false;
-	
+		if (! $this->isConnected() ) return false;
+		
+		// See if we already have a prepared statement
+		if ( $this->_cursor ) return true;
+		
+		// Prepare a statement using our query from setQuery then
 		$sql = $this->_sql; // Local copy
 	
 		if ($this->_limit > 0 || $this->_offset > 0) {
 			$sql .= ' LIMIT ' . max($this->_offset, 0) . ', ' . max($this->_limit, 0);
 		}
-	
-		$this->_cursor = mysql_query( $sql, $this->_resource );
 		
 		dunloader( 'debug', true )->addQuery( $sql );
 		
-		// If this failed
-		if (!$this->_cursor)
-		{
-			$this->setError( mysql_errno( $this->_resource ) . ': ' . mysql_error( $this->_resource )." SQL=$sql" );
+		try {
+			$this->_cursor	=	$this->_resource->prepare( $sql );
+			$this->_cursor->execute( $this->_arguments );
+		}
+		catch( \PDOException $e ) {
+			dunloader( 'debug', true )->addError( $e->getMessage() );
 			return false;
 		}
-	
-		return $this->_cursor;
+		
+		return true;
 	}
 	
 	
 	/**
 	 * Ensures a value is quoted and escaped for querying
+	 * @deprecated
 	 * @access		public
 	 * @version		@fileVers@
 	 * @param		string		- $text: contains the value to quote
@@ -527,7 +593,8 @@ class DunDatabase extends DunObject
 	 */
 	public function Quote( $text, $escaped = true )
 	{
-		return '\''.($escaped ? $this->getEscaped( $text ) : $text).'\'';
+		dunloader( 'debug', true )->addInfo( 'Database :: Quote is deprecated' );
+		return $text;
 	}
 	
 	
@@ -535,17 +602,32 @@ class DunDatabase extends DunObject
 	 * Sets the query to the database object
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Update for PDO handling
 	 * @param		string		- $sql: containing the query
-	 * @param		integer		- $limit: if set, will set the maximum number of rows to return
-	 * @param		integer		- $offset: if set, will set where to start from
+	 * @param		mixed		- contains either an integer for backwards compatability or an array for PDO
+	 * @param		mixed		- contains either an integer for backwards compatability or is empty
 	 *
+	 * @return		boolean
 	 * @since		1.0.0
 	 */
 	public function setQuery( $sql, $limit = 0, $offset = 0 )
 	{
-		$this->_sql		= $sql;
-		$this->_limit	= (int) $limit;
-		$this->_offset	= (int) $offset;
+		if (! $sql ) return false;
+		
+		if ( is_integer( $limit ) ) {
+			// Be sure to reset arguments
+			$this->_arguments	=	array();
+			$this->_limit	= (int) $limit;
+			$this->_offset	= (int) $offset;
+		}
+		else {
+			$this->_arguments	=	(array) $limit;	// Can be an array now
+		}
+		
+		$this->_cursor	=	null;
+		$this->_sql		=	$sql;
+		
+		return true;
 	}
 	
 	
@@ -553,13 +635,14 @@ class DunDatabase extends DunObject
 	 * Handles errors for the database object
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- May 2016: Using debug handler for error now
 	 * @param		string		- $msg: contains the error string
 	 * 
+	 * @return		boolean
 	 * @since		1.0.2
 	 */
 	public function setError( $msg )
 	{
-		$dun = & get_dunamis();
-		$dun->setError( DUN_ERROR, $msg );
+		return dunloader( 'debug', true )->addError( $msg );
 	}
 }

@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -21,7 +19,10 @@ class DunInputTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        get_dunamis();
+        $_SERVER['HTTP_HOST']	=	'jwhmcs.com';
+    	$_SERVER['SCRIPT_NAME']	=	'/hosting/index.php';
+    	
+    	get_dunamis();
     }
 
     /**
@@ -62,13 +63,7 @@ class DunInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetVarString( $input )
 	{
-		$this->assertTrue( is_a( $input, 'WhmcsDunInput' ) );
-		if ( isset( $_ENV['bamboo'] ) && $_ENV['bamboo'] == 'true' ) {
-			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'jwhmcs.com' );
-		}
-		else { 
-			$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'localhost' );
-		}
+		$this->assertTrue( $input->getVar( 'HTTP_HOST', 'Something', 'server' ) == 'jwhmcs.com' );
 	}
 	
 	
@@ -101,4 +96,4 @@ class DunInputTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( is_array( $input->clean( 'argv', 'array' ) ) );
 	}
 }
-?>
+
