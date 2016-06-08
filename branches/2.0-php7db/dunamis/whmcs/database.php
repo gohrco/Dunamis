@@ -27,6 +27,7 @@ class WhmcsDunDatabase extends DunDatabase
 	 * Constructor Method
 	 * @access		public
 	 * @version		@fileVers@
+	 * @version		2.0.0		- June 2016: Change over to PDO usage
 	 * @version		1.0.8		- March 2013: Database construction moved to parent
 	 * @param		array		- $options: contains an array of arguments
 	 * 
@@ -34,16 +35,6 @@ class WhmcsDunDatabase extends DunDatabase
 	 */
 	public function __construct( $options = array() )
 	{
-		// ---- BEGIN INTOUCH-5 / DUN-4
-		//		Quote duplication is failing with In Touch activate
-		global $whmcsmysql;
-		
-		if ( is_resource( $whmcsmysql ) ) {
-			$this->_resource	= & $whmcsmysql;
-			return;
-		}
-		// ---- END INTOUCH-5 / DUN-4
-		
 		// Include the WHMCS configuration file
 		include( DUN_ENV_PATH . 'configuration.php' );
 		

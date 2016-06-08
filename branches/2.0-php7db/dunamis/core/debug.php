@@ -76,7 +76,9 @@ class DunDebug extends DunObject
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return false;
 		if (! class_exists( '\Tracy\Debugger' ) ) return false;
-		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: CRITICAL );
+		
+		$d	=	$this->getCall();
+		\Tracy\Debugger :: log( $q . $d, \Tracy\Debugger :: CRITICAL );
 		return true;
 	}
 	
@@ -94,7 +96,9 @@ class DunDebug extends DunObject
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return false;
 		if (! class_exists( '\Tracy\Debugger' ) ) return false;
-		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: DEBUG );
+		
+		$d	=	$this->getCall();
+		\Tracy\Debugger :: log( $q . $d, \Tracy\Debugger :: DEBUG );
 		return true;
 	}
 	
@@ -112,7 +116,9 @@ class DunDebug extends DunObject
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return false;
 		if (! class_exists( '\Tracy\Debugger' ) ) return false;
-		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: ERROR );
+		
+		$d	=	$this->getCall();
+		\Tracy\Debugger :: log( $q . $d, \Tracy\Debugger :: ERROR );
 		return true;
 	}
 	
@@ -130,7 +136,9 @@ class DunDebug extends DunObject
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return false;
 		if (! class_exists( '\Tracy\Debugger' ) ) return false;
-		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: INFO );
+		
+		$d	=	$this->getCall();
+		\Tracy\Debugger :: log( $q . $d, \Tracy\Debugger :: INFO );
 		return true;
 	}
 	
@@ -148,10 +156,28 @@ class DunDebug extends DunObject
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return false;
 		if (! class_exists( '\Tracy\Debugger' ) ) return false;
-		\Tracy\Debugger :: log( $q, \Tracy\Debugger :: WARNING );
+		
+		$d	=	$this->getCall();
+		\Tracy\Debugger :: log( $q . $d, \Tracy\Debugger :: WARNING );
 		return true;
 	}
 	
+	
+	/**
+	 * Method to return a consistent string for logging
+	 * @access		public
+	 * @version		@fileVers@
+	 *
+	 * @return		string
+	 * @since		2.0.0
+	 */
+	public function getCall()
+	{
+		$bt	=	debug_backtrace();
+		$o	=	$bt[3]['class'] . ' :: ' . $bt[3]['function'];
+		$l	=	$bt[2]['line'];
+		return ' - ' . $o . ' @ line ' . $l;
+	}
 	
 	/**
 	 * Method to log an error message
@@ -259,10 +285,14 @@ class DunDebug extends DunObject
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init( $path = null, $logpath = null )
+	public static function init( $path = null, $logpath = null, $logging = null )
 	{
 		if ( $path == null ) return;
 		if ( $logpath == null ) return;
+		
+		if ( $logging == null ) {
+			$logging =	php_sapi_name() === 'cli';
+		}
 		
 		require_once $path . 'IBarPanel.php';
 		require_once $path . 'Bar.php';
@@ -283,13 +313,12 @@ class DunDebug extends DunObject
 		if ( self :: isInitialized() ) return;
 		
 		$serverName		=	isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "";
-		$productionMode =	php_sapi_name() === 'cli';
 		
 		$phpeval = <<< TXT
 \Tracy\Debugger :: \$strictMode = false;
 \Tracy\Debugger :: \$scream = false;
 \Tracy\Debugger :: \$onFatalError = "\UnknownException::setFatalErrorHandler";
-\Tracy\Debugger :: enable( \$productionMode, \$logpath );
+\Tracy\Debugger :: enable( \$logging, \$logpath );
 \Tracy\Debugger :: getBar()->addPanel( new \Tracy\QueriesBarPanel );
 \Tracy\Debugger :: getBar()->addPanel( new \Tracy\ApiBarPanel );
 TXT;
