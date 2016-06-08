@@ -160,7 +160,7 @@ class DunamisDunUpdates extends WhmcsDunUpdates
 		
 		$data	=	json_encode( $update );
 		
-		$db->setQuery( "UPDATE `mod_dunamis_settings` SET `value` = " . $db->Quote( $data, false ) . " WHERE `key` = 'updates'" );
+		$db->setQuery( "UPDATE `mod_dunamis_settings` SET `value` = :value WHERE `key` = 'updates'", array( ':value' => $data ) );
 		return (bool) $db->query();
 	}
 }

@@ -98,7 +98,7 @@ $lang['admin.widget.updates.body.exist']	=	'<p><strong>Dunamis version %s</stron
 
 // -------------------------------------------------------------------------
 // Settings Strings
-// v3.1.00
+// v1.0.00
 $lang['admin.settings.subnav.general']				=	'<i class="icon-off"> </i> <strong>General Settings</strong>';
 $lang['admin.form.settings.label.debug']			=	'Debug';
 $lang['admin.form.settings.description.debug']		=	'Use this setting to enable or disable debugging for the module.';
@@ -106,6 +106,9 @@ $lang['admin.form.settings.description.debug']		=	'Use this setting to enable or
 $lang['admin.form.settings.label.dlid']				=	'Download ID';
 $lang['admin.form.settings.description.dlid']		=	'This is the Download ID available from our web site.  Simply retrieve it and enter it here for the update feature to work.';
 
+// v2.0.0
+$lang['admin.form.settings.label.log']			=	'Log Errors';
+$lang['admin.form.settings.description.log']	=	'Use this setting to log errors to the modules/dunamis/tmp folder';
 
 //
 //	Admin Configuration Translations
