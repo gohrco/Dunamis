@@ -565,7 +565,7 @@ class DunDatabase extends DunObject
 			$sql .= ' LIMIT ' . max($this->_offset, 0) . ', ' . max($this->_limit, 0);
 		}
 		
-		dunloader( 'debug', true )->addQuery( $sql );
+		dunloader( 'debug', true )->addQuery( $sql, $this->_arguments );
 		
 		try {
 			$this->_cursor	=	$this->_resource->prepare( $sql );

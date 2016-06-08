@@ -54,12 +54,13 @@ class DunDebug extends DunObject
 	 *
 	 * @since		1.4.0
 	 */
-	public function addQuery( $q )
+	public function addQuery( $q, $args = array() )
 	{
 		if (! self :: isInitialized() ) $this->init();
 		if (! self :: isEnabled() ) return;
 		if (! class_exists( '\Tracy\Debugger' ) ) return;
-		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\QueriesBarPanel' )->data[] = array( 'dump' => $q );
+		
+		\Tracy\Debugger :: getBar()->getPanel( 'Tracy\QueriesBarPanel' )->data[] = array( 'dump' => $q, 'args' => $args );
 	}
 	
 	
