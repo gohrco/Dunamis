@@ -283,6 +283,7 @@ class DunDebug extends DunObject
 	 * @version		@fileVers@ ( $id$ )
 	 * @param		string
 	 * @param		string
+	 * @param		string
 	 *
 	 * @since		1.0.11
 	 */
@@ -439,10 +440,11 @@ class CoreDunDebug extends DunDebug
 	 * @version		@fileVers@ ( $id$ )
 	 * @param		string
 	 * @param		string
+	 * @param		string
 	 *
-	 * @since		1.0.11
+	 * @since		2.0.0
 	 */
-	public static function init( $path = null, $logpath = null )
+	public static function init( $path = null, $logpath = null, $logging = null )
 	{
 		// Lets set our paths
 		if ( $path == null ) {
@@ -453,7 +455,7 @@ class CoreDunDebug extends DunDebug
 			$logpath = DUN_ENV_PATH . 'core' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR;
 		}
 	
-		parent :: init( $path, $logpath );
+		parent :: init( $path, $logpath, $logging );
 		
 	}
 }
