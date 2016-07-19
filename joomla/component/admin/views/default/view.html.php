@@ -48,9 +48,6 @@ class DunamisViewDefault extends DunamisViewExt
 		
 		$db	=	dunloader( 'database' );
 		
-		_e( $db->isConnected() );
-		
-		
 		parent::display($tpl);
 	}
 }

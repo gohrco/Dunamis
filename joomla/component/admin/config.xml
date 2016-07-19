@@ -9,15 +9,10 @@
 	</params>
 	
 	<fieldset name="basic" label="DUN_PREF_BASIC_LABEL" description="DUN_PREF_BASIC_DESC">
-		<field	name="debug" 
-				type="list" 
-				default="No" 
-				label="DUN_PREF_DEBUG_LABEL" 
-				description="DUN_PREF_DEBUG_DESC"
-		>
-			<option value="Yes">JYES</option>
-			<option value="No">JNO</option>
-		</field>
+		<field name="debug" type="radio" label="DUN_PREF_DEBUG_LABEL" description="DUN_PREF_DEBUG_DESC" class="inputbox btn-group" default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
 	</fieldset>
 	
 </config>
