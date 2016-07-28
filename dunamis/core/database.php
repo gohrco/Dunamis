@@ -132,12 +132,15 @@ class DunDatabase extends DunObject
 	public function getEscaped( $text, $extra = false )
 	{
 		dunloader( 'debug', true )->addInfo( 'Database :: getEscaped is deprecated' );
-		return $result;
-		$result = mysql_real_escape_string( $text, $this->_resource );
-		if ( $extra ) {
-			$result = addcslashes( $result, '%_' );
+		
+		if (! empty( $text ) && is_string( $text ) ) {
+			$text = str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $text);
+			if ( $extra ) {
+				$text	=	addcslashes( $text, '%_' );
+			}
 		}
-		return $result;
+		
+		return $text;
 	}
 	
 	
@@ -594,7 +597,8 @@ class DunDatabase extends DunObject
 	public function Quote( $text, $escaped = true )
 	{
 		dunloader( 'debug', true )->addInfo( 'Database :: Quote is deprecated' );
-		return $text;
+		
+		return '\''.($escaped ? $this->getEscaped( $text ) : $text).'\'';
 	}
 	
 	
