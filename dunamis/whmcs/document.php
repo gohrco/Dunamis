@@ -213,7 +213,6 @@ class WhmcsDunDocument extends DunDocument
 		//
 		// Bring in line w/ 5.1
 		case '5.1' :
-		default:
 			// Already at 5.1
 			if ( version_compare( DUN_ENV_VERSION, '5.1.', 'ge' ) ) {
 				return;
