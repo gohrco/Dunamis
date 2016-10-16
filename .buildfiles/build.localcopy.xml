@@ -10,7 +10,7 @@
 	
 	<property name="copy.select" value="All" />
 	<property name="copy.destination" value="2.5" />
-	<property name="dunamis.path" value="c:\Users\Steven\workspace\Dunamis-Localcopy\" />
+	<property name="dunamis.path" value="F\Workspace\Dunamis-Localcopy\" />
 	<property name="server.root" value="C:/VMShares/jwhmcs/" />
 	<property name="dest" value="" />
 	<property name="server.joomla3" value="" />

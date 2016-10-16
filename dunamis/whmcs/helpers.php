@@ -262,6 +262,20 @@ if (! function_exists( 'is_ssl' ) ) {
 
 
 /**
+ * Function for checking to see if we are in the update area (to avoid issues)
+ * @version		@fileVers@
+ * @since		2.0.0
+ */
+if (! function_exists( 'is_update' ) ) {
+	function is_update()
+	{
+		if (! defined( "ADMINAREA" ) ) return false;
+		return (bool) strstr( $_SERVER['PHP_SELF'], 'update.php' );
+	}
+}
+
+
+/**
  * Function for conveniently loading the bootstrap for module
  * @version		@fileVers@
  * @version		1.0.9		- March 2013: WHMCS 5.2 compatibility included; bootstrapSwitch added for toggleyn field

@@ -48,7 +48,7 @@ class WhmcsDunLanguage extends DunLanguage
 	 * @return		string
 	 * @since		1.0.0
 	 */
-	public function setIdiom( $idom = null )
+	public function setIdiom( $idiom = null )
 	{
 		if ( $idiom == null ) {
 			if ( is_admin() ) {

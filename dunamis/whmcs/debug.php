@@ -37,7 +37,7 @@ class WhmcsDunDebug extends DunDebug
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
-	 * @version		2.0.0		- 2016 June: addition of logging parameter for log capability
+	 * @version		2.0.0		- 2016 June: addition of logging parameter for log capability and addition of update check
 	 * @param		string
 	 * @param		string
 	 * @param		bool
@@ -63,7 +63,7 @@ class WhmcsDunDebug extends DunDebug
 		parent :: init( $path, $logpath, $logging );
 		
 		// If coming through API we dont want to break it
-		if ( is_api() || is_ajax() ) {
+		if ( is_api() || is_ajax() || is_update() ) {
 			$eval	=	"\Tracy\Debugger :: disable();";
 			eval( $eval );
 		}
