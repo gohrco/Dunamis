@@ -1,0 +1,16 @@
+NAME=Dunamis
+PATH=Dunamis-Localcopy/
+AUTHOR=Go Higher Information Services, LLC
+EMAIL=development@gohigheris.com
+URL=https://www.gohigheris.com
+LICENSE=GNU General Public License version 2, or later
+COPYRIGHT=2009 - 2016 Go Higher Information Services.  All rights reserved.
+##
+SERIES=2.0
+SHORT=200
+VERSION=2.0.0
+#
+MATURITY=beta
+ACCESS=Public
+DESCRIPTION=<p>This contains the Dunamis Framework - the powerful engine behind the next generation of Go Higher products!</p>
+ITEMACCESS=Registered
