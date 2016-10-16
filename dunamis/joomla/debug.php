@@ -31,12 +31,13 @@ class JoomlaDunDebug extends DunDebug
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @version		2.0.0		- 2016 July: addition of logging parameter for log capability
 	 * @param		string
 	 * @param		string
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init( $path = null, $logpath = null )
+	public static function init( $path = null, $logpath = null, $logging = false )
 	{
 		// Lets set our paths
 		if ( $path == null ) {
@@ -47,7 +48,7 @@ class JoomlaDunDebug extends DunDebug
 			$logpath = DUN_ENV_PATH . 'tmp';
 		}
 		
-		parent :: init( $path, $logpath );
+		parent :: init( $path, $logpath, $logging );
 	}
 	
 	

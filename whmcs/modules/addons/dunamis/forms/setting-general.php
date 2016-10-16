@@ -12,6 +12,16 @@ $form	= array(
  				'label'			=> 'dunamis.admin.form.settings.label.debug',
  				'description'	=> 'dunamis.admin.form.settings.description.debug',
  		),
+		'log'		=> array(
+				'order'			=> 25,
+				'type'			=> 'toggleyn',
+				'value'			=> false,
+				'validation'	=> '',
+				'labelon'		=> 'dunamis.form.toggleyn.enabled',
+				'labeloff'		=> 'dunamis.form.toggleyn.disabled',
+				'label'			=> 'dunamis.admin.form.settings.label.log',
+				'description'	=> 'dunamis.admin.form.settings.description.log',
+		),
 		'dlid'	=> array(
 				'order'			=>	30,
 				'type'			=>	'text',

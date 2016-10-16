@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -40,14 +38,8 @@ class DunEnvironmentTest extends PHPUnit_Framework_TestCase
     {
     	$this->object->defines();
     	
-    	if ( BAMBOO ) {
-    		$this->assertTrue( DUN_PATH == '/home/jwhmcsco/public_html/hosting/includes/dunamis/' );
-    		$this->assertFalse( DUN_OS_ISWIN );
-    	}
-    	else {
-	    	$this->assertTrue( DUN_PATH == "C:\\xampp\\www\\mods\\whmcs\\includes\\dunamis\\" );
-	        $this->assertTrue( DUN_OS_ISWIN );
-    	}
+    	$this->assertTrue( DUN_PATH == dirname( dirname( dirname( __DIR__ ) ) ) . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR );
+    	$this->assertFalse( DUN_OS_ISWIN );
     }
 }
-?>
+

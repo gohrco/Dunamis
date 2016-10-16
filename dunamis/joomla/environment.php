@@ -89,7 +89,7 @@ function get_errorsetting_joomla( $checkfor = 'ErrorLevel' )
 {
 	$params	=	(object) JComponentHelper :: getParams( 'com_dunamis' )->toArray();
 	
-	return ( isset( $params->debug ) ? $params->debug == 'Yes' : false );
+	return ( isset( $params->debug ) ? in_array( $params->debug, array( '1', 'Yes' ) ) : false );
 }
 
 

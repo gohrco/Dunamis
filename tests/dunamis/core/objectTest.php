@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -79,4 +77,4 @@ class DunObjectTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $value == 'DunObject' );
 	}
 }
-?>
+

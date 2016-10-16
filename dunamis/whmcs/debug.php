@@ -37,12 +37,14 @@ class WhmcsDunDebug extends DunDebug
 	 * @access		public
 	 * @static
 	 * @version		@fileVers@ ( $id$ )
+	 * @version		2.0.0		- 2016 June: addition of logging parameter for log capability and addition of update check
 	 * @param		string
 	 * @param		string
+	 * @param		bool
 	 *
 	 * @since		1.0.11
 	 */
-	public static function init( $path = null, $logpath = null )
+	public static function init( $path = null, $logpath = null, $logging = false )
 	{
 		// Lets set our paths
 		if ( $path == null ) {
@@ -53,10 +55,15 @@ class WhmcsDunDebug extends DunDebug
 			$logpath = DUN_ENV_PATH . 'modules' . DIRECTORY_SEPARATOR . 'addons' . DIRECTORY_SEPARATOR . 'dunamis' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
 		}
 		
-		parent :: init( $path, $logpath );
+		if ( $logging == null ) {
+			$result		=	select_query( 'mod_dunamis_settings', 'value', array( 'key' => 'log' ) );
+			$logging	=	mysql_fetch_object( $result );
+		}
+		
+		parent :: init( $path, $logpath, $logging );
 		
 		// If coming through API we dont want to break it
-		if ( is_api() || is_ajax() ) {
+		if ( is_api() || is_ajax() || is_update() ) {
 			$eval	=	"\Tracy\Debugger :: disable();";
 			eval( $eval );
 		}

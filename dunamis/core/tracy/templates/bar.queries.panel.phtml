@@ -39,6 +39,9 @@ $cnt	=	1;
 	#tracy-debug .tracy-panel tr:nth-child(2n) td {
 		background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ) !important;
 	}
+	#tracy-debug .tracy-panel .args .key { width: 20%; text-align: right; padding-right: 4px; font-weight: bold; display: block; float: left; }
+	#tracy-debug .tracy-panel .args .value { float: left; }
+	#tracy-debug .tracy-panel .args .clr { clear: both; }
 </style>
 
 
@@ -48,9 +51,19 @@ $cnt	=	1;
 
 <table>
 <?php foreach ($this->data as $item): ?>
+<?php 
+
+$args	=	null;
+foreach ( $item['args'] as $k => $v ) {
+	$args	.=	"<div class='key'>{$k}</div><div class='value'>{$v}</div><div class='clr'></div>";
+}
+?>
 	<?php $class	=	( strpos( $item['dump'], "SELECT" ) !== false ? 'select' : ( strpos( $item['dump'], "UPDATE" ) !== false ? 'update' : ( strpos( $item['dump'], "DELETE" ) !== false ? 'delete' : 'info' ) ) ); ?>
 	<tr class="<?php echo $i++ % 2 ? 'tracy-alt' : '' ?> <?php echo $class ?>">
-		<td width="15"><?php echo $cnt++ ?>) </td><td><?php echo $item['dump'] ?></td>
+		<td rowspan="2" width="15"><?php echo $cnt++ ?>) </td><td><?php echo $item['dump'] ?></td>
+	</tr>
+	<tr class="<?php echo $i++ % 2 ? 'tracy-alt' : '' ?> <?php echo $class ?>">
+		<td class="args"><?php echo $args; ?></td>
 	</tr>
 <?php endforeach ?>
 </table>
