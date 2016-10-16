@@ -104,7 +104,6 @@
 			<echo message="-----------------------------------------------------" />
 			<echo message=" " />
 			<echo message=" " />
-		<antcall target="dunamis_debug_all" />
 		
 	</target>
 	

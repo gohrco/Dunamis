@@ -317,6 +317,7 @@ class DunamisInstallDunModule extends WhmcsDunModule
 					// General Settings
 					'debug'			=>	false,
 					'dlid'			=>	null,
+					'log'			=>	false,
 					);
 					
 		break;

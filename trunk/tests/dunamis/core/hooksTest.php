@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -69,4 +67,4 @@ class DunHooksTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue( $value == 'dunamis' );
 	}
 }
-?>
+

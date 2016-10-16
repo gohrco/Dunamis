@@ -14,7 +14,7 @@
 			<echo message="=====================================================" />
 	</target>
 	
-	<target name="package_dunamis" depends="build_dunamis">
+	<target name="package_dunamis_old" depends="build_dunamis">
 			<echo message="=====================================================" />
 			<echo message="Begin Packaging Project" />
 			<echo message="=====================================================" />
@@ -25,7 +25,7 @@
 			<echo message="=====================================================" />
 	</target>
 	
-	<target name="deploy_dunamis" depends="build_dunamis,package_dunamis">
+	<target name="deploy_dunamis" depends="build_dunamis,package_dunamis_old">
 			<echo message="=====================================================" />
 			<echo message="Begin Deployment of Dunamis" />
 			<echo message="=====================================================" />

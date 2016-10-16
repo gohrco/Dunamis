@@ -35,9 +35,8 @@ class WhmcsDunLanguage extends DunLanguage
 	{
 		parent :: __construct( $options );
 		
-		// Attempt to determine the language automatically
-		$idiom	= $this->_findLanguage();
-		$this->setIdiom( $idiom );
+		// Set the language
+		$this->setIdiom();
 	}
 	
 	
@@ -49,29 +48,33 @@ class WhmcsDunLanguage extends DunLanguage
 	 * @return		string
 	 * @since		1.0.0
 	 */
-	private function _findLanguage()
+	public function setIdiom( $idiom = null )
 	{
-		if ( is_admin() ) {
-			if ( array_key_exists( 'aInt', $GLOBALS ) ) {
-				$aInt = $GLOBALS['aInt'];
-				return $aInt->language;
-			}
-			else if ( array_key_exists( 'calanguage', $GLOBALS ) ) {
-				return $GLOBALS['calanguage'];
+		if ( $idiom == null ) {
+			if ( is_admin() ) {
+				if ( array_key_exists( 'aInt', $GLOBALS ) ) {
+					$aInt	=	$GLOBALS['aInt'];
+					$idiom	=	$aInt->language;
+				}
+				else if ( array_key_exists( 'calanguage', $GLOBALS ) ) {
+					$idiom	=	$GLOBALS['calanguage'];
+				}
+				else {
+					$idiom	=	'english';
+				}
 			}
 			else {
-				return 'english';
+				global $smarty;
+				
+				// In case we haven't initialized the system
+				if (! is_object( $smarty ) ) return 'english';
+				 
+				$language	=	$smarty->_tpl_vars['language'];
+				$idiom		=	strtolower( $language );
 			}
 		}
-		else {
-			global $smarty;
-			
-			// In case we haven't initialized the system
-			if (! is_object( $smarty ) ) return 'english';
-			 
-			$language	= $smarty->_tpl_vars['language'];
-			return strtolower( $language );
-		}
+		
+		parent :: setIdiom( $idiom );
 		
 	}
 	

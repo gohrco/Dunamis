@@ -122,17 +122,17 @@ class DunamisDunConfig extends WhmcsDunConfig
 				continue;
 			}
 			
-			$query	=	"SELECT `key` FROM `mod_dunamis_settings` WHERE `key` = " . $db->Quote( $key );
-			$db->setQuery( $query );
+			$query	=	"SELECT `key` FROM `mod_dunamis_settings` WHERE `key` = :key";
+			$db->setQuery( $query, array( ':key' => $key ) );
 			
 			if ( $db->loadResult() ) {
-				$query	=	"UPDATE `mod_dunamis_settings` SET `value` = " . $db->Quote( $value ) . " WHERE `key` = " . $db->Quote( $key );
+				$query	=	"UPDATE `mod_dunamis_settings` SET `value` = :value  WHERE `key` = :key";
 			}
 			else {
-				$query	=	"INSERT INTO `mod_dunamis_settings` ( `key`, `value` ) VALUES ( " . $db->Quote( $key ) . ", " . $db->Quote( $value ) . ")";
+				$query	=	"INSERT INTO `mod_dunamis_settings` ( `key`, `value` ) VALUES ( :key, :value )";
 			}
 			
-			$db->setQuery( $query );
+			$db->setQuery( $query, array( ':key' => $key, ':value' => $value ) );
 			$db->query();
 		}
 		

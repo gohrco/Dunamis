@@ -1,7 +1,5 @@
 <?php
 
-/* Bootstrap! */
-require dirname( dirname( __DIR__ ) ) . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 
 /**
@@ -134,4 +132,4 @@ class DunDocumentTest extends PHPUnit_Framework_TestCase
 		$this->assertContains( '.main { color: #000000; }', $head );
 	}
 }
-?>
+

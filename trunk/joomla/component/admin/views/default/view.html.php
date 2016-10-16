@@ -46,6 +46,8 @@ class DunamisViewDefault extends DunamisViewExt
 		$toolbar->title( 'default' );
 		$toolbar->add( 'default' );
 		
+		$db	=	dunloader( 'database' );
+		
 		parent::display($tpl);
 	}
 }
