@@ -60,8 +60,8 @@
 		
 		<property name="versiondata" value="{\&quot;description\&quot;:\&quot;\&quot;,\&quot;name\&quot;:\&quot;${dunamis.project.VERSION}\&quot;,\&quot;archived\&quot;:false,\&quot;released\&quot;:true,\&quot;releaseDate\&quot;:\&quot;${dunamis.RELDATE}\&quot;,\&quot;project\&quot;:\&quot;DUN\&quot;,\&quot;projectId\&quot;:10100}" />
 		
-		<exec executable="curl">
-			<arg line="-u smueller:f48rACfV6JWE90368X2v -X POST --data '${versiondata}' -H &quot;Content-Type: application/json&quot; http://support.gohigheris.com/issues/rest/api/2/version" />
+		<exec executable="c:\curl\curl.exe">
+			<arg line="-s -u smueller:f48rACfV6JWE90368X2v -X POST --data '${versiondata}' -H &quot;Content-Type: application/json&quot; http://support.gohigheris.com/issues/rest/api/2/version" />
 		</exec>
 		
 	</target>

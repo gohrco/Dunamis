@@ -9,6 +9,8 @@
 		<fileset dir="${dunamis.src.build}/" id="corefiles">
 			<include name="dunamis/**/*.*" />
 			<include name="*.*" />
+			<exclude name="*.xml" />
+			<exclude name="*.yml" />
 		</fileset>
 		
 		<fileset dir="${dunamis.src.build}/whmcs/" id="whmcsfiles">
