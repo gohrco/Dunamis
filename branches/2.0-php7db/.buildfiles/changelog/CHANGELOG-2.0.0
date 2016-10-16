@@ -1,0 +1,40 @@
+------------------------------------------------------------------------
+r314 | steven_gohigher | 2016-05-19 21:24:53 -0400 (Thu, 19 May 2016) | 2 lines
+
++  Conversion of Database Handler to use PDO for PHP 7 compatability
++  Significant improvement in testing capability with majority of core testing against PHPUnit
+------------------------------------------------------------------------
+r315 | steven_gohigher | 2016-06-07 21:13:05 -0400 (Tue, 07 Jun 2016) | 3 lines
+
+~  Adjustment to database handler for the WHMCS side
+~  Correction to database queries to work with PDO
++  Addition of the `log` setting to permit logging of Dunamis to file
+------------------------------------------------------------------------
+r316 | steven_gohigher | 2016-06-07 21:57:05 -0400 (Tue, 07 Jun 2016) | 2 lines
+
+~  Adjust debug panel for queries to include arguments from database handler
+~  Database handler needs to pass arguments to debug handler
+------------------------------------------------------------------------
+r317 | steven_gohigher | 2016-06-22 18:13:03 -0400 (Wed, 22 Jun 2016) | 1 line
+
++  [CORE] debug logging option added
+------------------------------------------------------------------------
+r318 | steven_gohigher | 2016-07-18 22:36:21 -0400 (Mon, 18 Jul 2016) | 4 lines
+
+~  [Joomla] Remove errant debug string in view.html.php
+~  [Joomla] Update debug for logging capability
+#  [Joomla] Correct debug value to be stored as integer rather than string
+
+------------------------------------------------------------------------
+r319 | steven_gohigher | 2016-07-18 22:50:04 -0400 (Mon, 18 Jul 2016) | 1 line
+
+*  Adjustment to buildfiles for packaging
+------------------------------------------------------------------------
+r320 | steven_gohigher | 2016-07-28 19:09:29 -0400 (Thu, 28 Jul 2016) | 1 line
+
+#  Correct database handler to escape strings properly for legacy PHP support
+------------------------------------------------------------------------
+r321 | steven_gohigher | 2016-09-21 22:33:18 -0400 (Wed, 21 Sep 2016) | 1 line
+
+#  duplicate default in switch statement
+------------------------------------------------------------------------

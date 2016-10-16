@@ -8,7 +8,7 @@
     <!-- Function Import -->
     <import file="${global.ANTFILES}includes.xml" />
     
-    <property name="dunamis.path" value="c:\Users\Steven\workspace\Dunamis-Localcopy\" />
+    <property name="dunamis.path" value="F:/Workspace/Dunamis-Localcopy/" />
     
     <import file="dunamis.xml" />
     
