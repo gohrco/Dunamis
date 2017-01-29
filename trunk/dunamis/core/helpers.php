@@ -94,7 +94,7 @@ if (! function_exists( 'is_email' ) )
 {
 	function is_email( $data )
 	{
-		return (bool) preg_match( "/\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,5}\b/i", $data );
+		return (bool) preg_match( "/\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i", $data );
 	}
 }
 
