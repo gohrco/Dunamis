@@ -7,10 +7,10 @@ LICENSE=GNU General Public License version 2, or later
 COPYRIGHT=2009 - 2016 Go Higher Information Services.  All rights reserved.
 ##
 SERIES=2.0
-SHORT=201
-VERSION=2.0.1
+SHORT=202
+VERSION=2.0.2
 #
-MATURITY=beta
+MATURITY=stable
 ACCESS=Public
 DESCRIPTION=<p>This contains the Dunamis Framework - the powerful engine behind the next generation of Go Higher products!</p>
 ITEMACCESS=Registered
