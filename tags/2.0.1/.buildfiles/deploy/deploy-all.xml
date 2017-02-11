@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis:  Deploy All" basedir=".">
+
+	<target name="dunamis_deploy_all" depends="dunamis_properties">
+		
+			<echo message=" " />
+			<echo message="Begin Deploying Dunamis Framework" />
+			<echo message="-----------------------------------------------------" />
+		
+		<antcall target="deploy_dunamisframework" />
+			
+		
+			<echo message=" " />
+			<echo message="Completed Deployment of Dunamis Framework" />
+			<echo message="-----------------------------------------------------" />
+		
+	</target>
+	
+	<target name="deploy_dunamisframework">
+		
+		<antcall target="dunamis_repo_update" />
+		
+		<property name="svn.message" value="Dunamis Framework version ${dunamis.project.VERSION} released!" />
+		<antcall target="dunamis_repo_commit" />
+		<antcall target="dunamis_repo_update" />
+		
+	</target>
+	
+	
+	<target name="dunamis_repo_update" depends="dunamis_svn_properties">
+		<exec executable="svn">
+			<arg line="up ${svn.dunamis}" />
+		</exec>
+	</target>
+	
+	
+	<target name="dunamis_repo_commit" depends="dunamis_svn_properties">
+		
+		<exec executable="svn">
+			<arg line="add ${svn.dunamis}v${dunamis.project.VERSION}" />
+		</exec>
+		
+		<exec executable="svn">
+			<arg line="ci ${svn.dunamis} -m '${svn.message}'" />
+		</exec>
+	</target>
+	
+	
+	<target name="dunamis_svn_properties">
+		<property name="svn.dunamis" value="${dunamis.local.LOCATION_PACKAGES}" />
+		<property name="svn.dunamisurl" value="https://go-higher.svn.beanstalkapp.com/archives/dunamis" />
+	</target>
+	
+	
+	<!-- ================================================ -->
+	<!-- THE FOLLOWING HANDLES ADDING OUR VERSION TO JIRA -->
+	<!-- ================================================ -->
+	<target name="issues_dunamis_addversion">
+		
+		<property name="versiondata" value="{\&quot;description\&quot;:\&quot;\&quot;,\&quot;name\&quot;:\&quot;${dunamis.project.VERSION}\&quot;,\&quot;archived\&quot;:false,\&quot;released\&quot;:true,\&quot;releaseDate\&quot;:\&quot;${dunamis.RELDATE}\&quot;,\&quot;project\&quot;:\&quot;DUN\&quot;,\&quot;projectId\&quot;:10100}" />
+		
+		<exec executable="c:\curl\curl.exe">
+			<arg line="-s -u smueller:f48rACfV6JWE90368X2v -X POST --data '${versiondata}' -H &quot;Content-Type: application/json&quot; http://support.gohigheris.com/issues/rest/api/2/version" />
+		</exec>
+		
+	</target>
+	
+	
+	<!-- ====================================================== -->
+	<!-- THE FOLLOWING ARE FOR OUR LOCAL REPO TO TAG IN THE SVN -->
+	<!-- ====================================================== -->
+	<target name="dunamis_tag" depends="dunamis_svntag_properties">
+			<echo message="----------------------------------------------------" />
+			<echo message="|               Begin Tagging Dunamis Framework Source" />
+		
+		<antcall target="dunamis_repotag_update" />
+		<antcall target="dunamis_repotag_tag" />
+		
+			<echo message="|           Completed Tagging Dunamis Framework Source" />
+			<echo message="----------------------------------------------------" />
+	</target>
+	
+	<target name="dunamis_repotag_update">
+		<exec executable="svn">
+			<arg line="up &quot;${dunamis.src.dev}&quot;" />
+		</exec>
+	</target>
+	
+	<target name="dunamis_repotag_tag">
+		<exec executable="svn">
+			<arg line="cp ${dunamissvn.url}trunk ${dunamissvn.url}tags/${dunamis.project.VERSION} -m '${dunamissvn.message}'" />
+		</exec>
+	</target>
+	
+	<target name="dunamis_svntag_properties">
+		<property name="dunamissvn.message" value="Dunamis Framework version ${dunamis.project.VERSION} tagged" />
+		<property name="dunamissvn.url" value="https://go-higher.svn.beanstalkapp.com/dunamis/" />
+	</target>
+
+
+
+
+
+	<import file="../includes.xml" />
+	
+	<!-- Include individual files now -->
+	<import file="whmcs.xml" />
+	
+	<target name="dunamis_deploy_all_OLD" depends="dunamis_properties">
+		<!-- Ask what we should copy -->
+		<input addproperty="deploy.select" validargs="All,WHMCS" defaultvalue="All">
+
+Please select which application we want to deploy Dunamis to
+
+		</input>
+		
+		<condition property="deploy.all">
+	        <and>
+	           <isset property="deploy.select" />
+	           <equals arg1="${deploy.select}" arg2="All" trim="true" />
+	        </and>
+	     </condition>
+	     
+	     <condition property="deploy.whmcs">
+	        <and>
+	           <isset property="deploy.select" />
+	           <equals arg1="${deploy.select}" arg2="WHMCS" trim="true" />
+	        </and>
+	     </condition>
+	     
+	    	<echo message=" " />
+			<echo message="Begin Deploying Dunamis" />
+			<echo message="-----------------------------------------------------" />
+		<antcall target="dunamis_deploy_to_all" />
+		<antcall target="dunamis_deploy_to_whmcs" />	
+			<echo message=" " />
+			<echo message="Completed Deploying Dunamis" />
+			<echo message="-----------------------------------------------------" />
+			<echo message=" " />
+			<echo message=" " />
+	</target>
+	
+	<target name="dunamis_deploy_to_all_OLD" depends="dunamis_properties" if="deploy.all">
+		<property name="deploy.whmcs" value="true" />
+		<antcall target="dunamis_deploy_to_whmcs" />
+	</target> 
+	
+</project> 

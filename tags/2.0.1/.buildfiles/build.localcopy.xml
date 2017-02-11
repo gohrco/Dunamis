@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis Localcopy" basedir=".">
+	
+	<property name="config.global" location=".buildfiles/config.global" />
+	<property file="${config.global}" prefix="global" />
+	
+	<!-- Function Import -->
+	<import file="${global.ANTFILES}includes.xml" />
+	
+	<property name="copy.select" value="All" />
+	<property name="copy.destination" value="2.5" />
+	<property name="dunamis.path" value="F\Workspace\Dunamis-Localcopy\" />
+	<property name="server.root" value="C:/VMShares/jwhmcs/" />
+	<property name="dest" value="" />
+	<property name="server.joomla3" value="" />
+	
+	<import file="dunamis.xml" />
+	
+	<target name="copy_dunamis" depends="build_dunamis">
+			<echo message="=====================================================" />
+			<echo message="Begin Copying Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_copy_all" />
+			<echo message="=====================================================" />
+			<echo message="Completed Copying Project" />
+			<echo message="=====================================================" />
+	</target>
+	
+	
+	<target name="devlopment_copy_dunamis" depends="build_dunamis">
+		<echo message="=====================================================" />
+			<echo message="Begin Copying Project" />
+			<echo message="=====================================================" />
+		<antcall target="dunamis_copy_all" />
+		
+		<dunamis.scp
+			user="root"
+			password="cruiser"
+			host="192.168.56.120"
+			remotepath="/var/www/jwhmcs.local/dunamis/"
+			sourcepath="${dunamis.src.build}"
+			/>
+		
+		<sshexec
+			host="192.168.56.120"
+			username="root"
+			password="cruiser"
+			trust="true"
+			command="php /var/www/phpci/console phpci:create-build 1" />
+		
+		<echo message="=====================================================" />
+			<echo message="Completed Copying Project" />
+			<echo message="=====================================================" />
+	</target>
+	
+</project> 

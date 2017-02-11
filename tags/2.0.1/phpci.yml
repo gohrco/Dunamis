@@ -1,0 +1,11 @@
+
+build_settings:
+  verbose: true
+  ignore:
+    - "tests"
+setup:
+test:
+  php_unit:
+    config:
+      - "phpunit.xml"
+    path: "tests"

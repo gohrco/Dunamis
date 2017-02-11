@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis: Packaging - Blesta" basedir=".">
+	
+	<import file="../includes.xml" />
+	
+	<target name="dunamis_package_blesta" depends="dunamis_properties" if="package.blesta">
+		
+		<fileset dir="${dunamis.src.build}/" id="corefiles">
+			<include name="dunamis/**/*.*" />
+			<include name="*.*" />
+			<exclude name="*.xml" />
+			<exclude name="*.yml" />
+		</fileset>
+		
+		<fileset dir="${dunamis.src.build}/blesta/" id="blestafiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message="[1]  Creating Package Temporary Directory" />
+		<mkdir dir="${dunamis.dst.package}/BLESTA" />
+		<mkdir dir="${dunamis.dst.package}/BLESTA" />
+		
+		<echo message=" " />
+		<echo message="[2]  Copying Build to Temporary Directory" />
+		<copy todir="${dunamis.dst.package}/BLESTA/plugins/dunamis/framework">
+			<fileset refid="corefiles" />
+		</copy>
+		<copy todir="${dunamis.dst.package}/BLESTA/plugins/dunamis">
+			<fileset refid="blestafiles" />
+		</copy>
+		
+		<fileset dir="${dunamis.dst.package}/BLESTA" id="packagefiles">
+			<include name="**/*.*" />
+		</fileset>
+		
+		<echo message=" " />
+		<echo message="[3]  Creating Package" />
+		<dunamis.zipr_file srcid="packagefiles" dest="/" file="dunamis_blesta_v${dunamis.project.VERSION}.zip" />
+		
+		<echo message=" " />
+		<echo message="[4]  Delete Temporary Directory" />
+		<delete dir="${dunamis.dst.package}/BLESTA" />
+		
+	</target>
+	
+</project>

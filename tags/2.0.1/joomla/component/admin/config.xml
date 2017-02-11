@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config menu="hide">
+
+	<params>
+		<param name="debug" type="list" default="No" label="DUN_PREF_DEBUG_LABEL" description="DUN_PREF_DEBUG_DESC">
+			<option value="Yes">YES</option>
+			<option value="No">NO</option>
+		</param>
+	</params>
+	
+	<fieldset name="basic" label="DUN_PREF_BASIC_LABEL" description="DUN_PREF_BASIC_DESC">
+		<field name="debug" type="radio" label="DUN_PREF_DEBUG_LABEL" description="DUN_PREF_DEBUG_DESC" class="inputbox btn-group" default="0">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+	</fieldset>
+	
+</config>

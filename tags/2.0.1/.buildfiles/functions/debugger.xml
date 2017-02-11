@@ -1,0 +1,30 @@
+<project>
+	
+	<macrodef name="dunamis.debugger">
+		
+		<attribute name="phpexe" default="C:/xampp/bin/php/php5.6.2/php.exe" />
+		<attribute name="check" default="${dunamis.local.DEBUG_WHMCS}" />
+		<attribute name="output" default="debug/results.html" />
+		
+		<sequential>
+			
+			<exec executable="cmd" outputproperty="debugoutput">
+				<arg value="/c" />
+				<arg value="@{phpexe}" />
+				<arg value="&quot;@{check}&quot;" />
+			</exec>
+			
+			<echo message="${debugoutput}" file="@{output}" />
+			
+			<property name="browser" location="C:/Program Files (x86)/Mozilla Firefox/firefox.exe"/>
+			<property name="location" location="@{output}"/>
+
+			<exec executable="${browser}" spawn="true">
+    			<arg value="${location}"/>
+			</exec>
+						
+		</sequential>
+		
+	</macrodef>
+	
+</project>

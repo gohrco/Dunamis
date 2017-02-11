@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Dunamis Deploy" basedir=".">
+    
+    <property name="config.global" location=".buildfiles/config.global" />
+    <property file="${config.global}" prefix="global" />
+    
+    <!-- Function Import -->
+    <import file="${global.ANTFILES}includes.xml" />
+    
+    <property name="dunamis.path" value="F:/Workspace/Dunamis-Localcopy/" />
+    
+    <import file="dunamis.xml" />
+    
+    <target name="deploy_dunamis" depends="build_dunamis,package_dunamis_old">
+            <echo message="=====================================================" />
+			<echo message="Begin Deployment of Dunamis" />
+			<echo message="=====================================================" />
+		
+		<!-- Deploy our files after building and packaging -->
+		<antcall target="dunamis_deploy_all" />
+		
+		<!-- Tag our source in the repo -->
+		<antcall target="dunamis_tag" />
+		
+		<!-- Add this version to our JIRA Issues site -->
+		<antcall target="issues_dunamis_addversion" />
+		
+			<echo message="=====================================================" />
+			<echo message="Completed Deployment of Dunamis" />
+			<echo message="=====================================================" />
+    </target>
+    
+</project> 
